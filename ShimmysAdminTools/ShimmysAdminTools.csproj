@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{61A58A25-927A-49C7-A4D6-87B573597F45}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ShimmysAdminTools</RootNamespace>
+    <AssemblyName>ShimmysAdminTools</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Documents\RocketModLibraries\NAC\Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>..\..\..\..\Documents\RocketModLibraries\INTERNAL\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="Rocket.API">
+      <HintPath>..\..\..\..\Documents\RocketModLibraries\INTERNAL\Rocket.API.dll</HintPath>
+    </Reference>
+    <Reference Include="Rocket.Core">
+      <HintPath>..\..\..\..\Documents\RocketModLibraries\INTERNAL\Rocket.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Rocket.Unturned">
+      <HintPath>..\..\..\..\Documents\RocketModLibraries\INTERNAL\Rocket.Unturned.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>..\..\..\..\Documents\RocketModLibraries\INTERNAL\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\..\..\..\Documents\RocketModLibraries\INTERNAL\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.PhysicsModule">
+      <HintPath>..\..\..\..\Documents\RocketModLibraries\INTERNAL\UnityEngine.PhysicsModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Commands\AFlyCommand.cs" />
+    <Compile Include="Commands\CheckBedOwner.cs" />
+    <Compile Include="Commands\DisableVehicleAccess.cs" />
+    <Compile Include="Commands\AFlySpeedCommands.cs" />
+    <Compile Include="Commands\ForceDemountCommand.cs" />
+    <Compile Include="Commands\GotoBedCommand.cs" />
+    <Compile Include="Commands\GotoMarker.cs" />
+    <Compile Include="Commands\MarkerCommand.cs" />
+    <Compile Include="Commands\NoClipCommand.cs" />
+    <Compile Include="Commands\PointTool.cs" />
+    <Compile Include="Components\Extensions.cs" />
+    <Compile Include="Components\Helpers.cs" />
+    <Compile Include="main.cs" />
+    <Compile Include="Models\FlySession.cs" />
+    <Compile Include="Models\PlayerData.cs" />
+    <Compile Include="Models\PlayerSession.cs" />
+    <Compile Include="Models\PluginConfig.cs" />
+    <Compile Include="Models\PointToolMode.cs" />
+    <Compile Include="Models\RaycastResult.cs" />
+    <Compile Include="Modules\NoClippingTool.cs" />
+    <Compile Include="Modules\PlayerDataStore.cs" />
+    <Compile Include="Modules\PlayerSessionStore.cs" />
+    <Compile Include="Modules\PointToolManager.cs" />
+    <Compile Include="Modules\RaycastUtility.cs" />
+    <Compile Include="Modules\UKeyManager.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
