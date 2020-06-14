@@ -1,8 +1,6 @@
 # ShimmysAdminTools
 An admin toolkit for Unturned including flight and Noclip.
 
-I'm yet to flush this page out.
-
 # Demo Video
 Heres a slightly out-dated demo video. I'll get around to making a proper one eventually.
 
