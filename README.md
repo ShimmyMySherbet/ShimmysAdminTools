@@ -158,3 +158,6 @@ There are still more 'PointTools' to be added. This is not the final version.
     </tr>
 </table>
 The rest of the perms are to be granted via their respective command.
+
+# Downloads
+You can download this plugin from the <a href="https://github.com/ShimmyMySherbet/ShimmysAdminTools/releases/">Releases</a> page.
