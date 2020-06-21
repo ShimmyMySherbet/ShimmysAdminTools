@@ -13,6 +13,7 @@ namespace ShimmysAdminTools
     {
         public static main Instance;
         public static PluginConfig Config;
+
         public override void LoadPlugin()
         {
             base.LoadPlugin();
@@ -26,6 +27,7 @@ namespace ShimmysAdminTools
             Rocket.Unturned.Events.UnturnedPlayerEvents.OnPlayerUpdateGesture += UnturnedPlayerEvents_OnPlayerUpdateGesture;
             LoadCurrentPlayers();
         }
+
         public override TranslationList DefaultTranslations => new TranslationList()
         {
             { "Flight_Enabled", "Flight Enabled." },
@@ -76,12 +78,15 @@ namespace ShimmysAdminTools
         private void Events_OnBeforePlayerConnected(UnturnedPlayer player)
         {
             PlayerSessionStore.TryRegisterPlayer(player);
+            PlayerDataStore.TryRegisterPlayer(player);
         }
-
         private void VehicleManager_onEnterVehicleRequested(Player player, InteractableVehicle vehicle, ref bool shouldAllow)
         {
             var Data = PlayerDataStore.GetPlayerData(UnturnedPlayer.FromPlayer(player));
-            if (!Data.CanEnterVehicle) shouldAllow = false;
+            if (Data != null)
+            {
+                if (!Data.CanEnterVehicle) shouldAllow = false;
+            }
         }
 
         private void Events_OnPlayerDisconnected(UnturnedPlayer player)
@@ -105,7 +110,7 @@ namespace ShimmysAdminTools
             U.Events.OnPlayerDisconnected -= Events_OnPlayerDisconnected;
             VehicleManager.onEnterVehicleRequested -= VehicleManager_onEnterVehicleRequested;
             Rocket.Unturned.Events.UnturnedPlayerEvents.OnPlayerUpdateGesture -= UnturnedPlayerEvents_OnPlayerUpdateGesture;
-            foreach(var Session in PlayerSessionStore.Store)
+            foreach (var Session in PlayerSessionStore.Store)
             {
                 if (Session.Value.FlySessionActive) Session.Value.FlySession.Stop();
                 if (Session.Value.NoClipSessionActive) Session.Value.NoClip.Stop();
