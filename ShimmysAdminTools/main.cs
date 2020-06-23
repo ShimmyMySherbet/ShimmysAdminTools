@@ -23,7 +23,7 @@ namespace ShimmysAdminTools
             PlayerSessionStore.Init();
             U.Events.OnBeforePlayerConnected += Events_OnBeforePlayerConnected;
             U.Events.OnPlayerDisconnected += Events_OnPlayerDisconnected;
-            VehicleManager.onEnterVehicleRequested += VehicleManager_onEnterVehicleRequested;
+            if (Config.EnableVehicleAccessManagement) VehicleManager.onEnterVehicleRequested += VehicleManager_onEnterVehicleRequested;
             Rocket.Unturned.Events.UnturnedPlayerEvents.OnPlayerUpdateGesture += UnturnedPlayerEvents_OnPlayerUpdateGesture;
             LoadCurrentPlayers();
         }

@@ -11,10 +11,11 @@ namespace ShimmysAdminTools.Models
     {
         public int MaxGlobalFlySpeed;
         public PointToolSettings PointToolSettings;
-
+        public bool EnableVehicleAccessManagement;
         public void LoadDefaults()
         {
             MaxGlobalFlySpeed = 10;
+            EnableVehicleAccessManagement = true;
             PointToolSettings = new PointToolSettings()
             {
                 DestroyToolEnabled = true,
