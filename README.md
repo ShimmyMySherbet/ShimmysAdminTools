@@ -63,6 +63,18 @@ https://www.youtube.com/watch?v=2yo6BurDUA4
         <td>PointTool [Tool]</td>
         <td>Toggles/Changes your active PointTool (See Below)</td>
     </tr>
+    <tr>
+        <td>MapJump</td>
+        <td>Toggles Map/Marker jumping (teleport on new marker).</td>
+    </tr>
+    <tr>
+        <td>Mute [Player]</td>
+        <td>Mutes a player from speaking in chat.</td>
+    </tr>
+    <tr>
+        <td>Mute [Player] [Duration]</td>
+        <td>Temp Mutes a player from speaking in chat.</td>
+    </tr>
 </table>
 
 ## PointTools
