@@ -112,41 +112,30 @@ namespace ShimmysAdminTools.Components
         }
         public static string GetTimeFromTimespan(TimeSpan ts)
         {
-            Console.WriteLine($"TS TotalDays: {ts.TotalDays}");
-            Console.WriteLine($"TS days: {ts.Days}");
-            Console.WriteLine($"TS hours: {ts.Hours}");
-            Console.WriteLine($"TS min: {ts.Minutes}");
-            Console.WriteLine($"TS sec: {ts.Seconds}");
             if (ts.TotalDays >= 365)
             {
-                Console.WriteLine("pick years");
                 double yrs = Math.Round(ts.TotalDays / 365, 1);
                 return $"{yrs} year{plurify(yrs)}";
             } else if (ts.TotalDays >= 7) {
-                Console.WriteLine("pick weeks");
                 int weeks = (int)Math.Round(ts.TotalDays / 7);
                 int days = ts.Days;
                 return $"{weeks} week{plurify(weeks)}{switchstring($" {days} day{plurify(days)}", days > 0)}";
             } else if (ts.TotalDays >= 1) {
-                Console.WriteLine("pick days");
                 int days = ts.Days;
                 int hours = ts.Hours;
                 return $"{days} day{plurify(days)}{switchstring($" {hours} hour{plurify(hours)}", hours > 0)}";
             } else if (ts.TotalHours >= 1)
             {
-                Console.WriteLine("pick hours");
                 int hours = ts.Hours;
                 int minutes = ts.Minutes;
                 return $"{hours} hour{plurify(hours)}{switchstring($" {minutes} minute{plurify(minutes)}", minutes > 0)}";
             } else if (ts.TotalMinutes >= 1)
             {
-                Console.WriteLine("pick min");
                 int minutes = ts.Minutes;
                 int seconds = ts.Seconds;
                 return $"{minutes} minute{plurify(minutes)}{switchstring($" {seconds} second{plurify(seconds)}", seconds > 0 && minutes < 10)}";
             } else
             {
-                Console.WriteLine("pick sec");
                 int sec = ts.Seconds;
                 return $"{sec} second{plurify(sec)}";
             }
@@ -234,7 +223,6 @@ namespace ShimmysAdminTools.Components
             {
                 if (mod.Names.Contains(modifier.ToLower().Trim(' ')))
                 {
-                    Console.WriteLine($"selected {mod.DisplayName}");
                     return mod;
                 }
             }
@@ -253,7 +241,6 @@ namespace ShimmysAdminTools.Components
             public int GetTime(double dur)
             {
                 int t = (int)(dur * Time);
-                Console.WriteLine($"calc {t}");
                 return (int)(dur * Time);
             }
         }

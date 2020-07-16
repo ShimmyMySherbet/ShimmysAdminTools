@@ -56,9 +56,6 @@ namespace ShimmysAdminTools
                             if (playerData.MuteIsTemp)
                             {
                                 TimeSpan TimeLeft = playerData.MuteExpires.Subtract(DateTime.Now);
-                                Console.WriteLine($"Expires: {playerData.MuteExpires.ToLongTimeString()}");
-                                Console.WriteLine($"Current: {DateTime.Now.ToLongTimeString()}");
-                                Console.WriteLine($"time: {TimeLeft.TotalSeconds}");
                                 UnturnedChat.Say(player.playerID.steamID, "Mute_ChatBlocked_TimeLeft".Translate(Helpers.GetTimeFromTimespan(TimeLeft)));
                             }
                             else
