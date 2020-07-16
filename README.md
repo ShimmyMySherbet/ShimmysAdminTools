@@ -75,6 +75,10 @@ https://www.youtube.com/watch?v=2yo6BurDUA4
         <td>Mute [Player] [Duration]</td>
         <td>Temp Mutes a player from speaking in chat.</td>
     </tr>
+        <tr>
+        <td>Unmute [Player]</td>
+        <td>Unmutes a player.</td>
+    </tr>
 </table>
 
 ## PointTools
