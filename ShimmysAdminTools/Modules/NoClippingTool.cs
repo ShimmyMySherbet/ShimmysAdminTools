@@ -47,7 +47,7 @@ namespace ShimmysAdminTools.Modules
 
                     if (VectorInWorld(TargetPoint))
                     {
-                        TaskDispatcher.QueueOnMainThread(delegate { Player.Teleport(TargetPoint, Player.Rotation); });
+                        TaskDispatcher.QueueOnMainThread(delegate { Player.Player.teleportToLocationUnsafe(TargetPoint, Player.Rotation); });
                     }
                 }
                 Thread.Sleep(ClipUpdateRate);

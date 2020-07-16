@@ -31,6 +31,7 @@ namespace ShimmysAdminTools
             Rocket.Unturned.Events.UnturnedPlayerEvents.OnPlayerUpdateGesture += UnturnedPlayerEvents_OnPlayerUpdateGesture;
             BaseCheckPermissions = ChatManager.onCheckPermissions;
             ChatManager.onCheckPermissions = Chat_OnCheckPermissions;
+
             LoadCurrentPlayers();
         }
 
@@ -136,6 +137,8 @@ namespace ShimmysAdminTools
             { "Mute_PlayerUnmuted", "Player Unmuted." },
             { "Mute_PlayerUnmuted_Self", "You have been unmuted." },
             { "Plugin_Error", "An error occurred." },
+            { "MapJump_Enabled", "Waypoint jumping enabled." },
+            { "MapJump_Disabled", "Waypoint jumping disabled." }
         };
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)

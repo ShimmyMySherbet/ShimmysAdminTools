@@ -33,7 +33,7 @@
   <ItemGroup>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Documents\RocketModLibraries\NAC\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\Documents\RocketModLibraries\INTERNAL\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass">
       <HintPath>..\..\..\..\Documents\RocketModLibraries\INTERNAL\Assembly-CSharp-firstpass.dll</HintPath>
@@ -73,6 +73,7 @@
     <Compile Include="Commands\ForceDemountCommand.cs" />
     <Compile Include="Commands\GotoBedCommand.cs" />
     <Compile Include="Commands\GotoMarker.cs" />
+    <Compile Include="Commands\MapJumpCommand.cs" />
     <Compile Include="Commands\MarkerCommand.cs" />
     <Compile Include="Commands\MuteCommand.cs" />
     <Compile Include="Commands\NoClipCommand.cs" />
@@ -81,6 +82,7 @@
     <Compile Include="Components\Helpers.cs" />
     <Compile Include="main.cs" />
     <Compile Include="Models\FlySession.cs" />
+    <Compile Include="Models\MapJumpingSession.cs" />
     <Compile Include="Models\PlayerData.cs" />
     <Compile Include="Models\PlayerSession.cs" />
     <Compile Include="Models\PluginConfig.cs" />

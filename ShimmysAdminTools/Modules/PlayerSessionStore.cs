@@ -21,7 +21,18 @@ namespace ShimmysAdminTools.Modules
         }
         public static void TryDeregisterPlayer(UnturnedPlayer Player)
         {
-            if (Store != null && Store.ContainsKey(Player.CSteamID.m_SteamID)) Store.Remove(Player.CSteamID.m_SteamID);
+            if (Store != null && Store.ContainsKey(Player.CSteamID.m_SteamID))
+            {
+                PlayerSession session = GetPlayerData(Player);
+                if (session.FlySessionActive) session.FlySession.Stop();
+                if (session.MapJumpingSession != null) session.StopMapJumpingSession();
+                if (session.NoClipSessionActive) session.NoClip.Stop();
+                session.FlySessionActive = false;
+                session.MapJumpingSession = null;
+                session.NoClipSessionActive = false;
+                session.PointToolEnabled = false;
+                Store.Remove(Player.CSteamID.m_SteamID);
+            }
         }
         public static PlayerSession GetPlayerData(UnturnedPlayer Player)
         {
