@@ -25,16 +25,11 @@ namespace ShimmysAdminTools.Models
         {
             if (MapJumpingSession == null)
             {
-                Console.WriteLine("Create Jump Session");
                 MapJumpingSession = new GameObject("MapJumpingSession");
                 UnityEngine.Object.DontDestroyOnLoad(MapJumpingSession);
                 MapJumpingSession.AddComponent<MapJumpingSession>();
                 UnturnedPlayer pl = UnturnedPlayer.FromCSteamID(new Steamworks.CSteamID(Player));
-                Console.WriteLine($"create {pl.DisplayName}");
                 GameObjectExtension.getOrAddComponent<MapJumpingSession>(MapJumpingSession).SetPlayer(pl);
-                //MapJumpingSession = new GameObject("MapJumpingSession");
-                //UnityEngine.Object.DontDestroyOnLoad(MapJumpingSession);
-                //MapJumpingSession.AddComponent<MapJumpingSession>().SetPlayer(UnturnedPlayer.FromCSteamID(new Steamworks.CSteamID(Player)));
             }
         }
 

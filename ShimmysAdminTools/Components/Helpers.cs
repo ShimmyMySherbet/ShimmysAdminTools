@@ -107,7 +107,6 @@ namespace ShimmysAdminTools.Components
         {
             double numst = GetNumericStart(dur);
             string tmod = GetTimeModifier(dur);
-            Console.WriteLine($"t: {numst}, m: {tmod}");
             return GetTimespanFromDetails(numst, tmod);
         }
         public static string GetTimeFromTimespan(TimeSpan ts)

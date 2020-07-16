@@ -39,7 +39,6 @@ namespace ShimmysAdminTools.Commands
                             if (command.Length > 1)
                             {
                                 TimeSpan MuteTS = Helpers.GetTimespanFromString(command[1]);
-                                Console.WriteLine($"Mute Dur: {MuteTS.TotalSeconds}");
                                 UnturnedChat.Say(caller, "Mute_PlayerMuted_Time".Translate(Helpers.GetTimeFromTimespan(MuteTS)));
                                 playerData.MuteExpires = DateTime.Now.Add(MuteTS);
                                 playerData.MuteIsTemp = true;

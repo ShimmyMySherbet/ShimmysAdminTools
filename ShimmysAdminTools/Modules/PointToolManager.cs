@@ -196,25 +196,25 @@ namespace ShimmysAdminTools.Modules
 
                 if (RunMode == 0)
                 {
-                    Player.Teleport(new Vector3(Raycast.Raycast.point.x, Raycast.Raycast.point.y + 0.5f, Raycast.Raycast.point.z), Player.Rotation);
+                    Player.Player.teleportToLocationUnsafe(Raycast.Raycast.point, Player.Rotation);
                 }
                 else if (RunMode == 1)
                 {
                     if (Raycast.Raycast.distance < 300)
                     {
                         Vector3 Target = new Vector3(Raycast.Raycast.point.x, Raycast.Raycast.point.y + (float)1.75, Raycast.Raycast.point.z);
-                        Player.Teleport(Target, Player.Rotation);
+                        Player.Player.teleportToLocationUnsafe(Target, Player.Rotation);
                     }
                     else
                     {
-                        Player.Teleport(new Vector3(Raycast.Raycast.point.x, Raycast.Raycast.point.y + 0.5f, Raycast.Raycast.point.z), Player.Rotation);
+                        Player.Player.teleportToLocationUnsafe(Raycast.Raycast.point, Player.Rotation);
                     }
                 }
                 else if (RunMode == 2)
                 {
                     if (Raycast.Raycast.distance > 300)
                     {
-                        Player.Teleport(new Vector3(Raycast.Raycast.point.x, Raycast.Raycast.point.y + 0.5f, Raycast.Raycast.point.z), Player.Rotation);
+                        Player.Player.teleportToLocationUnsafe(Raycast.Raycast.point, Player.Rotation);
                     }
                     else
                     {
@@ -242,7 +242,7 @@ namespace ShimmysAdminTools.Modules
 
                         if (DownCast.RaycastHit && DownCast.Raycast.distance != 0 && DownCast.Raycast.distance < DistanceToGround)
                         {
-                            Player.Teleport(new Vector3(DownCast.Raycast.point.x, DownCast.Raycast.point.y + 0.5f, DownCast.Raycast.point.z), Player.Rotation);
+                            Player.Player.teleportToLocationUnsafe(new Vector3(DownCast.Raycast.point.x, DownCast.Raycast.point.y + 0.2f, DownCast.Raycast.point.z), Player.Rotation);
                         }
                         else
                         {
@@ -266,11 +266,11 @@ namespace ShimmysAdminTools.Modules
 
                 if (Placing.Count() != 0)
                 {
-                    Player.Teleport(new Vector3(Placing[0].x, Placing[0].y + 0.5f, Placing[0].z), Player.Rotation);
+                    Player.Player.teleportToLocationUnsafe(new Vector3(Placing[0].x, Placing[0].y + 0.5f, Placing[0].z), Player.Rotation);
                 }
                 else
                 {
-                    Player.Teleport(new Vector3(TargetPos.x, TargetPos.y + 0.5f, TargetPos.z), Player.Rotation);
+                    Player.Player.teleportToLocationUnsafe(new Vector3(TargetPos.x, TargetPos.y + 0.5f, TargetPos.z), Player.Rotation);
                 }
             }
             else if (gesture == UnturnedPlayerEvents.PlayerGesture.Point)
@@ -278,7 +278,7 @@ namespace ShimmysAdminTools.Modules
                 Vector3 TargetPos = Raycast.Raycast.point;
                 Vector3 CurrentPos = Player.Position;
                 Vector3 ResultPos = Vector3.MoveTowards(TargetPos, CurrentPos, 1);
-                Player.Teleport(new Vector3(ResultPos.x, ResultPos.y + 0.5f, ResultPos.z), Player.Rotation);
+                Player.Player.teleportToLocationUnsafe(new Vector3(ResultPos.x, ResultPos.y + 0.5f, ResultPos.z), Player.Rotation);
             }
         }
 
