@@ -74,6 +74,7 @@
     <Compile Include="Commands\GotoBedCommand.cs" />
     <Compile Include="Commands\GotoMarker.cs" />
     <Compile Include="Commands\MarkerCommand.cs" />
+    <Compile Include="Commands\MuteCommand.cs" />
     <Compile Include="Commands\NoClipCommand.cs" />
     <Compile Include="Commands\PointTool.cs" />
     <Compile Include="Components\Extensions.cs" />

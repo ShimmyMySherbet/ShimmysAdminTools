@@ -1,9 +1,12 @@
-﻿using Rocket.API;
+﻿using System;
+using Rocket.API;
 using Rocket.API.Collections;
 using Rocket.Core.Plugins;
 using Rocket.Unturned;
+using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
+using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
 
@@ -13,6 +16,7 @@ namespace ShimmysAdminTools
     {
         public static main Instance;
         public static PluginConfig Config;
+        public CheckPermissions BaseCheckPermissions;
 
         public override void LoadPlugin()
         {
@@ -25,7 +29,66 @@ namespace ShimmysAdminTools
             U.Events.OnPlayerDisconnected += Events_OnPlayerDisconnected;
             if (Config.EnableVehicleAccessManagement) VehicleManager.onEnterVehicleRequested += VehicleManager_onEnterVehicleRequested;
             Rocket.Unturned.Events.UnturnedPlayerEvents.OnPlayerUpdateGesture += UnturnedPlayerEvents_OnPlayerUpdateGesture;
+            BaseCheckPermissions = ChatManager.onCheckPermissions;
+            ChatManager.onCheckPermissions = Chat_OnCheckPermissions;
             LoadCurrentPlayers();
+        }
+
+        private void Chat_OnCheckPermissions(SteamPlayer player, string text, ref bool shouldExecuteCommand, ref bool shouldList)
+        {
+            PlayerData playerData = PlayerDataStore.GetPlayerData(player.playerID.steamID.m_SteamID);
+            if (playerData != null)
+            {
+                if (playerData.IsMuted && !text.StartsWith(@"/"))
+                {
+                    if (PlayerMuteExpired(playerData))
+                    {
+                        playerData.IsMuted = false;
+                        playerData.MuteIsTemp = false;
+                        BaseCheckPermissions(player, text, ref shouldExecuteCommand, ref shouldList);
+                        return;
+                    }
+                    else
+                    {
+                        if (!text.StartsWith(@"/"))
+                        {
+                            shouldList = false;
+                            if (playerData.MuteIsTemp)
+                            {
+                                TimeSpan TimeLeft = playerData.MuteExpires.Subtract(DateTime.Now);
+                                Console.WriteLine($"Expires: {playerData.MuteExpires.ToLongTimeString()}");
+                                Console.WriteLine($"Current: {DateTime.Now.ToLongTimeString()}");
+                                Console.WriteLine($"time: {TimeLeft.TotalSeconds}");
+                                UnturnedChat.Say(player.playerID.steamID, "Mute_ChatBlocked_TimeLeft".Translate(Helpers.GetTimeFromTimespan(TimeLeft)));
+                            }
+                            else
+                            {
+                                UnturnedChat.Say(player.playerID.steamID, "Mute_ChatBlocked".Translate());
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    BaseCheckPermissions(player, text, ref shouldExecuteCommand, ref shouldList);
+                }
+            }
+            else
+            {
+                BaseCheckPermissions(player, text, ref shouldExecuteCommand, ref shouldList);
+            }
+        }
+
+        public bool PlayerMuteExpired(PlayerData Data)
+        {
+            if (Data.MuteIsTemp)
+            {
+                return DateTime.Compare(Data.MuteExpires, DateTime.Now) <= 0;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override TranslationList DefaultTranslations => new TranslationList()
@@ -67,7 +130,15 @@ namespace ShimmysAdminTools
             { "PointTool_Utility_Bed_ShowOwner", "[PointTool] Bed Owner: {0}" },
             { "PointTool_Utility_Bed_NotClaimed", "[PointTool] Bed is not claimed." },
             { "PointTool_Jump_NoPlatformBelow", "Failed to find a platform below you." },
-            { "PointTool_Destroy_Denied", "You don't have permission to destroy that." }
+            { "PointTool_Destroy_Denied", "You don't have permission to destroy that." },
+            { "Mute_PlayerNotFound", "Player not found." },
+            { "Mute_PlayerMuted", "Player Muted." },
+            { "Mute_PlayerMuted_Time", "Player Muted for {0}." },
+            { "Mute_ChatBlocked", "You cannot speak, you are muted." },
+            { "Mute_ChatBlocked_TimeLeft", "You cannot speak, you are muted. {0} left." },
+            { "Mute_PlayerUnmuted", "Player Unmuted." },
+            { "Mute_PlayerUnmuted_Self", "You have been unmuted." },
+            { "Plugin_Error", "An error occurred." },
         };
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)
@@ -80,6 +151,7 @@ namespace ShimmysAdminTools
             PlayerSessionStore.TryRegisterPlayer(player);
             PlayerDataStore.TryRegisterPlayer(player);
         }
+
         private void VehicleManager_onEnterVehicleRequested(Player player, InteractableVehicle vehicle, ref bool shouldAllow)
         {
             var Data = PlayerDataStore.GetPlayerData(UnturnedPlayer.FromPlayer(player));
@@ -115,6 +187,7 @@ namespace ShimmysAdminTools
                 if (Session.Value.FlySessionActive) Session.Value.FlySession.Stop();
                 if (Session.Value.NoClipSessionActive) Session.Value.NoClip.Stop();
             }
+            ChatManager.onCheckPermissions = BaseCheckPermissions;
             base.UnloadPlugin(state);
         }
     }

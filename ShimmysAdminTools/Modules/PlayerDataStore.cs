@@ -21,11 +21,17 @@ namespace ShimmysAdminTools.Modules
         }
         public static PlayerData GetPlayerData(UnturnedPlayer Player)
         {
+            if (Player == null) return null;
+            return GetPlayerData(Player.CSteamID.m_SteamID);
+        }
+        public static PlayerData GetPlayerData(ulong Player)
+        {
             if (Store == null) return null;
-            if (Store.ContainsKey(Player.CSteamID.m_SteamID))
+            if (Store.ContainsKey(Player))
             {
-                return Store[Player.CSteamID.m_SteamID];
-            } else
+                return Store[Player];
+            }
+            else
             {
                 return null;
             }

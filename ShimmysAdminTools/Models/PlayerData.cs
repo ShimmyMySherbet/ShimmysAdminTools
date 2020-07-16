@@ -10,5 +10,8 @@ namespace ShimmysAdminTools.Models
     {
         public ulong Player;
         public bool CanEnterVehicle = true;
+        public bool IsMuted = false;
+        public DateTime MuteExpires;
+        public bool MuteIsTemp = false;
     }
 }

@@ -1,6 +1,9 @@
 ﻿using Rocket.API;
 using Rocket.Unturned.Player;
+using Steamworks;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace ShimmysAdminTools.Components
 {
@@ -97,6 +100,162 @@ namespace ShimmysAdminTools.Components
         {
             float MaxSpeed = GetPlayerMaxVFlySpeed(Player);
             return Math.Abs(Speed) <= MaxSpeed;
+        }
+
+
+        public static TimeSpan GetTimespanFromString(string dur)
+        {
+            double numst = GetNumericStart(dur);
+            string tmod = GetTimeModifier(dur);
+            Console.WriteLine($"t: {numst}, m: {tmod}");
+            return GetTimespanFromDetails(numst, tmod);
+        }
+        public static string GetTimeFromTimespan(TimeSpan ts)
+        {
+            Console.WriteLine($"TS TotalDays: {ts.TotalDays}");
+            Console.WriteLine($"TS days: {ts.Days}");
+            Console.WriteLine($"TS hours: {ts.Hours}");
+            Console.WriteLine($"TS min: {ts.Minutes}");
+            Console.WriteLine($"TS sec: {ts.Seconds}");
+            if (ts.TotalDays >= 365)
+            {
+                Console.WriteLine("pick years");
+                double yrs = Math.Round(ts.TotalDays / 365, 1);
+                return $"{yrs} year{plurify(yrs)}";
+            } else if (ts.TotalDays >= 7) {
+                Console.WriteLine("pick weeks");
+                int weeks = (int)Math.Round(ts.TotalDays / 7);
+                int days = ts.Days;
+                return $"{weeks} week{plurify(weeks)}{switchstring($" {days} day{plurify(days)}", days > 0)}";
+            } else if (ts.TotalDays >= 1) {
+                Console.WriteLine("pick days");
+                int days = ts.Days;
+                int hours = ts.Hours;
+                return $"{days} day{plurify(days)}{switchstring($" {hours} hour{plurify(hours)}", hours > 0)}";
+            } else if (ts.TotalHours >= 1)
+            {
+                Console.WriteLine("pick hours");
+                int hours = ts.Hours;
+                int minutes = ts.Minutes;
+                return $"{hours} hour{plurify(hours)}{switchstring($" {minutes} minute{plurify(minutes)}", minutes > 0)}";
+            } else if (ts.TotalMinutes >= 1)
+            {
+                Console.WriteLine("pick min");
+                int minutes = ts.Minutes;
+                int seconds = ts.Seconds;
+                return $"{minutes} minute{plurify(minutes)}{switchstring($" {seconds} second{plurify(seconds)}", seconds > 0 && minutes < 10)}";
+            } else
+            {
+                Console.WriteLine("pick sec");
+                int sec = ts.Seconds;
+                return $"{sec} second{plurify(sec)}";
+            }
+        }
+        private static string switchstring(string basestr, bool condition)
+        {
+            if (condition) return basestr;
+            return "";
+        }
+        private static string plurify(double ct)
+        {
+            if (ct != 1) return "s";
+            return "";
+        }
+
+        private static TimeModifier GetModifierFromSeconds(double sec)
+        {
+            foreach(var modi in TimeModifiers)
+            {
+                if ((sec / (double)modi.Time) >= 1)
+                {
+                    return modi;
+                }
+            }
+            return TimeModifiers.Last();
+        }
+
+
+        private static double GetNumericStart(string dur)
+        {
+            string Allowed = "1234567890";
+            bool HitFloat = false;
+            string retstr = "";
+
+            foreach(char cha in dur)
+            {
+                if (Allowed.Contains(cha.ToString()))
+                {
+                    retstr += cha;
+                } else if (cha == '.')
+                {
+                    if (!HitFloat)
+                    {
+                        retstr += cha;
+                        HitFloat = true;
+                    } else
+                    {
+                        break;
+                    }
+                } else
+                {
+                    break;
+                }
+            }
+            if (retstr == "")
+            {
+                return 0;
+            } else
+            {
+                return Convert.ToDouble(retstr);
+            }
+        }
+
+
+        private static string GetTimeModifier(string dur)
+        {
+            string NumericStart = GetNumericStart(dur).ToString();
+            string Modifier = dur.Remove(0, NumericStart.Length).Trim(' ');
+            return Modifier;
+        }
+
+        private static List<TimeModifier> TimeModifiers = new List<TimeModifier>()
+        {
+            new TimeModifier() { DisplayName = "Year", DisplayNamePlural = "Years", Time = 60 * 60 * 24 * 365, Names = new List<string>() {"y", "year", "years", "yr", "yrs"} },
+            new TimeModifier() { DisplayName = "Week", DisplayNamePlural = "Weeks", Time = 60 * 60 * 24 * 7, Names = new List<string>() {"w", "week", "weeks", "wk", "wks"} },
+            new TimeModifier() { DisplayName = "Day", DisplayNamePlural = "Days", Time = 60 * 60 * 24, Names = new List<string>() {"d", "day", "days", "dy", "dys", "ds"} },
+            new TimeModifier() { DisplayName = "Hour", DisplayNamePlural = "Hours", Time = 60 * 60, Names = new List<string>() {"h", "hour", "hours", "hs", "hr", "hrs"} },
+            new TimeModifier() { DisplayName = "Minute", DisplayNamePlural = "Minutes", Time = 60, Names = new List<string>() {"m", "minute", "minutes", "ms"} },
+            new TimeModifier() { DisplayName = "Second", DisplayNamePlural = "Seconds", Time = 1, Names = new List<string>() {"s", "seconds", "second", ""} }
+        };
+
+        private static TimeModifier GetTimeModifierObject(string modifier)
+        {
+            foreach(var mod in TimeModifiers)
+            {
+                if (mod.Names.Contains(modifier.ToLower().Trim(' ')))
+                {
+                    Console.WriteLine($"selected {mod.DisplayName}");
+                    return mod;
+                }
+            }
+            return TimeModifiers.Last();
+        }
+        public static TimeSpan GetTimespanFromDetails(double dur, string modifier)
+        {
+            return TimeSpan.FromSeconds(GetTimeModifierObject(modifier).GetTime(dur));
+        }
+        private class TimeModifier
+        {
+            public List<string> Names = new List<string>();
+            public int Time = 0;
+            public string DisplayName;
+            public string DisplayNamePlural;
+            public int GetTime(double dur)
+            {
+                int t = (int)(dur * Time);
+                Console.WriteLine($"calc {t}");
+                return (int)(dur * Time);
+            }
         }
     }
 }
