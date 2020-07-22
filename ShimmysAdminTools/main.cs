@@ -93,6 +93,8 @@ namespace ShimmysAdminTools
         {
             { "Flight_Enabled", "Flight Enabled." },
             { "Flight_Disabled", "Flight Disabled." },
+            { "Flight_Enabled_Other", "Enabled {0}'s Flight." },
+            { "Flight_Disabled_Other", "Disabled {0}'s Flight." },
             { "Flight_Speed_Reset", "Fly Speed Reset." },
             { "Flight_Speed_NotFlying", "You are not flying." },
             { "Flight_Speed_Changed", "Fly speed set to {0}." },
@@ -100,6 +102,9 @@ namespace ShimmysAdminTools
             { "Flight_Speed_Denied_Hotkey", "You can't fly any faster." },
             { "Flight_Speed_Vertical_Reset", "Vertical Fly Speed reset." },
             { "Flight_Speed_Vertical_Changed", "Vertical Fly Speed set to {0}." },
+            { "Flight_PermitSpeed_InvalidNumber", "Speed needs to be a valid whole number." },
+            { "Flight_PermitSpeed_Reset", "Player max fly speed reset." },
+            { "Flight_PermitSpeed_Updated", "Player max fly speed updated." },
             { "CheckBedOwner_NotClaimed", "Bed is not claimed." },
             { "CheckBedOwner_ShowOwner", "Bed Owner: {0}" },
             { "CheckBedOwner_NoBedFound", "Nothing found." },
@@ -138,7 +143,8 @@ namespace ShimmysAdminTools
             { "Mute_PlayerUnmuted_Self", "You have been unmuted." },
             { "Plugin_Error", "An error occurred." },
             { "MapJump_Enabled", "Waypoint jumping enabled." },
-            { "MapJump_Disabled", "Waypoint jumping disabled." }
+            { "MapJump_Disabled", "Waypoint jumping disabled." },
+            { "Error_PlayerNotFound", "Failed to find player." }
         };
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)

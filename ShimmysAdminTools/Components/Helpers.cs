@@ -1,5 +1,7 @@
 ﻿using Rocket.API;
 using Rocket.Unturned.Player;
+using ShimmysAdminTools.Models;
+using ShimmysAdminTools.Modules;
 using Steamworks;
 using System;
 using System.Collections.Generic;
@@ -67,6 +69,8 @@ namespace ShimmysAdminTools.Components
         public static bool PlayerCanFlyAtSpeed(UnturnedPlayer Player, float Speed)
         {
             float MaxSpeed = GetPlayerMaxFlySpeed(Player);
+            PlayerData data = PlayerDataStore.GetPlayerData(Player);
+            if (data != null && data.FlightSpeedPermitOverride != 0) MaxSpeed = data.FlightSpeedPermitOverride;
             return Math.Abs(Speed) <= MaxSpeed;
         }
 

@@ -1,11 +1,11 @@
-﻿using Rocket.API;
+﻿using System.Linq;
+using Rocket.API;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Events;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
 using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
-using System.Linq;
 using UnityEngine;
 
 namespace ShimmysAdminTools.Modules
@@ -30,6 +30,7 @@ namespace ShimmysAdminTools.Modules
                 }
             }
         }
+
         public static void RunPointTool(UnturnedPlayer Player, PlayerSession Session, UnturnedPlayerEvents.PlayerGesture gesture)
         {
             if (Session.PointTool == PointToolMode.Destroy)
@@ -58,10 +59,24 @@ namespace ShimmysAdminTools.Modules
             }
             else if (Session.PointTool == PointToolMode.Kill)
             {
-                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE);
-                if (Raycast.RaycastHit)
+                RaycastResult CloseEnemyCheck = RaycastUtility.RayCastPlayer(Player, RayMasks.AGENT | RayMasks.ENEMY, 7);
+                RaycastResult ClosePlayerCheck = RaycastUtility.RayCastPlayer(Player, RayMasks.PLAYER, 10);
+                if (ClosePlayerCheck.RaycastHit && ClosePlayerCheck.ParentHasComponent<Player>() && ClosePlayerCheck.TryGetEntity<Player>().channel.owner.playerID.steamID.m_SteamID != Player.CSteamID.m_SteamID)
                 {
-                    RunRepairTool(Player, Raycast);
+                    RunKillTool(Player, ClosePlayerCheck);
+                }
+                else if (CloseEnemyCheck.RaycastHit)
+                {
+                    RunKillTool(Player, CloseEnemyCheck);
+                }
+                else
+                {
+                    Vector3 RaycastSpot = Player.Player.look.aim.position + (Player.Player.look.aim.forward.normalized * 0.5f);
+                    RaycastResult Raycast = RaycastUtility.Raycast(RaycastSpot, Player.Player.look.aim.forward, RayMasks.ENEMY | RayMasks.PLAYER | RayMasks.AGENT);
+                    if (Raycast.RaycastHit)
+                    {
+                        RunKillTool(Player, Raycast);
+                    }
                 }
             }
             else if (Session.PointTool == PointToolMode.Jump)
@@ -71,6 +86,25 @@ namespace ShimmysAdminTools.Modules
                 {
                     RunJumpTool(Player, Raycast, gesture);
                 }
+            }
+        }
+
+        public static void RunKillTool(UnturnedPlayer Player, RaycastResult Raycast)
+        {
+            if (Raycast.ParentHasComponent<Player>())
+            {
+                Player player = Raycast.TryGetEntity<Player>();
+                if (player.channel.owner.playerID.steamID.m_SteamID == Player.CSteamID.m_SteamID) return;
+                player.life.askDamage(100, player.look.aim.forward, EDeathCause.KILL, ELimb.SKULL, Player.CSteamID, out _, true, ERagdollEffect.GOLD, true, true);
+            }
+            else if (Raycast.ParentHasComponent<Zombie>())
+            {
+                Zombie zombie = Raycast.TryGetEntity<Zombie>();
+                zombie.killWithFireExplosion();
+            }
+            else if (Raycast.ParentHasComponent<Animal>())
+            {
+                Raycast.TryGetEntity<Animal>().askDamage(ushort.MaxValue, Vector3.one, out _, out _, false, true, ERagdollEffect.NONE);
             }
         }
 
@@ -84,7 +118,8 @@ namespace ShimmysAdminTools.Modules
                 if (Allow)
                 {
                     VehicleManager.askVehicleDestroy(Raycast.Vehicle);
-                } else
+                }
+                else
                 {
                     UnturnedChat.Say(Player, "PointTool_Destroy_Denied".Translate());
                 }
@@ -105,7 +140,6 @@ namespace ShimmysAdminTools.Modules
             }
             if (Raycast.Structure != null)
             {
-
                 bool IsPlayersStructure = Raycast.Structure.owner == Player.CSteamID.m_SteamID || Raycast.Structure.group == Player.SteamGroupID.m_SteamID;
                 bool Allow = IsPlayersStructure;
                 if (!IsPlayersStructure) Allow = PlayerCanDestroyOtherPlayersStuff(Player);
@@ -119,12 +153,14 @@ namespace ShimmysAdminTools.Modules
                 }
             }
         }
+
         public static bool PlayerCanDestroyOtherPlayersStuff(UnturnedPlayer Player)
         {
             return Player.HasPermission("ShimmysAdminTools.PointTool.DestroyOtherPlayersStuff") ||
                 Player.HasPermission("ShimmysAdminTools.PointTool.all") ||
                 Player.HasPermission("ShimmysAdminTools.PointTool.*");
         }
+
         public static void RunUtilityTool(UnturnedPlayer Player, RaycastResult Raycast)
         {
             if (Raycast.ParentHasComponent<InteractableCharge>())
@@ -153,6 +189,12 @@ namespace ShimmysAdminTools.Modules
             {
                 var f = Raycast.TryGetEntity<InteractableDoor>();
                 SendOpenDoor(Raycast.BarricadePlant, Raycast.BarricadeX, Raycast.BarricadeY, Raycast.BarricadeIndex, f, Raycast.BarricadeRegion);
+            }
+            if (Raycast.ParentHasComponent<InteractableStorage>())
+            {
+                InteractableStorage Storage = Raycast.TryGetEntity<InteractableStorage>();
+                Player.Player.inventory.updateItems(7, Storage.items);
+                Player.Player.inventory.sendStorage();
             }
         }
 
@@ -314,6 +356,7 @@ namespace ShimmysAdminTools.Modules
             barricadeRegion.barricades[(int)index].barricade.state[16] = (byte)(interactableDoor.isOpen ? 1 : 0);
             var d = (interactableDoor.isOpen ? (int)1 : (int)0);
         }
+
         // WIP
         public static void RunRepairTool(UnturnedPlayer Player, RaycastResult Raycast)
         {

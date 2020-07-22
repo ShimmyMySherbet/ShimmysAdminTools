@@ -1,14 +1,10 @@
-﻿using Rocket.API;
+﻿using System.Collections.Generic;
+using Rocket.API;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
 using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ShimmysAdminTools.Commands
 {
@@ -28,23 +24,56 @@ namespace ShimmysAdminTools.Commands
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
-            UnturnedPlayer Player = (UnturnedPlayer)caller;
-            PlayerSession Session = PlayerSessionStore.GetPlayerData(Player);
-
-            if (Session.FlySessionActive)
+            if (command.Length > 0)
             {
-                // Stop Session
-                Session.FlySession.Stop();
-                Session.FlySessionActive = false;
-                UnturnedChat.Say(caller, "Flight_Disabled".Translate());
-            } else
+                UnturnedPlayer TargetPlayer = UnturnedPlayer.FromName(command[0]);
+                if (TargetPlayer != null)
+                {
+                    PlayerSession Session = PlayerSessionStore.GetPlayerData(TargetPlayer);
+                    if (Session == null) return;
+                    if (Session.FlySessionActive)
+                    {
+                        // Stop Session
+                        Session.FlySession.Stop();
+                        Session.FlySessionActive = false;
+                        UnturnedChat.Say(caller, "Flight_Disabled_Other".Translate(TargetPlayer.DisplayName));
+                        UnturnedChat.Say(TargetPlayer, "Flight_Disabled".Translate());
+                    }
+                    else
+                    {
+                        // Start Session
+                        Session.FlySession = new FlySession();
+                        Session.FlySession.Player = TargetPlayer;
+                        Session.FlySession.Start();
+                        Session.FlySessionActive = true;
+                        UnturnedChat.Say(caller, "Flight_Enabled_Other".Translate(TargetPlayer.DisplayName));
+                        UnturnedChat.Say(TargetPlayer, "Flight_Enabled".Translate());
+                    }
+                } else
+                {
+                    UnturnedChat.Say(caller, "Error_PlayerNotFound".Translate());
+                }
+            }
+            else
             {
-                // Start Session
-                Session.FlySession = new FlySession();
-                Session.FlySession.Player = Player;
-                Session.FlySession.Start();
-                Session.FlySessionActive = true;
-                UnturnedChat.Say(caller, "Flight_Enabled".Translate());
+                UnturnedPlayer Player = (UnturnedPlayer)caller;
+                PlayerSession Session = PlayerSessionStore.GetPlayerData(Player);
+                if (Session.FlySessionActive)
+                {
+                    // Stop Session
+                    Session.FlySession.Stop();
+                    Session.FlySessionActive = false;
+                    UnturnedChat.Say(caller, "Flight_Disabled".Translate());
+                }
+                else
+                {
+                    // Start Session
+                    Session.FlySession = new FlySession();
+                    Session.FlySession.Player = Player;
+                    Session.FlySession.Start();
+                    Session.FlySessionActive = true;
+                    UnturnedChat.Say(caller, "Flight_Enabled".Translate());
+                }
             }
         }
     }

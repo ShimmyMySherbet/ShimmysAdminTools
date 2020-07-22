@@ -13,5 +13,6 @@ namespace ShimmysAdminTools.Models
         public bool IsMuted = false;
         public DateTime MuteExpires;
         public bool MuteIsTemp = false;
+        public int FlightSpeedPermitOverride = 0;
     }
 }

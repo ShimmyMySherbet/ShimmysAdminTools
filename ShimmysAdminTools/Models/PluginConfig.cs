@@ -20,6 +20,7 @@ namespace ShimmysAdminTools.Models
             {
                 DestroyToolEnabled = true,
                 JumpToolEnabled = true,
+                KillToolEnabled = true,
                 UtilityToolEnabled = true
             };
         }
@@ -29,5 +30,6 @@ namespace ShimmysAdminTools.Models
         public bool DestroyToolEnabled;
         public bool JumpToolEnabled;
         public bool UtilityToolEnabled;
+        public bool KillToolEnabled;
     }
 }
