@@ -2,7 +2,7 @@
 An admin toolkit for Unturned including flight and Noclip.
 
 # Demo Video
-Heres a slightly out-dated demo video. I'll get around to making a proper one eventually.
+Heres a very out-dated demo video. I'll get around to making a proper one eventually.
 
 <a href="https://www.youtube.com/watch?v=2yo6BurDUA4">
 <img src="https://i.ibb.co/L1RJdz3/Flight.jpg"/>
