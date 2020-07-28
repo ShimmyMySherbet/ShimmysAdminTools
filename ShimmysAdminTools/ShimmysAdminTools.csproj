@@ -77,6 +77,7 @@
     <Compile Include="Commands\AFlyCommand.cs" />
     <Compile Include="Commands\AFlySpeedPermitCommand.cs" />
     <Compile Include="Commands\CheckBedOwner.cs" />
+    <Compile Include="Commands\CommandSpyCommand.cs" />
     <Compile Include="Commands\DisableVehicleAccess.cs" />
     <Compile Include="Commands\AFlySpeedCommands.cs" />
     <Compile Include="Commands\ForceDemountCommand.cs" />
@@ -87,22 +88,23 @@
     <Compile Include="Commands\MuteCommand.cs" />
     <Compile Include="Commands\NoClipCommand.cs" />
     <Compile Include="Commands\PointTool.cs" />
+    <Compile Include="Commands\SetFiremodeCommand.cs" />
     <Compile Include="Components\Extensions.cs" />
     <Compile Include="Components\Helpers.cs" />
     <Compile Include="main.cs" />
-    <Compile Include="Models\FlySession.cs" />
+    <Compile Include="Models\FlightSession.cs" />
     <Compile Include="Models\MapJumpingSession.cs" />
     <Compile Include="Models\PlayerData.cs" />
     <Compile Include="Models\PlayerSession.cs" />
     <Compile Include="Models\PluginConfig.cs" />
     <Compile Include="Models\PointToolMode.cs" />
     <Compile Include="Models\RaycastResult.cs" />
+    <Compile Include="Models\UnturnedKey.cs" />
     <Compile Include="Modules\NoClippingTool.cs" />
     <Compile Include="Modules\PlayerDataStore.cs" />
     <Compile Include="Modules\PlayerSessionStore.cs" />
     <Compile Include="Modules\PointToolManager.cs" />
     <Compile Include="Modules\RaycastUtility.cs" />
-    <Compile Include="Modules\UKeyManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

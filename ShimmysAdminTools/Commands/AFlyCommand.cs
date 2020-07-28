@@ -34,18 +34,14 @@ namespace ShimmysAdminTools.Commands
                     if (Session.FlySessionActive)
                     {
                         // Stop Session
-                        Session.FlySession.Stop();
-                        Session.FlySessionActive = false;
+                        Session.StartFlightSession();
                         UnturnedChat.Say(caller, "Flight_Disabled_Other".Translate(TargetPlayer.DisplayName));
                         UnturnedChat.Say(TargetPlayer, "Flight_Disabled".Translate());
                     }
                     else
                     {
                         // Start Session
-                        Session.FlySession = new FlySession();
-                        Session.FlySession.Player = TargetPlayer;
-                        Session.FlySession.Start();
-                        Session.FlySessionActive = true;
+                        Session.StartFlightSession();
                         UnturnedChat.Say(caller, "Flight_Enabled_Other".Translate(TargetPlayer.DisplayName));
                         UnturnedChat.Say(TargetPlayer, "Flight_Enabled".Translate());
                     }
@@ -61,17 +57,13 @@ namespace ShimmysAdminTools.Commands
                 if (Session.FlySessionActive)
                 {
                     // Stop Session
-                    Session.FlySession.Stop();
-                    Session.FlySessionActive = false;
+                    Session.StopFlightSession();
                     UnturnedChat.Say(caller, "Flight_Disabled".Translate());
                 }
                 else
                 {
                     // Start Session
-                    Session.FlySession = new FlySession();
-                    Session.FlySession.Player = Player;
-                    Session.FlySession.Start();
-                    Session.FlySessionActive = true;
+                    Session.StartFlightSession();
                     UnturnedChat.Say(caller, "Flight_Enabled".Translate());
                 }
             }

@@ -17,17 +17,16 @@ namespace ShimmysAdminTools.Modules
         }
         public static void TryRegisterPlayer(UnturnedPlayer Player)
         {
-            if (Store != null && !Store.ContainsKey(Player.CSteamID.m_SteamID)) Store.Add(Player.CSteamID.m_SteamID, new PlayerSession() { Player = Player.CSteamID.m_SteamID });
+            if (Store != null && !Store.ContainsKey(Player.CSteamID.m_SteamID)) Store.Add(Player.CSteamID.m_SteamID, new PlayerSession(Player));
         }
         public static void TryDeregisterPlayer(UnturnedPlayer Player)
         {
             if (Store != null && Store.ContainsKey(Player.CSteamID.m_SteamID))
             {
                 PlayerSession session = GetPlayerData(Player);
-                if (session.FlySessionActive) session.FlySession.Stop();
+                if (session.FlySessionActive) session.StopFlightSession();
                 if (session.MapJumpingSession != null) session.StopMapJumpingSession();
                 if (session.NoClipSessionActive) session.NoClip.Stop();
-                session.FlySessionActive = false;
                 session.MapJumpingSession = null;
                 session.NoClipSessionActive = false;
                 session.PointToolEnabled = false;
@@ -45,6 +44,15 @@ namespace ShimmysAdminTools.Modules
             {
                 return null;
             }
+        }
+
+        public static bool RunPlayerCommandSpy()
+        {
+            foreach (var Session in Store)
+            {
+                if (Session.Value.IsSpyingCommands) return true;
+            }
+            return false;
         }
 
     }

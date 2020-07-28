@@ -33,8 +33,7 @@ namespace ShimmysAdminTools.Commands
                 }
                 if (Helpers.PlayerCanFlyAtVSpeed(caller.UPlayer(), Speed))
                 {
-                    Session.FlySession.AscendRate = Speed;
-                    Session.FlySession.DescendRate = Speed;
+                    Session.FlySession.VerticalSpeed = Speed;
                     if (Speed == 1)
                     {
                         UnturnedChat.Say(caller, "Flight_Speed_Vertical_Reset".Translate());
@@ -81,7 +80,7 @@ namespace ShimmysAdminTools.Commands
                 if (Speed == 1 || Helpers.PlayerCanFlyAtSpeed(caller.UPlayer(), Speed))
                 {
                     Session.FlySession.Speed = Speed;
-                    Session.FlySession.UpdateSpeed();
+                    Session.FlySession.SendUpdateSpeed();
                     if (Speed == 1)
                     {
                         UnturnedChat.Say(caller, "Flight_Speed_Reset".Translate());

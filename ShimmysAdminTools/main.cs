@@ -1,14 +1,21 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Rocket.API;
 using Rocket.API.Collections;
+using Rocket.API.Serialisation;
+using Rocket.Core;
 using Rocket.Core.Plugins;
 using Rocket.Unturned;
 using Rocket.Unturned.Chat;
+using Rocket.Unturned.Permissions;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
 using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
+using UnityEngine;
 
 namespace ShimmysAdminTools
 {
@@ -29,14 +36,55 @@ namespace ShimmysAdminTools
             U.Events.OnPlayerDisconnected += Events_OnPlayerDisconnected;
             if (Config.EnableVehicleAccessManagement) VehicleManager.onEnterVehicleRequested += VehicleManager_onEnterVehicleRequested;
             Rocket.Unturned.Events.UnturnedPlayerEvents.OnPlayerUpdateGesture += UnturnedPlayerEvents_OnPlayerUpdateGesture;
+
             BaseCheckPermissions = ChatManager.onCheckPermissions;
             ChatManager.onCheckPermissions = Chat_OnCheckPermissions;
 
             LoadCurrentPlayers();
         }
 
+        private void Chat_CheckCommand(SteamPlayer Player, string Command)
+        {
+
+            Command = Command.TrimStart('/', ' ');
+            List<string> array = (from Match m in Regex.Matches(Command, "[\\\"](.+?)[\\\"]|([^ ]+)", RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled)
+                                  select m.Value.Trim('"').Trim()).ToList();
+            if (array.Count == 0) return;
+            string cmdbase = array[0];
+            IRocketCommand RCmd = R.Commands.GetCommand(array[0]);
+            if (RCmd == null) return;
+            UnturnedPlayer UPlayer = UnturnedPlayer.FromSteamPlayer(Player);
+            if (!(R.Permissions.HasPermission(UPlayer, RCmd.Permissions) || R.Permissions.HasPermission(UPlayer, cmdbase))) return;
+
+            array.RemoveAt(0);
+            List<string> Modified = new List<string>();
+            foreach (string prt in array)
+            {
+                if (prt.Contains(' '))Modified.Add($@"""{prt}""");
+                else Modified.Add(prt);
+            }
+
+            foreach (var ses in PlayerSessionStore.Store.Where(x => x.Value.IsSpyingCommands))
+            {
+                if ((ses.Value.CommandSpyGlobalEnabled || ses.Value.CommandSpyPlayers.Contains(Player.playerID.steamID.m_SteamID)) && Player.playerID.steamID.m_SteamID != ses.Value.UPlayer.CSteamID.m_SteamID)
+                {
+                    UnturnedChat.Say(ses.Value.UPlayer, $"[Command Spy] {Player.playerID.characterName} -> /{cmdbase} {string.Join(" ", Modified)}", Color.grey);
+                }
+            }
+        }
+
         private void Chat_OnCheckPermissions(SteamPlayer player, string text, ref bool shouldExecuteCommand, ref bool shouldList)
         {
+            if (text.StartsWith("/") && PlayerSessionStore.RunPlayerCommandSpy())
+            {
+                try
+                {
+                    Chat_CheckCommand(player, text);
+                }
+                catch (Exception)
+                {
+                }
+            }
             PlayerData playerData = PlayerDataStore.GetPlayerData(player.playerID.steamID.m_SteamID);
             if (playerData != null)
             {
@@ -144,7 +192,15 @@ namespace ShimmysAdminTools
             { "Plugin_Error", "An error occurred." },
             { "MapJump_Enabled", "Waypoint jumping enabled." },
             { "MapJump_Disabled", "Waypoint jumping disabled." },
-            { "Error_PlayerNotFound", "Failed to find player." }
+            { "Error_PlayerNotFound", "Failed to find player." },
+            { "CommandSpy_Disabled", "Command Spying Disabled." },
+            { "CommandSpy_Disabled_Player", "You are no longer spying {0}'s commands." },
+            { "CommandSpy_Enabled_Global", "Global Command Spying Enabled." },
+            { "CommandSpy_Enabled_Player", "You are now spying on {0}'s commands." },
+            { "Firemode_Changed", "Changed firemode to {0}." },
+            { "Firemode_Modes", "Modes: Safety, Semi, Burst, Auto." },
+            { "Firemode_Unsupported", "You can't change the firemode of this item!" },
+            { "dd", "Waypoint jumping dd." }
         };
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)

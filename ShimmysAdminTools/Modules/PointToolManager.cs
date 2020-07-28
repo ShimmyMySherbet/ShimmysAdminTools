@@ -19,7 +19,8 @@ namespace ShimmysAdminTools.Modules
             {
                 if (Session.FlySessionActive)
                 {
-                    Session.FlySession.ResetSpeed();
+                    Session.FlySession.Speed = 1;
+                    Session.FlySession.SendUpdateSpeed();
                 }
             }
             if (gesture == UnturnedPlayerEvents.PlayerGesture.Point || gesture == UnturnedPlayerEvents.PlayerGesture.PunchLeft || gesture == UnturnedPlayerEvents.PlayerGesture.PunchRight)

@@ -12,13 +12,11 @@ namespace ShimmysAdminTools.Models
 
         private bool awake = false;
 
-        public GameObject MyGameObject;
-
         private Vector3 LastPos;
 
-        //private object LockObject = new object();
+        
+        private object LockObject = new object();
         private bool HasPlayer = false;
-        //private bool GotPlayer = false;
 
         public void SetPlayer(UnturnedPlayer player)
         {
@@ -35,14 +33,13 @@ namespace ShimmysAdminTools.Models
         public void Stop()
         {
             awake = false;
-            Destroy(MyGameObject);
+            Destroy(gameObject);
         }
 
         private void FixedUpdate()
         {
             if (awake && HasPlayer)
             {
-                //System.Console.Write(" <update> ");
                 if (Player.Player.quests.isMarkerPlaced)
                 {
                     if (Player.Player.quests.markerPosition != LastPos)
