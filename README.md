@@ -2,7 +2,7 @@
 An admin toolkit for Unturned including flight and Noclip.
 
 # Demo Video
-Heres a slightly out-dated demo video. I'll get around to making a proper one eventually.
+Heres a very out-dated demo video. I'll get around to making a proper one eventually.
 
 <a href="https://www.youtube.com/watch?v=2yo6BurDUA4">
 <img src="https://i.ibb.co/L1RJdz3/Flight.jpg"/>
@@ -79,6 +79,14 @@ https://www.youtube.com/watch?v=2yo6BurDUA4
         <td>Unmute [Player]</td>
         <td>Unmutes a player.</td>
     </tr>
+     <tr>
+        <td>CommandSpy</td>
+        <td>Toggles global command spying.</td>
+    </tr>
+     <tr>
+        <td>CommandSpy [Players]</td>
+        <td>Toggles command spying on a player.</td>
+    </tr>
 </table>
 
 ## PointTools
@@ -92,6 +100,10 @@ PointTools is a small toolkit includes tools that are triggered by punching/gest
     <tr>
         <td>Destroy</td>
         <td>Destroys what your currently looking at. Works on barricades, Structurs, and Vehicles.</td>
+    </tr>
+    <tr>
+        <td>Kill</td>
+        <td>Kills the Player/Animal/Zombie you are looking at. Turns Players to gold.</td>
     </tr>
     <tr>
         <td>Jump</td>
@@ -167,11 +179,23 @@ There are still more 'PointTools' to be added. This is not the final version.
         <td>Provides access to the Utility tool</td>
     </tr>
     <tr>
+        <td>ShimmysAdminTools.PointTool.Kill</td>
+        <td>Provides access to the Kill tool</td>
+    </tr>
+    <tr>
         <td>ShimmysAdminTools.PointTool.DestroyOtherPlayersStuff</td>
         <td>Grants permission to destroy other player's vehicles/buildables with the Destoy Tool</td>
     </tr>
 </table>
 The rest of the perms are to be granted via their respective command.
+
+## Screenshots
+
+### Command Spy (beta)
+Command spy displays the commands of other players and admins. It's a useful tool to keep an eye on commands without needing console.
+An example of command spy in action:
+
+<img src="https://cdn.discordapp.com/attachments/658867220314587162/735449754862878770/unknown.png" width="500px">
 
 # Downloads
 You can download this plugin from the <a href="https://github.com/ShimmyMySherbet/ShimmysAdminTools/releases/">Releases</a> page.
