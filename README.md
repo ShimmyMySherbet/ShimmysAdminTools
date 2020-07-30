@@ -87,6 +87,10 @@ https://www.youtube.com/watch?v=2yo6BurDUA4
         <td>CommandSpy [Players]</td>
         <td>Toggles command spying on a player.</td>
     </tr>
+     <tr>
+        <td>SetFireMode [Mode]</td>
+        <td>Force changes the fire mode of your gun (e.g., full auto grizzly).</td>
+    </tr>
 </table>
 
 ## PointTools
