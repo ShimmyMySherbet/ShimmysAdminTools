@@ -24,6 +24,11 @@ namespace ShimmysAdminTools.Commands
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
+            if (main.Config.DisableAbusableCommands)
+            {
+                UnturnedChat.Say(caller, "Fail_Command_Disabled".Translate());
+                return;
+            }
             UnturnedPlayer Player = (UnturnedPlayer)caller;
 
             if (command.Length > 0)

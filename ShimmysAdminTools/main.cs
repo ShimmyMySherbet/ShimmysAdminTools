@@ -34,7 +34,7 @@ namespace ShimmysAdminTools
             PlayerSessionStore.Init();
             U.Events.OnBeforePlayerConnected += Events_OnBeforePlayerConnected;
             U.Events.OnPlayerDisconnected += Events_OnPlayerDisconnected;
-            if (Config.EnableVehicleAccessManagement) VehicleManager.onEnterVehicleRequested += VehicleManager_onEnterVehicleRequested;
+            VehicleManager.onEnterVehicleRequested += VehicleManager_onEnterVehicleRequested;
             Rocket.Unturned.Events.UnturnedPlayerEvents.OnPlayerUpdateGesture += UnturnedPlayerEvents_OnPlayerUpdateGesture;
 
             BaseCheckPermissions = ChatManager.onCheckPermissions;
@@ -200,7 +200,17 @@ namespace ShimmysAdminTools
             { "Firemode_Changed", "Changed firemode to {0}." },
             { "Firemode_Modes", "Modes: Safety, Semi, Burst, Auto." },
             { "Firemode_Unsupported", "You can't change the firemode of this item!" },
-            { "dd", "Waypoint jumping dd." }
+            { "Firemode_Unlocker_Enabled", "Weapon firemodes unlocked." },
+            { "Firemode_Unlocker_Disabled", "Weapon firemodes reverted." },
+            { "UnlimitedAmmo_Enabled", "Unlimited ammo enabled." },
+            { "UnlimitedAmmo_Enabled_OverrideAmount", "Unlimited ammo enabled. Overriding max ammo to {0}." },
+            { "UnlimitedAmmo_Disabled", "Unlimited ammo disabled." },
+            { "UnlimitedAmmo_Fail_Override", "Amount override must be between 0 and 255." },
+            { "SetAttachment_Fail_Gun", "You cannot put an attachment on this item." },
+            { "SetAttachment_Fail_Item", "Failed to find item." },
+            { "SetAttachment_Fail_Blacklist", "This attachment is blacklisted." },
+            { "SetAttachment_GaveAttachment", "Gave your gun {0}." },
+            { "Fail_Command_Disabled", "This command is disabled." }
         };
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)

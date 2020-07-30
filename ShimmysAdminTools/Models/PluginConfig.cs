@@ -4,18 +4,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace ShimmysAdminTools.Models
 {
     public class PluginConfig : IRocketPluginConfiguration
     {
         public int MaxGlobalFlySpeed;
+        public bool DisableAbusableCommands;
         public PointToolSettings PointToolSettings;
-        public bool EnableVehicleAccessManagement;
+
+        [XmlArrayItem(elementName: "ID")]
+        public List<ushort> BlacklistedAttachments;
         public void LoadDefaults()
         {
             MaxGlobalFlySpeed = 10;
-            EnableVehicleAccessManagement = true;
             PointToolSettings = new PointToolSettings()
             {
                 DestroyToolEnabled = true,
@@ -23,6 +26,20 @@ namespace ShimmysAdminTools.Models
                 KillToolEnabled = true,
                 UtilityToolEnabled = true
             };
+            DisableAbusableCommands = false;
+            BlacklistedAttachments = new List<ushort>()
+            {
+                354,
+                350,
+                117,
+                1002,
+                1167,
+                1338,
+                1444,
+                1394,
+                1300
+            };
+
         }
     }
     public class PointToolSettings

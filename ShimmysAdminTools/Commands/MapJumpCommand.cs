@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Rocket.API;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
 using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
-using UnityEngine;
 
 namespace ShimmysAdminTools.Commands
 {
@@ -29,13 +24,19 @@ namespace ShimmysAdminTools.Commands
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
+            if (main.Config.DisableAbusableCommands)
+            {
+                UnturnedChat.Say(caller, "Fail_Command_Disabled".Translate());
+                return;
+            }
             PlayerSession session = PlayerSessionStore.GetPlayerData((UnturnedPlayer)caller);
 
             if (session.MapJumpingSession == null)
             {
                 session.StartMapJumpingSession();
                 UnturnedChat.Say(caller, "MapJump_Enabled".Translate());
-            } else
+            }
+            else
             {
                 session.StopMapJumpingSession();
                 UnturnedChat.Say(caller, "MapJump_Disabled".Translate());

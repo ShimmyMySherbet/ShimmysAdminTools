@@ -74,6 +74,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\FiremodeUnlocker.cs" />
+    <Compile Include="Behaviors\UnlimitedAmmoBehaviour.cs" />
     <Compile Include="Commands\AFlyCommand.cs" />
     <Compile Include="Commands\AFlySpeedPermitCommand.cs" />
     <Compile Include="Commands\CheckBedOwner.cs" />
@@ -88,7 +90,10 @@
     <Compile Include="Commands\MuteCommand.cs" />
     <Compile Include="Commands\NoClipCommand.cs" />
     <Compile Include="Commands\PointTool.cs" />
+    <Compile Include="Commands\SetAttachmentCommand.cs" />
     <Compile Include="Commands\SetFiremodeCommand.cs" />
+    <Compile Include="Commands\UnlimitedAmmoCommand.cs" />
+    <Compile Include="Commands\UnlockFireModesCommand.cs" />
     <Compile Include="Components\Extensions.cs" />
     <Compile Include="Components\Helpers.cs" />
     <Compile Include="main.cs" />
