@@ -3,10 +3,11 @@ using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
 using ShimmysAdminTools.Components;
+using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
 using UnityEngine;
 
-namespace ShimmysAdminTools.Models
+namespace ShimmysAdminTools.Behaviors
 {
     public class FlightSession : MonoBehaviour
     {

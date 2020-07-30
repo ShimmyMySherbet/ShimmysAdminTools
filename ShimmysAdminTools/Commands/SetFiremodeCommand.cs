@@ -47,6 +47,7 @@ namespace ShimmysAdminTools.Commands
                 {
                     UnturnedChat.Say(caller, $"Firemode_Modes".Translate());
                 }
+
             }
             else
             {

@@ -1,10 +1,11 @@
 ﻿using Rocket.Core.Utils;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
+using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
 using UnityEngine;
 
-namespace ShimmysAdminTools.Models
+namespace ShimmysAdminTools.Behaviors
 {
     public class MapJumpingSession : MonoBehaviour
     {

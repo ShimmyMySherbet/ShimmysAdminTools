@@ -92,8 +92,8 @@
     <Compile Include="Components\Extensions.cs" />
     <Compile Include="Components\Helpers.cs" />
     <Compile Include="main.cs" />
-    <Compile Include="Models\FlightSession.cs" />
-    <Compile Include="Models\MapJumpingSession.cs" />
+    <Compile Include="Behaviors\FlightSession.cs" />
+    <Compile Include="Behaviors\MapJumpingSession.cs" />
     <Compile Include="Models\PlayerData.cs" />
     <Compile Include="Models\PlayerSession.cs" />
     <Compile Include="Models\PluginConfig.cs" />
@@ -107,6 +107,5 @@
     <Compile Include="Modules\RaycastUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
