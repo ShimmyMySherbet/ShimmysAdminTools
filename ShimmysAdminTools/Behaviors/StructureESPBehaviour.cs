@@ -13,7 +13,7 @@ namespace ShimmysAdminTools.Behaviors
     {
         private bool awake = false;
         public int Rate = 20;
-        public int Range = 100;
+        public int Range = 500;
         public ushort Effect = 124;
         public Player Player;
         public UnturnedPlayer UPlayer;
@@ -68,7 +68,7 @@ namespace ShimmysAdminTools.Behaviors
         {
             //EffectManager.askEffectClearByID(130, UPlayer.CSteamID);
             Vector3 CameraPos = Player.look.getEyesPosition();
-            List<Vector3> Barricades = GetBarricadesInRegion(CameraPos, 500f);
+            List<Vector3> Barricades = GetBarricadesInRegion(CameraPos, Range);
             List<Vector3> DisplayPositions = new List<Vector3>();
             foreach (Vector3 Barricade in Barricades)
             {
