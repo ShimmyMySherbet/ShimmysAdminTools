@@ -91,6 +91,26 @@ https://www.youtube.com/watch?v=2yo6BurDUA4
         <td>SetFireMode [Mode]</td>
         <td>Force changes the fire mode of your gun (e.g., full auto grizzly).</td>
     </tr>
+     <tr>
+        <td>UnlockFireModes</td>
+        <td>Allows you to cycle through all fire modes using your change fire hotkey.</td>
+    </tr>
+     <tr>
+        <td>Attachment [Attachment Name/ID]</td>
+        <td>Forcibly adds an attachment to your weapon.</td>
+    </tr>
+     <tr>
+        <td>Attachment [Magazine Name/ID]</td>
+        <td>Forcibly gives your weapon any Magazine/Ammo Clip.</td>
+    </tr>
+     <tr>
+        <td>UnlimitedAmmo</td>
+        <td>Enables/Disables unlimited ammo.</td>
+    </tr>
+     <tr>
+        <td>UnlimitedAmmo [Max Ammo override]</td>
+        <td>Enables Unlimited Ammo, overriding your gun's max ammo.</td>
+    </tr>
 </table>
 
 ## PointTools
