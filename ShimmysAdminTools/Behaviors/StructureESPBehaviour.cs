@@ -66,7 +66,6 @@ namespace ShimmysAdminTools.Behaviors
 
         private void OnUpdate()
         {
-            //EffectManager.askEffectClearByID(130, UPlayer.CSteamID);
             Vector3 CameraPos = Player.look.getEyesPosition();
             List<Vector3> Barricades = GetBarricadesInRegion(CameraPos, Range);
             List<Vector3> DisplayPositions = new List<Vector3>();
