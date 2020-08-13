@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RocketPermissions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DefaultGroup>default</DefaultGroup>
+  <Groups>
+    <Group>
+      <Id>default</Id>
+      <DisplayName>Guest</DisplayName>
+      <Prefix />
+      <Suffix />
+      <Color>white</Color>
+      <Members />
+      <Priority>100</Priority>
+      <Permissions>
+        <Permission Cooldown="0">p</Permission>
+        <Permission Cooldown="0">compass</Permission>
+        <Permission Cooldown="0">rocket</Permission>
+      </Permissions>
+    </Group>
+    <Group>
+      <Id>vip</Id>
+      <DisplayName>VIP</DisplayName>
+      <Prefix />
+      <Suffix />
+      <Color>FF9900</Color>
+      <Members>
+        <Member>76561198016438091</Member>
+      </Members>
+      <ParentGroup>default</ParentGroup>
+      <Priority>100</Priority>
+      <Permissions>
+        <Permission Cooldown="0">effect</Permission>
+        <Permission Cooldown="120">heal</Permission>
+        <Permission Cooldown="30">v</Permission>
+      </Permissions>
+    </Group>
+  </Groups>
+</RocketPermissions>

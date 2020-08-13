@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UnturnedSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <RocketModObservatory KickLimitedAccounts="true" KickTooYoungAccounts="true" MinimumAge="604800" />
+  <AutomaticSave Enabled="true" Interval="1800" />
+  <CharacterNameValidation>true</CharacterNameValidation>
+  <CharacterNameValidationRule>([\x00-\xAA]|[\w_\ \.\+\-])+</CharacterNameValidationRule>
+  <LogSuspiciousPlayerMovement>true</LogSuspiciousPlayerMovement>
+  <EnableItemBlacklist>false</EnableItemBlacklist>
+  <EnableItemSpawnLimit>false</EnableItemSpawnLimit>
+  <MaxSpawnAmount>10</MaxSpawnAmount>
+  <EnableVehicleBlacklist>false</EnableVehicleBlacklist>
+</UnturnedSettings>

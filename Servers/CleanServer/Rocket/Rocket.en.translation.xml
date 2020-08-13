@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Translations xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Translation Id="rocket_join_public" Value="{0} connected to the server" />
+  <Translation Id="rocket_leave_public" Value="{0} disconnected from the server" />
+  <Translation Id="command_rwho_line" Value="#{0}, Connection ID: {1}, Authed: {2}, Address: {3}, Time Connected: {4}, Connected For: {5}." />
+  <Translation Id="command_rkick_help" Value="Usage: rkick &lt;ConnectionID&gt; - Kicks a client off of RCON." />
+  <Translation Id="command_rkick_notfound" Value="Error: RCON Client with Connection ID: {0} not found!" />
+  <Translation Id="command_rkick_kicked" Value="RCON Client kicked with Connection ID: {0}, Address: {1}!" />
+  <Translation Id="command_rflush_help" Value="Usage: rflush &lt;y&gt; - kicks all connected RCON clients on the server." />
+  <Translation Id="command_rflush_total" Value="Closing {0} RCON connections." />
+  <Translation Id="command_rflush_line" Value="#{0}, ConnectionID: {1}, Address: {2}, closed!" />
+  <Translation Id="command_no_permission" Value="You do not have permissions to execute this command." />
+  <Translation Id="command_cooldown" Value="You have to wait {0} seconds before you can use this command again." />
+</Translations>

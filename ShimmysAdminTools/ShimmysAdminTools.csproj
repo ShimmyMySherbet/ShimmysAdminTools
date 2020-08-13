@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\FiremodeUnlocker.cs" />
+    <Compile Include="Behaviors\StructureESPBehaviour.cs" />
     <Compile Include="Behaviors\UnlimitedAmmoBehaviour.cs" />
     <Compile Include="Commands\AFlyCommand.cs" />
     <Compile Include="Commands\AFlySpeedPermitCommand.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Commands\CommandSpyCommand.cs" />
     <Compile Include="Commands\DisableVehicleAccess.cs" />
     <Compile Include="Commands\AFlySpeedCommands.cs" />
+    <Compile Include="Commands\FindBaseCommand.cs" />
     <Compile Include="Commands\ForceDemountCommand.cs" />
     <Compile Include="Commands\GotoBedCommand.cs" />
     <Compile Include="Commands\GotoMarker.cs" />
@@ -92,6 +94,7 @@
     <Compile Include="Commands\PointTool.cs" />
     <Compile Include="Commands\SetAttachmentCommand.cs" />
     <Compile Include="Commands\SetFiremodeCommand.cs" />
+    <Compile Include="Commands\StructureESPCommand.cs" />
     <Compile Include="Commands\UnlimitedAmmoCommand.cs" />
     <Compile Include="Commands\UnlockFireModesCommand.cs" />
     <Compile Include="Components\Extensions.cs" />
@@ -104,6 +107,7 @@
     <Compile Include="Models\PluginConfig.cs" />
     <Compile Include="Models\PointToolMode.cs" />
     <Compile Include="Models\RaycastResult.cs" />
+    <Compile Include="Models\StructureCluster.cs" />
     <Compile Include="Models\UnturnedKey.cs" />
     <Compile Include="Modules\NoClippingTool.cs" />
     <Compile Include="Modules\PlayerDataStore.cs" />

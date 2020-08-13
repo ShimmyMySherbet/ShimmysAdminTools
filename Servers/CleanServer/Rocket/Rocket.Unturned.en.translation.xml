@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Translations xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Translation Id="command_generic_failed_find_player" Value="Failed to find player" />
+  <Translation Id="command_generic_invalid_parameter" Value="Invalid parameter" />
+  <Translation Id="command_generic_target_player_not_found" Value="Target player not found" />
+  <Translation Id="command_generic_teleport_while_driving_error" Value="You cannot teleport while driving or riding in a vehicle." />
+  <Translation Id="command_god_enable_console" Value="{0} enabled Godmode" />
+  <Translation Id="command_god_enable_private" Value="You can feel the strength now..." />
+  <Translation Id="command_god_disable_console" Value="{0} disabled Godmode" />
+  <Translation Id="command_god_disable_private" Value="The godly powers left you..." />
+  <Translation Id="command_vanish_enable_console" Value="{0} enabled Vanishmode" />
+  <Translation Id="command_vanish_enable_private" Value="You are vanished now..." />
+  <Translation Id="command_vanish_disable_console" Value="{0} disabled Vanishmode" />
+  <Translation Id="command_vanish_disable_private" Value="You are no longer vanished..." />
+  <Translation Id="command_duty_enable_console" Value="{0} is in duty" />
+  <Translation Id="command_duty_enable_private" Value="You are in duty now..." />
+  <Translation Id="command_duty_disable_console" Value="{0} is no longer in duty" />
+  <Translation Id="command_duty_disable_private" Value="You are no longer in duty..." />
+  <Translation Id="command_bed_no_bed_found_private" Value="You do not have a bed to teleport to." />
+  <Translation Id="command_bed_obstructed" Value="Your bed is obstructed." />
+  <Translation Id="command_i_too_much" Value="You have tried to spawn too many items! The limit is {0}." />
+  <Translation Id="command_i_blacklisted" Value="This item is restricted!" />
+  <Translation Id="command_i_giving_console" Value="Giving {0} item {1}:{2}" />
+  <Translation Id="command_i_giving_private" Value="Giving you item {0}x {1} ({2})" />
+  <Translation Id="command_z_giving_console" Value="Spawning {1} zombies near {0}" />
+  <Translation Id="command_z_giving_private" Value="Spawning {0} zombies nearby" />
+  <Translation Id="command_i_giving_failed_private" Value="Failed giving you item {0}x {1} ({2})" />
+  <Translation Id="command_v_giving_console" Value="Giving {0} vehicle {1}" />
+  <Translation Id="command_v_blacklisted" Value="This vehicle is restricted!" />
+  <Translation Id="command_v_giving_private" Value="Giving you a {0} ({1})" />
+  <Translation Id="command_v_giving_failed_private" Value="Failed giving you a {0} ({1})" />
+  <Translation Id="command_tps_tps" Value="TPS: {0}" />
+  <Translation Id="command_tps_running_since" Value="Running since: {0} UTC" />
+  <Translation Id="command_p_reload_private" Value="Reloaded permissions" />
+  <Translation Id="command_p_groups_private" Value="{0} groups are: {1}" />
+  <Translation Id="command_p_permissions_private" Value="{0} permissions are: {1}" />
+  <Translation Id="command_tp_teleport_console" Value="{0} teleported to {1}" />
+  <Translation Id="command_tp_teleport_private" Value="Teleported to {0}" />
+  <Translation Id="command_tp_failed_find_destination" Value="Failed to find destination" />
+  <Translation Id="command_tphere_vehicle" Value="The player you are trying to teleport is in a vehicle" />
+  <Translation Id="command_tphere_teleport_console" Value="{0} was teleported to {1}" />
+  <Translation Id="command_tphere_teleport_from_private" Value="Teleported {0} to you" />
+  <Translation Id="command_tphere_teleport_to_private" Value="You were teleported to {0}" />
+  <Translation Id="command_clear_error" Value="There was an error clearing {0} inventory." />
+  <Translation Id="command_clear_private" Value="Your inventory was cleared!" />
+  <Translation Id="command_clear_other" Value="Your inventory was cleared by {0}!" />
+  <Translation Id="command_clear_other_success" Value="You successfully cleared {0} inventory." />
+  <Translation Id="command_investigate_private" Value="{0} SteamID64 is {1}" />
+  <Translation Id="command_heal_success_me" Value="{0} was successfully healed" />
+  <Translation Id="command_heal_success_other" Value="You were healed by {0}" />
+  <Translation Id="command_heal_success" Value="You were healed" />
+  <Translation Id="command_compass_facing_private" Value="You are facing {0}" />
+  <Translation Id="command_compass_north" Value="N" />
+  <Translation Id="command_compass_east" Value="E" />
+  <Translation Id="command_compass_south" Value="S" />
+  <Translation Id="command_compass_west" Value="W" />
+  <Translation Id="command_compass_northwest" Value="NW" />
+  <Translation Id="command_compass_northeast" Value="NE" />
+  <Translation Id="command_compass_southwest" Value="SW" />
+  <Translation Id="command_compass_southeast" Value="SE" />
+  <Translation Id="command_rocket_plugins_loaded" Value="Loaded: {0}" />
+  <Translation Id="command_rocket_plugins_unloaded" Value="Unloaded: {0}" />
+  <Translation Id="command_rocket_plugins_failure" Value="Failure: {0}" />
+  <Translation Id="command_rocket_plugins_cancelled" Value="Cancelled: {0}" />
+  <Translation Id="command_rocket_reload_plugin" Value="Reloading {0}" />
+  <Translation Id="command_rocket_not_loaded" Value="The plugin {0} is not loaded" />
+  <Translation Id="command_rocket_unload_plugin" Value="Unloading {0}" />
+  <Translation Id="command_rocket_load_plugin" Value="Loading {0}" />
+  <Translation Id="command_rocket_already_loaded" Value="The plugin {0} is already loaded" />
+  <Translation Id="command_rocket_reload" Value="Reloading Rocket" />
+  <Translation Id="command_rocket_reload_disabled" Value="Please reload individual plugins instead" />
+  <Translation Id="command_p_group_not_found" Value="Group not found" />
+  <Translation Id="command_p_group_player_added" Value="{0} was added to the group {1}" />
+  <Translation Id="command_p_group_player_removed" Value="{0} was removed from from the group {1}" />
+  <Translation Id="command_p_unknown_error" Value="Unknown error" />
+  <Translation Id="command_p_player_not_found" Value="{0} was not found" />
+  <Translation Id="command_p_group_not_found" Value="{1} was not found" />
+  <Translation Id="command_p_duplicate_entry" Value="{0} is already in the group {1}" />
+  <Translation Id="command_p_permissions_reload" Value="Permissions reloaded" />
+  <Translation Id="command_rocket_plugin_not_found" Value="Plugin {0} not found" />
+  <Translation Id="command_clear_success" Value="You successfully cleared {0} items" />
+  <Translation Id="command_more_usage" Value="Usage: /more &lt;amount&gt;" />
+  <Translation Id="command_more_dequipped" Value="No item being held in hands." />
+  <Translation Id="command_more_give" Value="Giving {0} of item: {1}." />
+  <Translation Id="invalid_character_name" Value="invalid character name" />
+  <Translation Id="command_not_found" Value="Command not found." />
+</Translations>

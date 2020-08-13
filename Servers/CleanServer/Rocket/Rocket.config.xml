@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RocketSettings xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <RCON Enabled="false" Port="27115" Password="changeme" EnableMaxGlobalConnections="true" MaxGlobalConnections="10" EnableMaxLocalConnections="true" MaxLocalConnections="3" />
+  <AutomaticShutdown Enabled="false" Interval="86400" />
+  <WebConfigurations Enabled="false" Url="" />
+  <WebPermissions Enabled="false" Url="" Interval="180" />
+  <LanguageCode>en</LanguageCode>
+  <MaxFrames>60</MaxFrames>
+</RocketSettings>
