@@ -147,6 +147,7 @@ PointTools is a small toolkit includes tools that are triggered by punching/gest
                 <li>Explodes charges</li>
                 <li>Opens/Closes doors (Even if you don't own them)</li>
                 <li>Checks the owner of a bed (Same as /CheckBedOwner)</li>
+                <li>Opens storage (from any distance, even if you don't own them)</li>
             </ul>
         Tools are still to be added.
     </tr>
