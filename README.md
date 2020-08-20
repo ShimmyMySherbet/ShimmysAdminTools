@@ -216,7 +216,7 @@ The rest of the perms are to be granted via their respective command.
 
 ## Screenshots
 
-### Command Spy (beta)
+### Command Spy
 Command spy displays the commands of other players and admins. It's a useful tool to keep an eye on commands without needing console.
 An example of command spy in action:
 
