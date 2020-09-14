@@ -147,6 +147,7 @@ PointTools is a small toolkit includes tools that are triggered by punching/gest
                 <li>Explodes charges</li>
                 <li>Opens/Closes doors (Even if you don't own them)</li>
                 <li>Checks the owner of a bed (Same as /CheckBedOwner)</li>
+                <li>Opens storage (from any distance, even if you don't own them)</li>
             </ul>
         Tools are still to be added.
     </tr>
@@ -215,7 +216,7 @@ The rest of the perms are to be granted via their respective command.
 
 ## Screenshots
 
-### Command Spy (beta)
+### Command Spy
 Command spy displays the commands of other players and admins. It's a useful tool to keep an eye on commands without needing console.
 An example of command spy in action:
 
