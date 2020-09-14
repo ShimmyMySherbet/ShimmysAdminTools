@@ -40,6 +40,21 @@ namespace ShimmysAdminTools
             ChatManager.onCheckPermissions = Chat_OnCheckPermissions;
 
             LoadCurrentPlayers();
+
+            Level.onLevelLoaded += OnLevelloaded;
+
+            if (!Config.DelayStartEXECUtility)
+            {
+                execManager.Activate();
+            }
+        }
+
+        private void OnLevelloaded(int level)
+        {
+            if (State == PluginState.Loaded && Config.DelayStartEXECUtility)
+            {
+                execManager.Activate();
+            } 
         }
 
         private void Chat_CheckCommand(SteamPlayer Player, string Command)
@@ -208,7 +223,9 @@ namespace ShimmysAdminTools
             { "SetAttachment_Fail_Item", "Failed to find item." },
             { "SetAttachment_Fail_Blacklist", "This attachment is blacklisted." },
             { "SetAttachment_GaveAttachment", "Gave your gun {0}." },
-            { "Fail_Command_Disabled", "This command is disabled." }
+            { "Fail_Command_Disabled", "This command is disabled." },
+            { "Exec_Fail_NoPlayer", "Failed to find player." },
+            { "Exec_Fail_NotActive", "ERROR: The EXEC Permissions utility is not active. Try restarting the server." }
         };
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)
@@ -218,6 +235,7 @@ namespace ShimmysAdminTools
                 PointToolManager.ManageGestureUpdate(player, gesture);
             }
         }
+
         private void Events_OnBeforePlayerConnected(UnturnedPlayer player)
         {
             PlayerSessionStore.TryRegisterPlayer(player);
@@ -250,6 +268,8 @@ namespace ShimmysAdminTools
 
         public override void UnloadPlugin(PluginState state = PluginState.Unloaded)
         {
+            execManager.Deactivate();
+            Level.onLevelLoaded -= OnLevelloaded;
             U.Events.OnBeforePlayerConnected -= Events_OnBeforePlayerConnected;
             U.Events.OnPlayerDisconnected -= Events_OnPlayerDisconnected;
             VehicleManager.onEnterVehicleRequested -= VehicleManager_onEnterVehicleRequested;

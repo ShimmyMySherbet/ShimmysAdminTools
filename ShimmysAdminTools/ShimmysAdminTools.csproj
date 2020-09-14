@@ -84,6 +84,7 @@
     <Compile Include="Commands\CommandSpyCommand.cs" />
     <Compile Include="Commands\DisableVehicleAccess.cs" />
     <Compile Include="Commands\AFlySpeedCommands.cs" />
+    <Compile Include="Commands\ExecCommand.cs" />
     <Compile Include="Commands\FindBaseCommand.cs" />
     <Compile Include="Commands\ForceDemountCommand.cs" />
     <Compile Include="Commands\GotoBedCommand.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="main.cs" />
     <Compile Include="Behaviors\FlightSession.cs" />
     <Compile Include="Behaviors\MapJumpingSession.cs" />
+    <Compile Include="Models\EXECPassthroughPermissionsManager.cs" />
     <Compile Include="Models\PlayerData.cs" />
     <Compile Include="Models\PlayerSession.cs" />
     <Compile Include="Models\PluginConfig.cs" />
@@ -112,6 +114,7 @@
     <Compile Include="Models\RaycastResult.cs" />
     <Compile Include="Models\StructureCluster.cs" />
     <Compile Include="Models\UnturnedKey.cs" />
+    <Compile Include="Modules\execManager.cs" />
     <Compile Include="Modules\NoClippingTool.cs" />
     <Compile Include="Modules\PlayerDataStore.cs" />
     <Compile Include="Modules\PlayerSessionStore.cs" />

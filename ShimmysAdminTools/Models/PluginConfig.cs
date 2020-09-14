@@ -12,12 +12,14 @@ namespace ShimmysAdminTools.Models
     {
         public int MaxGlobalFlySpeed;
         public bool DisableAbusableCommands;
+        public bool DelayStartEXECUtility = false;
         public PointToolSettings PointToolSettings;
 
         [XmlArrayItem(elementName: "ID")]
         public List<ushort> BlacklistedAttachments;
         public void LoadDefaults()
         {
+            DelayStartEXECUtility = false;
             MaxGlobalFlySpeed = 10;
             PointToolSettings = new PointToolSettings()
             {
