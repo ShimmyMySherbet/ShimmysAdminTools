@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Rocket.API;
 using Rocket.API.Collections;
-using Rocket.API.Serialisation;
 using Rocket.Core;
 using Rocket.Core.Plugins;
 using Rocket.Unturned;
 using Rocket.Unturned.Chat;
-using Rocket.Unturned.Permissions;
+using Rocket.Unturned.Events;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
 using ShimmysAdminTools.Components;
@@ -45,7 +44,6 @@ namespace ShimmysAdminTools
 
         private void Chat_CheckCommand(SteamPlayer Player, string Command)
         {
-
             Command = Command.TrimStart('/', ' ');
             List<string> array = (from Match m in Regex.Matches(Command, "[\\\"](.+?)[\\\"]|([^ ]+)", RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled)
                                   select m.Value.Trim('"').Trim()).ToList();
@@ -60,7 +58,7 @@ namespace ShimmysAdminTools
             List<string> Modified = new List<string>();
             foreach (string prt in array)
             {
-                if (prt.Contains(' '))Modified.Add($@"""{prt}""");
+                if (prt.Contains(' ')) Modified.Add($@"""{prt}""");
                 else Modified.Add(prt);
             }
 
@@ -215,9 +213,11 @@ namespace ShimmysAdminTools
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)
         {
-            PointToolManager.ManageGestureUpdate(player, gesture);
+            if (gesture != UnturnedPlayerEvents.PlayerGesture.PunchLeft && gesture != UnturnedPlayerEvents.PlayerGesture.PunchRight)
+            {
+                PointToolManager.ManageGestureUpdate(player, gesture);
+            }
         }
-
         private void Events_OnBeforePlayerConnected(UnturnedPlayer player)
         {
             PlayerSessionStore.TryRegisterPlayer(player);

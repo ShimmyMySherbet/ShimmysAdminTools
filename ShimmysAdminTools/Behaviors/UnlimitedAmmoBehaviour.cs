@@ -1,4 +1,6 @@
-﻿using SDG.Unturned;
+﻿using System;
+using System.Collections.Generic;
+using SDG.Unturned;
 using UnityEngine;
 
 namespace ShimmysAdminTools.Behaviors
@@ -11,6 +13,9 @@ namespace ShimmysAdminTools.Behaviors
 
         public byte AmountOverride = 255;
         public bool AmountOverrideEnabled = false;
+        public int LastSendAmmo = -1;
+        public ushort LastKnownMag = 0;
+
 
         public void Awake()
         {
@@ -32,26 +37,48 @@ namespace ShimmysAdminTools.Behaviors
                     return;
                 }
                 byte Ammo = Player.equipment.state[10];
+                ushort MagID = BitConverter.ToUInt16(Player.equipment.state, 8);
+                if (LastKnownMag != MagID && MagID != 0) { LastKnownMag = MagID;
+                }
                 if (AmountOverrideEnabled)
                 {
-                    if (Ammo != 255)
+                    if (Ammo != AmountOverride)
                     {
+                        if (MagID == 0)
+                        {
+                            byte[] ShortBuffer = BitConverter.GetBytes(LastKnownMag);
+                            Array.Copy(ShortBuffer, 0, Player.equipment.state, 8, 2);
+                        }
                         SendAmmo(AmountOverride);
                     }
                 }
                 else
                 {
-                    if (Player.equipment.asset is ItemGunAsset)
+                    ItemAsset AST = (ItemAsset)Assets.find(EAssetType.ITEM, MagID);
+                    if (AST != null && AST is ItemMagazineAsset Mag)
                     {
-                        ItemGunAsset Gun = (ItemGunAsset)Player.equipment.asset;
-                        if (Ammo < Gun.ammoMax)
+                        if (Ammo < Mag.amount)
                         {
-                            SendAmmo(Gun.ammoMax);
+                            SendAmmo(Mag.amount);
+                        }
+                    }
+                    else if (MagID == 0)
+                    {
+                        ItemAsset LastKnownAsset = (ItemAsset)Assets.find(EAssetType.ITEM, LastKnownMag);
+                        if (LastKnownAsset != null && LastKnownAsset is ItemMagazineAsset RepMag)
+                        {
+                            byte[] ShortBuffer = BitConverter.GetBytes(LastKnownMag);
+                            Array.Copy(ShortBuffer, 0, Player.equipment.state, 8, 2);
+                            SendAmmo(RepMag.amount);
                         }
                     }
                     else if (Ammo < Player.equipment.asset.countMax)
                     {
-                        SendAmmo(Player.equipment.asset.countMax);
+                        if (LastSendAmmo != Player.equipment.asset.countMax)
+                        {
+                            LastSendAmmo = Player.equipment.asset.countMax;
+                            SendAmmo(Player.equipment.asset.countMax);
+                        }
                     }
                 }
             }

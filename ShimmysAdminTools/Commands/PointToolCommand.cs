@@ -1,14 +1,16 @@
 ﻿using Rocket.API;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
+using ShimmysAdminTools.Behaviors;
 using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace ShimmysAdminTools.Commands
 {
-    public class PointTool : IRocketCommand
+    public class PointToolCommand : IRocketCommand
     {
         public AllowedCaller AllowedCaller => AllowedCaller.Player;
 
@@ -32,10 +34,13 @@ namespace ShimmysAdminTools.Commands
                 if (Session.PointToolEnabled)
                 {
                     UnturnedChat.Say(caller, "PointTool_EnabledActive".Translate(Session.PointTool));
+                    Player.Player.transform.GetOrAddComponent<PointToolInputListener>();
                 }
                 else
                 {
                     UnturnedChat.Say(caller, "PointTool_Disabled".Translate());
+                    Player.Player.transform.DestroyComponentIfExists<PointToolInputListener>();
+
                 }
             }
             else
@@ -86,6 +91,8 @@ namespace ShimmysAdminTools.Commands
                         {
                             Session.PointToolEnabled = true;
                             UnturnedChat.Say(caller, Send + "PointTool_Extension_Enabled".Translate());
+                            Player.Player.transform.GetOrAddComponent<PointToolInputListener>();
+
                         }
                     }
                     else

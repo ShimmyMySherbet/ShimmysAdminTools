@@ -9,10 +9,11 @@ using UnityEngine;
 
 namespace ShimmysAdminTools.Behaviors
 {
+    // Incomplete
     public class StructureESPBehaviour : MonoBehaviour
     {
         private bool awake = false;
-        public int Rate = 20;
+        public int Rate = 5;
         public int Range = 500;
         public ushort Effect = 124;
         public Player Player;
