@@ -4,7 +4,6 @@ using Rocket.Unturned.Player;
 using SDG.Unturned;
 using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
-using ShimmysAdminTools.Modules;
 using UnityEngine;
 
 namespace ShimmysAdminTools.Behaviors
@@ -84,28 +83,35 @@ namespace ShimmysAdminTools.Behaviors
             }
             else if (Key == UnturnedKey.CodeHotkey1)
             {
-                if (Helpers.PlayerCanFlyAtSpeed(UPlayer, Speed - 1))
+                if (State)
                 {
-                    Speed -= 1;
-                    Player.movement.sendPluginSpeedMultiplier(Speed);
-                }
-                else
-                {
-                    UnturnedChat.Say(UPlayer, "Flight_Speed_Denied_Hotkey".Translate());
+                    if (Helpers.PlayerCanFlyAtSpeed(UPlayer, Speed - 1))
+                    {
+                        Speed -= 1;
+                        Player.movement.sendPluginSpeedMultiplier(Speed);
+                    }
+                    else
+                    {
+                        UnturnedChat.Say(UPlayer, "Flight_Speed_Denied_Hotkey".Translate());
+                    }
                 }
             }
             else if (Key == UnturnedKey.CodeHotkey2)
             {
-                if (Helpers.PlayerCanFlyAtSpeed(UPlayer, Speed + 1))
+                if (State)
                 {
-                    Speed += 1;
-                    Player.movement.sendPluginSpeedMultiplier(Speed);
+                    if (Helpers.PlayerCanFlyAtSpeed(UPlayer, Speed + 1))
+                    {
+                        Speed += 1;
+                        Player.movement.sendPluginSpeedMultiplier(Speed);
+                    }
+                    else
+                    {
+                        UnturnedChat.Say(UPlayer, "Flight_Speed_Denied_Hotkey".Translate());
+                    }
                 }
-                else
-                {
-                    UnturnedChat.Say(UPlayer, "Flight_Speed_Denied_Hotkey".Translate());
-                }
-            } else if (Key == UnturnedKey.CodeHotkey3)
+            }
+            else if (Key == UnturnedKey.CodeHotkey3)
             {
                 if (State)
                 {
@@ -187,6 +193,5 @@ namespace ShimmysAdminTools.Behaviors
         {
             Stop();
         }
-
     }
 }
