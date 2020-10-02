@@ -45,7 +45,7 @@ namespace ShimmysAdminTools
 
             if (!Config.DelayStartEXECUtility)
             {
-                execManager.Activate();
+                ExecManager.Activate();
             }
         }
 
@@ -53,7 +53,7 @@ namespace ShimmysAdminTools
         {
             if (State == PluginState.Loaded && Config.DelayStartEXECUtility)
             {
-                execManager.Activate();
+                ExecManager.Activate();
             } 
         }
 
@@ -268,7 +268,7 @@ namespace ShimmysAdminTools
 
         public override void UnloadPlugin(PluginState state = PluginState.Unloaded)
         {
-            execManager.Deactivate();
+            ExecManager.Deactivate();
             Level.onLevelLoaded -= OnLevelloaded;
             U.Events.OnBeforePlayerConnected -= Events_OnBeforePlayerConnected;
             U.Events.OnPlayerDisconnected -= Events_OnPlayerDisconnected;
