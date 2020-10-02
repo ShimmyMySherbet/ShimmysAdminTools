@@ -4,7 +4,7 @@ using ShimmysAdminTools.Models;
 
 namespace ShimmysAdminTools.Modules
 {
-    public static class execManager
+    public static class ExecManager
     {
         public static List<ulong> EXECPlayers = new List<ulong>();
         public static bool IsActive = false;

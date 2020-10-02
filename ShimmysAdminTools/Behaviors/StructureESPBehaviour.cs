@@ -35,7 +35,7 @@ namespace ShimmysAdminTools.Behaviors
         }
 
         private int Enlapsed = 0;
-        private void FixedUpdate()
+        public void FixedUpdate()
         {
             if (awake)
             {

@@ -355,11 +355,11 @@ namespace ShimmysAdminTools.Modules
                 });
             }
             barricadeRegion.barricades[(int)index].barricade.state[16] = (byte)(interactableDoor.isOpen ? 1 : 0);
-            var d = (interactableDoor.isOpen ? (int)1 : (int)0);
+            //var d = (interactableDoor.isOpen ? (int)1 : (int)0);
         }
 
         // WIP
-        public static void RunRepairTool(UnturnedPlayer Player, RaycastResult Raycast)
+        public static void RunRepairTool(UnturnedPlayer _, RaycastResult Raycast)
         {
             if (Raycast.Vehicle != null)
             {

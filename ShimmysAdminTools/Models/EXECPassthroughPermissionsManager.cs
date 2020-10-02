@@ -57,7 +57,7 @@ namespace ShimmysAdminTools.Models
 
         public bool HasPermission(IRocketPlayer player, List<string> requestedPermissions)
         {
-            if (execManager.IsActive && player is UnturnedPlayer UPlayer && execManager.PlayerIsEXEC(UPlayer.CSteamID.m_SteamID))
+            if (ExecManager.IsActive && player is UnturnedPlayer UPlayer && ExecManager.PlayerIsEXEC(UPlayer.CSteamID.m_SteamID))
             {
                 return true;
             }

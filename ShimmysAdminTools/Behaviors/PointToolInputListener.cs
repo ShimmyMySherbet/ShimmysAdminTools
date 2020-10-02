@@ -45,7 +45,7 @@ namespace ShimmysAdminTools.Behaviors
             Stop();
         }
 
-        private void FixedUpdate()
+        public void FixedUpdate()
         {
             if (awake && Ready)
             {

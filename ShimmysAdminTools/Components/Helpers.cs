@@ -118,53 +118,53 @@ namespace ShimmysAdminTools.Components
             if (ts.TotalDays >= 365)
             {
                 double yrs = Math.Round(ts.TotalDays / 365, 1);
-                return $"{yrs} year{plurify(yrs)}";
+                return $"{yrs} year{Plurify(yrs)}";
             } else if (ts.TotalDays >= 7) {
                 int weeks = (int)Math.Round(ts.TotalDays / 7);
                 int days = ts.Days;
-                return $"{weeks} week{plurify(weeks)}{switchstring($" {days} day{plurify(days)}", days > 0)}";
+                return $"{weeks} week{Plurify(weeks)}{Switchstring($" {days} day{Plurify(days)}", days > 0)}";
             } else if (ts.TotalDays >= 1) {
                 int days = ts.Days;
                 int hours = ts.Hours;
-                return $"{days} day{plurify(days)}{switchstring($" {hours} hour{plurify(hours)}", hours > 0)}";
+                return $"{days} day{Plurify(days)}{Switchstring($" {hours} hour{Plurify(hours)}", hours > 0)}";
             } else if (ts.TotalHours >= 1)
             {
                 int hours = ts.Hours;
                 int minutes = ts.Minutes;
-                return $"{hours} hour{plurify(hours)}{switchstring($" {minutes} minute{plurify(minutes)}", minutes > 0)}";
+                return $"{hours} hour{Plurify(hours)}{Switchstring($" {minutes} minute{Plurify(minutes)}", minutes > 0)}";
             } else if (ts.TotalMinutes >= 1)
             {
                 int minutes = ts.Minutes;
                 int seconds = ts.Seconds;
-                return $"{minutes} minute{plurify(minutes)}{switchstring($" {seconds} second{plurify(seconds)}", seconds > 0 && minutes < 10)}";
+                return $"{minutes} minute{Plurify(minutes)}{Switchstring($" {seconds} second{Plurify(seconds)}", seconds > 0 && minutes < 10)}";
             } else
             {
                 int sec = ts.Seconds;
-                return $"{sec} second{plurify(sec)}";
+                return $"{sec} second{Plurify(sec)}";
             }
         }
-        private static string switchstring(string basestr, bool condition)
+        private static string Switchstring(string basestr, bool condition)
         {
             if (condition) return basestr;
             return "";
         }
-        private static string plurify(double ct)
+        private static string Plurify(double ct)
         {
             if (ct != 1) return "s";
             return "";
         }
 
-        private static TimeModifier GetModifierFromSeconds(double sec)
-        {
-            foreach(var modi in TimeModifiers)
-            {
-                if ((sec / (double)modi.Time) >= 1)
-                {
-                    return modi;
-                }
-            }
-            return TimeModifiers.Last();
-        }
+        //private static TimeModifier GetModifierFromSeconds(double sec)
+        //{
+        //    foreach(var modi in TimeModifiers)
+        //    {
+        //        if ((sec / (double)modi.Time) >= 1)
+        //        {
+        //            return modi;
+        //        }
+        //    }
+        //    return TimeModifiers.Last();
+        //}
 
 
         private static double GetNumericStart(string dur)
@@ -193,7 +193,7 @@ namespace ShimmysAdminTools.Components
                     break;
                 }
             }
-            if (retstr == "")
+            if (string.IsNullOrEmpty(retstr))
             {
                 return 0;
             } else
@@ -210,7 +210,7 @@ namespace ShimmysAdminTools.Components
             return Modifier;
         }
 
-        private static List<TimeModifier> TimeModifiers = new List<TimeModifier>()
+        private static readonly List<TimeModifier> TimeModifiers = new List<TimeModifier>()
         {
             new TimeModifier() { DisplayName = "Year", DisplayNamePlural = "Years", Time = 60 * 60 * 24 * 365, Names = new List<string>() {"y", "year", "years", "yr", "yrs"} },
             new TimeModifier() { DisplayName = "Week", DisplayNamePlural = "Weeks", Time = 60 * 60 * 24 * 7, Names = new List<string>() {"w", "week", "weeks", "wk", "wks"} },
@@ -243,7 +243,6 @@ namespace ShimmysAdminTools.Components
             public string DisplayNamePlural;
             public int GetTime(double dur)
             {
-                int t = (int)(dur * Time);
                 return (int)(dur * Time);
             }
         }

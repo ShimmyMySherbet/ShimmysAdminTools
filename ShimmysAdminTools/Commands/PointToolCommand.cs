@@ -108,7 +108,7 @@ namespace ShimmysAdminTools.Commands
             }
         }
 
-        public bool PlayerCanUseMode(UnturnedPlayer Player, PointToolMode Mode)
+        public static bool PlayerCanUseMode(UnturnedPlayer Player, PointToolMode Mode)
         {
             if (Player.HasPermission("ShimmysAdminTools.PointTool.all") || Player.HasPermission("ShimmysAdminTools.PointTool.*"))
             {

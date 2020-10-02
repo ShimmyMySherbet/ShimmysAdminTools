@@ -132,9 +132,8 @@ namespace ShimmysAdminTools.Commands
                         Vector3 Pos = barricade.point;
                         StructureCluster ExistingCluster = null;
                         int StorageSize = 0;
-                        if (barricade.barricade.asset is ItemStorageAsset)
+                        if (barricade.barricade.asset is ItemStorageAsset StorageAsset)
                         {
-                            ItemStorageAsset StorageAsset = (ItemStorageAsset)barricade.barricade.asset;
                             StorageSize = StorageAsset.storage_x * StorageAsset.storage_y;
                         }
 

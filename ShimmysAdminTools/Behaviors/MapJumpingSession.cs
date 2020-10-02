@@ -16,7 +16,6 @@ namespace ShimmysAdminTools.Behaviors
         private Vector3 LastPos;
 
         
-        private object LockObject = new object();
         private bool HasPlayer = false;
 
         public void SetPlayer(UnturnedPlayer player)
@@ -37,7 +36,7 @@ namespace ShimmysAdminTools.Behaviors
             Destroy(gameObject);
         }
 
-        private void FixedUpdate()
+        public void FixedUpdate()
         {
             if (awake && HasPlayer)
             {

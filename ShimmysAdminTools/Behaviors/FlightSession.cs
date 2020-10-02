@@ -10,7 +10,7 @@ namespace ShimmysAdminTools.Behaviors
 {
     public class FlightSession : MonoBehaviour
     {
-        private Dictionary<int, bool> KeyIndex = new Dictionary<int, bool>();
+        private readonly Dictionary<int, bool> KeyIndex = new Dictionary<int, bool>();
         public bool awake = false;
         private bool Ready = false;
 
@@ -148,7 +148,7 @@ namespace ShimmysAdminTools.Behaviors
             return false;
         }
 
-        private void FixedUpdate()
+        public void FixedUpdate()
         {
             if (awake && Ready)
             {

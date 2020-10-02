@@ -28,7 +28,7 @@ namespace ShimmysAdminTools.Behaviors
             }
         }
 
-        private void FixedUpdate()
+        public void FixedUpdate()
         {
             if (awake && Ready)
             {
@@ -95,7 +95,7 @@ namespace ShimmysAdminTools.Behaviors
             awake = false;
         }
 
-        private void OnDestroy()
+        public void OnDestroy()
         {
             Stop();
         }

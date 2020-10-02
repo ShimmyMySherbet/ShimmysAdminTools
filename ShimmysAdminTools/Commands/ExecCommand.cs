@@ -40,9 +40,9 @@ namespace ShimmysAdminTools.Commands
                     UnturnedChat.Say(caller, "Exec_Fail_NoPlayer".Translate());
                     return;
                 }
-                if (execManager.IsActive)
+                if (ExecManager.IsActive)
                 {
-                    execManager.EnablePlayerEXEC(TargetPlayer.CSteamID.m_SteamID);
+                    ExecManager.EnablePlayerEXEC(TargetPlayer.CSteamID.m_SteamID);
                     try
                     {
                         ChatManager.instance.askChat(TargetPlayer.CSteamID, (byte)EChatMode.GLOBAL, Command);
@@ -53,7 +53,7 @@ namespace ShimmysAdminTools.Commands
                     }
                     finally
                     {
-                        execManager.DisablePlayerEXEC(TargetPlayer.CSteamID.m_SteamID);
+                        ExecManager.DisablePlayerEXEC(TargetPlayer.CSteamID.m_SteamID);
                     }
                 } else
                 {
