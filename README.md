@@ -111,6 +111,10 @@ https://www.youtube.com/watch?v=2yo6BurDUA4
         <td>UnlimitedAmmo [Max Ammo override]</td>
         <td>Enables Unlimited Ammo, overriding your gun's max ammo.</td>
     </tr>
+     <tr>
+        <td>Exec [Player] [Command/Message]</td>
+        <td>Similar to /sudo, however the target player does not need permission to run the command.</td>
+    </tr>
 </table>
 
 ## PointTools
