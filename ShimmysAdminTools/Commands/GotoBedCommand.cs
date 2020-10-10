@@ -48,7 +48,7 @@ namespace ShimmysAdminTools.Commands
                 UnturnedPlayer Player = (UnturnedPlayer)caller;
                 if (BarricadeManager.tryGetBed(PlayerID, out Vector3 Location, out byte Angle))
                 {
-                    Player.Teleport(Location, Angle);
+                    Player.Player.teleportToLocationUnsafe(Location, Angle);
                 } else
                 {
                     UnturnedChat.Say(caller, $"GotoBed_NoBed".Translate(Player.CSteamID.m_SteamID));

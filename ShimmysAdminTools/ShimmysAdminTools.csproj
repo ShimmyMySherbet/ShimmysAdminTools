@@ -84,6 +84,7 @@
     <Compile Include="Commands\CommandSpyCommand.cs" />
     <Compile Include="Commands\DisableVehicleAccess.cs" />
     <Compile Include="Commands\AFlySpeedCommands.cs" />
+    <Compile Include="Commands\ExecAllCommand.cs" />
     <Compile Include="Commands\ExecCommand.cs" />
     <Compile Include="Commands\FindBaseCommand.cs" />
     <Compile Include="Commands\ForceDemountCommand.cs" />
@@ -95,6 +96,7 @@
     <Compile Include="Commands\MuteCommand.cs" />
     <Compile Include="Commands\NoClipCommand.cs" />
     <Compile Include="Commands\PointToolCommand.cs" />
+    <Compile Include="Commands\SalvageTimeCommand.cs" />
     <Compile Include="Commands\SetAttachmentCommand.cs" />
     <Compile Include="Commands\SetFiremodeCommand.cs" />
     <Compile Include="Commands\StructureESPCommand.cs" />
