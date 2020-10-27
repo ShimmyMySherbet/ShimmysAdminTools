@@ -115,6 +115,18 @@ https://www.youtube.com/watch?v=2yo6BurDUA4
         <td>Exec [Player] [Command/Message]</td>
         <td>Similar to /sudo, however the target player does not need permission to run the command.</td>
     </tr>
+    <tr>
+        <td>ExecAll [Command/Message]</td>
+        <td>Same as /Exec, but targets all players.</td>
+    </tr>
+    <tr>
+        <td>WipePlayerBuildings [Player/PlayerID]</td>
+        <td>Wipes all structures/barricades placed by the target player.</td>
+    </tr>
+    <tr>
+        <td>WipePlayerBuildings [Player/PlayerID] [Structure/Barricade ID]</td>
+        <td>Wipes all instances of the target structures/barricades placed by the target player.</td>
+    </tr>
 </table>
 
 ## PointTools
