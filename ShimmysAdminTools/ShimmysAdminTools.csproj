@@ -89,6 +89,7 @@
     <Compile Include="Commands\ExecCommand.cs" />
     <Compile Include="Commands\FindBaseCommand.cs" />
     <Compile Include="Commands\ForceDemountCommand.cs" />
+    <Compile Include="Commands\ForceSaveCommand.cs" />
     <Compile Include="Commands\ForceTPCommand.cs" />
     <Compile Include="Commands\GotoBedCommand.cs" />
     <Compile Include="Commands\GotoMarker.cs" />

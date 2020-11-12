@@ -3,6 +3,7 @@ using Rocket.API;
 using Rocket.API.Extensions;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
+using SDG.Unturned;
 using ShimmysAdminTools.Behaviors;
 using ShimmysAdminTools.Components;
 
@@ -39,9 +40,9 @@ namespace ShimmysAdminTools.Commands
                     player.Player.gameObject.AddComponent<NoDrainBehaviour>();
                     UnturnedChat.Say(caller, "NoDrain_Enabled".Translate());
                 }
-            } else if (bool.TryParse(command[0], out bool OverKill))
+            }
+            else if (bool.TryParse(command[0], out bool OverKill))
             {
-
                 if (player.Player.gameObject.GetComponent<NoDrainBehaviour>() != null)
                 {
                     if (player.Player.gameObject.GetComponent<NoDrainBehaviour>().IsGodMode != OverKill)
@@ -52,7 +53,6 @@ namespace ShimmysAdminTools.Commands
                     if (OverKill)
                     {
                         UnturnedChat.Say(caller, "NoDrain_OverKill_Enabled".Translate());
-
                     }
                     else
                     {
@@ -62,10 +62,11 @@ namespace ShimmysAdminTools.Commands
                 else
                 {
                     player.Player.gameObject.AddComponent<NoDrainBehaviour>();
-                    player.Player.gameObject.GetComponent<NoDrainBehaviour>().IsGodMode = OverKill ;
+                    player.Player.gameObject.GetComponent<NoDrainBehaviour>().IsGodMode = OverKill;
                     UnturnedChat.Say(caller, "NoDrain_Enabled".Translate());
                 }
-            } else
+            }
+            else
             {
                 UnturnedChat.Say(caller, Syntax);
             }
