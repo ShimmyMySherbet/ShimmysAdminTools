@@ -75,6 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Behaviors\FiremodeUnlocker.cs" />
+    <Compile Include="Behaviors\NoDrainBehaviour.cs" />
     <Compile Include="Behaviors\PointToolInputListener.cs" />
     <Compile Include="Behaviors\StructureESPBehaviour.cs" />
     <Compile Include="Behaviors\UnlimitedAmmoBehaviour.cs" />
@@ -88,17 +89,25 @@
     <Compile Include="Commands\ExecCommand.cs" />
     <Compile Include="Commands\FindBaseCommand.cs" />
     <Compile Include="Commands\ForceDemountCommand.cs" />
+    <Compile Include="Commands\ForceTPCommand.cs" />
     <Compile Include="Commands\GotoBedCommand.cs" />
     <Compile Include="Commands\GotoMarker.cs" />
     <Compile Include="Commands\HideBuldablesCommand.cs" />
+    <Compile Include="Commands\JumpHeightCommand.cs" />
     <Compile Include="Commands\MapJumpCommand.cs" />
     <Compile Include="Commands\MarkerCommand.cs" />
     <Compile Include="Commands\MuteCommand.cs" />
     <Compile Include="Commands\NoClipCommand.cs" />
+    <Compile Include="Commands\NoDrainCommand.cs" />
     <Compile Include="Commands\PointToolCommand.cs" />
     <Compile Include="Commands\SalvageTimeCommand.cs" />
     <Compile Include="Commands\SetAttachmentCommand.cs" />
     <Compile Include="Commands\SetFiremodeCommand.cs" />
+    <Compile Include="Commands\SetGravityCommand.cs" />
+    <Compile Include="Commands\SetServerGravity.cs" />
+    <Compile Include="Commands\SetServerJump.cs" />
+    <Compile Include="Commands\SetServerSpeed.cs" />
+    <Compile Include="Commands\SetSpeedCommand.cs" />
     <Compile Include="Commands\StructureESPCommand.cs" />
     <Compile Include="Commands\UnlimitedAmmoCommand.cs" />
     <Compile Include="Commands\UnlockFireModesCommand.cs" />
@@ -119,6 +128,7 @@
     <Compile Include="Modules\execManager.cs" />
     <Compile Include="Modules\NoClippingTool.cs" />
     <Compile Include="Modules\PlayerDataStore.cs" />
+    <Compile Include="Modules\PlayerSelector.cs" />
     <Compile Include="Modules\PlayerSessionStore.cs" />
     <Compile Include="Modules\PointToolManager.cs" />
     <Compile Include="Modules\RaycastUtility.cs" />

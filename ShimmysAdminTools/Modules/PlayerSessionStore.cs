@@ -1,4 +1,5 @@
 ﻿using Rocket.Unturned.Player;
+using SDG.Unturned;
 using ShimmysAdminTools.Models;
 using System;
 using System.Collections.Generic;
@@ -39,6 +40,20 @@ namespace ShimmysAdminTools.Modules
             if (Store.ContainsKey(Player.CSteamID.m_SteamID))
             {
                 return Store[Player.CSteamID.m_SteamID];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        public static PlayerSession GetPlayerData(Player Player)
+        {
+            if (Store == null) return null;
+            if (Store.ContainsKey(Player.channel.owner.playerID.steamID.m_SteamID))
+            {
+                return Store[Player.channel.owner.playerID.steamID.m_SteamID];
             }
             else
             {

@@ -41,7 +41,6 @@ namespace ShimmysAdminTools.Commands
                     }
                 }
             }
-            Console.WriteLine($"Purged {Purged}");
         }
 
     }

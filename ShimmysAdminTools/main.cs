@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using Rocket.API;
 using Rocket.API.Collections;
 using Rocket.Core;
@@ -24,6 +26,10 @@ namespace ShimmysAdminTools
         public static PluginConfig Config;
         public CheckPermissions BaseCheckPermissions;
 
+        public float ServerSpeedMult = 1;
+        public float ServerJumpMult = 1;
+        public float ServerGravityMult = 1;
+
         public override void LoadPlugin()
         {
             base.LoadPlugin();
@@ -32,11 +38,10 @@ namespace ShimmysAdminTools
             PlayerDataStore.Init();
             PlayerSessionStore.Init();
             U.Events.OnBeforePlayerConnected += Events_OnBeforePlayerConnected;
+            U.Events.OnPlayerConnected += Events_OnPlayerConnected;
             U.Events.OnPlayerDisconnected += Events_OnPlayerDisconnected;
             VehicleManager.onEnterVehicleRequested += VehicleManager_onEnterVehicleRequested;
             Rocket.Unturned.Events.UnturnedPlayerEvents.OnPlayerUpdateGesture += UnturnedPlayerEvents_OnPlayerUpdateGesture;
-
-
 
             BaseCheckPermissions = ChatManager.onCheckPermissions;
             ChatManager.onCheckPermissions = Chat_OnCheckPermissions;
@@ -51,12 +56,40 @@ namespace ShimmysAdminTools
             }
         }
 
+        private void Events_OnPlayerConnected(UnturnedPlayer player)
+        {
+            new Thread(async () =>
+            {
+                await Task.Delay(1500);
+
+                Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>
+                {
+                    if (ServerJumpMult != 1)
+                    {
+
+                        player.Player.movement.sendPluginJumpMultiplier(ServerJumpMult);
+                    }
+
+                    if (ServerGravityMult != 1)
+                    {
+
+                        player.Player.movement.sendPluginGravityMultiplier(ServerGravityMult);
+                    }
+
+                    if (ServerSpeedMult != 1)
+                    {
+                        player.Player.movement.sendPluginSpeedMultiplier(ServerSpeedMult);
+                    }
+                });
+            }).Start();
+        }
+
         private void OnLevelloaded(int level)
         {
             if (State == PluginState.Loaded && Config.DelayStartEXECUtility)
             {
                 ExecManager.Activate();
-            } 
+            }
         }
 
         private void Chat_CheckCommand(SteamPlayer Player, string Command)
@@ -227,7 +260,27 @@ namespace ShimmysAdminTools
             { "SetAttachment_GaveAttachment", "Gave your gun {0}." },
             { "Fail_Command_Disabled", "This command is disabled." },
             { "Exec_Fail_NoPlayer", "Failed to find player." },
-            { "Exec_Fail_NotActive", "ERROR: The EXEC Permissions utility is not active. Try restarting the server." }
+            { "Exec_Fail_NotActive", "ERROR: The EXEC Permissions utility is not active. Try restarting the server." },
+            { "ForceTP_Fail_NoPlayer", "Failed to find player" },
+            { "ForceTP_Fail_IsConsole", "Can't run this command variation from console." },
+            { "ForceTP_Pass_TeleportSelfTo", "Teleported to {0}." },
+            { "ForceTP_Pass_TeleportOtherTo", "Teleported {1} to {0}." },
+            { "SetGravity_Self_Fail_IsFlying", "Can't change your gravity while flying." },
+            { "SetGravity_Self_Fail_InvalidParameter", "Invalid multiplier." },
+            { "SetGravity_Self_Pass_GravityChanged", "Set your gravity multiplier to {0}x." },
+            { "SetSpeed_Self_Fail_IsFlying", "Can't change your run speed while flying." },
+            { "SetSpeed_Self_Fail_InvalidParameter", "Invalid multiplier." },
+            { "SetSpeed_Self_Pass_SpeedChanged", "Set your run speed multiplier to {0}x." },
+            { "SetJump_Self_Fail_InvalidParameter", "Invalid multiplier." },
+            { "SetJump_Self_Pass_JumpChanged", "Set your jump multiplier to {0}x." },
+
+            { "SetGravity_Global_Pass_Changed", "Set server gravity multiplier to {0}x." },
+            { "SetSpeed_Global_Pass_Changed", "Set server speed multiplier to {0}x." },
+            { "SetJump_Global_Pass_Changed", "Set server jump multiplier to {0}x." },
+            { "NoDrain_Enabled", "No Drain Enabled." },
+            { "NoDrain_Disabled", "No Drain Disabled." },
+            { "NoDrain_OverKill_Disabled", "Overkill Disabled." },
+            { "NoDrain_OverKill_Enabled", "Overkill Disabled." }
         };
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)
@@ -250,6 +303,18 @@ namespace ShimmysAdminTools
             if (Data != null)
             {
                 if (!Data.CanEnterVehicle) shouldAllow = false;
+            }
+        }
+
+        public void ForEachNonFlyingPlayer(Action<Player> action)
+        {
+            foreach (SteamPlayer client in Provider.clients)
+            {
+                PlayerSession session = PlayerSessionStore.GetPlayerData(client.player);
+                if (session != null && !session.FlySessionActive)
+                {
+                    action(client.player);
+                }
             }
         }
 

@@ -20,7 +20,7 @@ namespace ShimmysAdminTools.Models
         public void LoadDefaults()
         {
             DelayStartEXECUtility = false;
-            MaxGlobalFlySpeed = 10;
+            MaxGlobalFlySpeed = 500;
             PointToolSettings = new PointToolSettings()
             {
                 DestroyToolEnabled = true,

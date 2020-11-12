@@ -183,8 +183,8 @@ namespace ShimmysAdminTools.Behaviors
         public void Stop()
         {
             awake = false;
-            Gravity = 1;
-            Speed = 1;
+            Gravity = main.Instance.ServerGravityMult;
+            Speed = main.Instance.ServerSpeedMult;
             Player.movement.sendPluginGravityMultiplier(Gravity);
             Player.movement.sendPluginSpeedMultiplier(Speed);
         }
