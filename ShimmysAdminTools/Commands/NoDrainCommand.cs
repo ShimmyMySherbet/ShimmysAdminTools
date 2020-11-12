@@ -47,16 +47,6 @@ namespace ShimmysAdminTools.Commands
                     if (player.Player.gameObject.GetComponent<NoDrainBehaviour>().IsGodMode != OverKill)
                     {
                         player.Player.gameObject.GetComponent<NoDrainBehaviour>().IsGodMode = OverKill;
-
-                        if (OverKill)
-                        {
-                            UnturnedChat.Say(caller, "NoDrain_OverKill_Enabled".Translate());
-
-                        } else
-                        {
-                            UnturnedChat.Say(caller, "NoDrain_OverKill_Disabled".Translate());
-                        }
-
                     }
 
                     if (OverKill)
