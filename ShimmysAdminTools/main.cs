@@ -13,6 +13,7 @@ using Rocket.Unturned.Chat;
 using Rocket.Unturned.Events;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
+using ShimmysAdminTools.Behaviors;
 using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
@@ -20,7 +21,7 @@ using UnityEngine;
 
 namespace ShimmysAdminTools
 {
-    public class main : RocketPlugin<PluginConfig>
+    public partial class main : RocketPlugin<PluginConfig>
     {
         public static main Instance;
         public static PluginConfig Config;
@@ -32,6 +33,7 @@ namespace ShimmysAdminTools
 
         public override void LoadPlugin()
         {
+
             base.LoadPlugin();
             Instance = this;
             Config = Configuration.Instance;
@@ -49,6 +51,8 @@ namespace ShimmysAdminTools
             LoadCurrentPlayers();
 
             Level.onLevelLoaded += OnLevelloaded;
+
+            gameObject.AddComponent<RepeatCommandQueue>();
 
             if (!Config.DelayStartEXECUtility)
             {

@@ -77,6 +77,7 @@
     <Compile Include="Behaviors\FiremodeUnlocker.cs" />
     <Compile Include="Behaviors\NoDrainBehaviour.cs" />
     <Compile Include="Behaviors\PointToolInputListener.cs" />
+    <Compile Include="Behaviors\RepeatCommandQueue.cs" />
     <Compile Include="Behaviors\StructureESPBehaviour.cs" />
     <Compile Include="Behaviors\UnlimitedAmmoBehaviour.cs" />
     <Compile Include="Commands\AFlyCommand.cs" />
@@ -101,6 +102,7 @@
     <Compile Include="Commands\NoClipCommand.cs" />
     <Compile Include="Commands\NoDrainCommand.cs" />
     <Compile Include="Commands\PointToolCommand.cs" />
+    <Compile Include="Commands\RepeatCommand.cs" />
     <Compile Include="Commands\SalvageTimeCommand.cs" />
     <Compile Include="Commands\SetAttachmentCommand.cs" />
     <Compile Include="Commands\SetFiremodeCommand.cs" />
