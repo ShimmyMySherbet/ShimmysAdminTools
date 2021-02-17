@@ -45,8 +45,7 @@ namespace ShimmysAdminTools
             VehicleManager.onEnterVehicleRequested += VehicleManager_onEnterVehicleRequested;
             Rocket.Unturned.Events.UnturnedPlayerEvents.OnPlayerUpdateGesture += UnturnedPlayerEvents_OnPlayerUpdateGesture;
 
-            BaseCheckPermissions = ChatManager.onCheckPermissions;
-            ChatManager.onCheckPermissions = Chat_OnCheckPermissions;
+            ChatManager.onCheckPermissions += Chat_OnCheckPermissions;
 
             LoadCurrentPlayers();
 
