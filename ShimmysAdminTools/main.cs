@@ -25,7 +25,6 @@ namespace ShimmysAdminTools
     {
         public static main Instance;
         public static PluginConfig Config;
-        public CheckPermissions BaseCheckPermissions;
 
         public float ServerSpeedMult = 1;
         public float ServerJumpMult = 1;
@@ -89,7 +88,7 @@ namespace ShimmysAdminTools
 
         private void OnLevelloaded(int level)
         {
-            if (State == PluginState.Loaded && Config.DelayStartEXECUtility)
+            if (State == PluginState.Loaded && Config.DelayStartEXECUtility && level >= 2)
             {
                 ExecManager.Activate();
             }
@@ -145,7 +144,6 @@ namespace ShimmysAdminTools
                     {
                         playerData.IsMuted = false;
                         playerData.MuteIsTemp = false;
-                        BaseCheckPermissions(player, text, ref shouldExecuteCommand, ref shouldList);
                         return;
                     }
                     else
@@ -165,14 +163,6 @@ namespace ShimmysAdminTools
                         }
                     }
                 }
-                else
-                {
-                    BaseCheckPermissions(player, text, ref shouldExecuteCommand, ref shouldList);
-                }
-            }
-            else
-            {
-                BaseCheckPermissions(player, text, ref shouldExecuteCommand, ref shouldList);
             }
         }
 
@@ -349,7 +339,6 @@ namespace ShimmysAdminTools
                 if (Session.Value.FlySessionActive) Session.Value.FlySession.Stop();
                 if (Session.Value.NoClipSessionActive) Session.Value.NoClip.Stop();
             }
-            ChatManager.onCheckPermissions = BaseCheckPermissions;
             base.UnloadPlugin(state);
         }
     }

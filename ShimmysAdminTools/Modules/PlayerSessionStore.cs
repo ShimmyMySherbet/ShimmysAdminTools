@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ShimmysAdminTools.Modules
 {
+    // TODO: Migrate from player session store to mono behaviors 
     public static class PlayerSessionStore
     {
         public static Dictionary<ulong, PlayerSession> Store;
