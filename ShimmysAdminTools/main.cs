@@ -14,7 +14,6 @@ using Rocket.Unturned.Events;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
 using ShimmysAdminTools.Behaviors;
-using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
 using UnityEngine;
@@ -32,7 +31,6 @@ namespace ShimmysAdminTools
 
         public override void LoadPlugin()
         {
-
             base.LoadPlugin();
             Instance = this;
             Config = Configuration.Instance;
@@ -68,13 +66,11 @@ namespace ShimmysAdminTools
                 {
                     if (ServerJumpMult != 1)
                     {
-
                         player.Player.movement.sendPluginJumpMultiplier(ServerJumpMult);
                     }
 
                     if (ServerGravityMult != 1)
                     {
-
                         player.Player.movement.sendPluginGravityMultiplier(ServerGravityMult);
                     }
 
@@ -94,87 +90,26 @@ namespace ShimmysAdminTools
             }
         }
 
-        private void Chat_CheckCommand(SteamPlayer Player, string Command)
-        {
-            Command = Command.TrimStart('/', ' ');
-            List<string> array = (from Match m in Regex.Matches(Command, "[\\\"](.+?)[\\\"]|([^ ]+)", RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled)
-                                  select m.Value.Trim('"').Trim()).ToList();
-            if (array.Count == 0) return;
-            string cmdbase = array[0];
-            IRocketCommand RCmd = R.Commands.GetCommand(array[0]);
-            if (RCmd == null) return;
-            UnturnedPlayer UPlayer = UnturnedPlayer.FromSteamPlayer(Player);
-            if (!(R.Permissions.HasPermission(UPlayer, RCmd.Permissions) || R.Permissions.HasPermission(UPlayer, cmdbase))) return;
-
-            array.RemoveAt(0);
-            List<string> Modified = new List<string>();
-            foreach (string prt in array)
-            {
-                if (prt.Contains(' ')) Modified.Add($@"""{prt}""");
-                else Modified.Add(prt);
-            }
-
-            foreach (var ses in PlayerSessionStore.Store.Where(x => x.Value.IsSpyingCommands))
-            {
-                if ((ses.Value.CommandSpyGlobalEnabled || ses.Value.CommandSpyPlayers.Contains(Player.playerID.steamID.m_SteamID)) && Player.playerID.steamID.m_SteamID != ses.Value.UPlayer.CSteamID.m_SteamID)
-                {
-                    UnturnedChat.Say(ses.Value.UPlayer, $"[Command Spy] {Player.playerID.characterName} -> /{cmdbase} {string.Join(" ", Modified)}", Color.grey);
-                }
-            }
-        }
-
         private void Chat_OnCheckPermissions(SteamPlayer player, string text, ref bool shouldExecuteCommand, ref bool shouldList)
         {
-            if (text.StartsWith("/") && PlayerSessionStore.RunPlayerCommandSpy())
+            if (text == null || !shouldExecuteCommand) return;
+
+            if (text.Trim(' ').StartsWith("/"))
             {
-                try
+                List<string> commandParts = (from Match m in Regex.Matches(text, "[\\\"](.+?)[\\\"]|([^ ]+)", RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture | RegexOptions.Compiled)
+                                             select m.Value.Trim('"').Trim()).ToList();
+                //check if valid command
+                IRocketCommand targetCommand = R.Commands.GetCommand(commandParts[0]);
+                if (targetCommand != null)
                 {
-                    Chat_CheckCommand(player, text);
-                }
-                catch (Exception)
-                {
-                }
-            }
-            PlayerData playerData = PlayerDataStore.GetPlayerData(player.playerID.steamID.m_SteamID);
-            if (playerData != null)
-            {
-                if (playerData.IsMuted && !text.StartsWith(@"/"))
-                {
-                    if (PlayerMuteExpired(playerData))
+                    foreach (var session in PlayerSessionStore.Store.Where(x => x.Value.IsSpyingCommands))
                     {
-                        playerData.IsMuted = false;
-                        playerData.MuteIsTemp = false;
-                        return;
-                    }
-                    else
-                    {
-                        if (!text.StartsWith(@"/"))
+                        if (session.Key != player.playerID.steamID.m_SteamID && (session.Value.CommandSpyGlobalEnabled || session.Value.CommandSpyPlayers.Contains(player.playerID.steamID.m_SteamID)))
                         {
-                            shouldList = false;
-                            if (playerData.MuteIsTemp)
-                            {
-                                TimeSpan TimeLeft = playerData.MuteExpires.Subtract(DateTime.Now);
-                                UnturnedChat.Say(player.playerID.steamID, "Mute_ChatBlocked_TimeLeft".Translate(Helpers.GetTimeFromTimespan(TimeLeft)));
-                            }
-                            else
-                            {
-                                UnturnedChat.Say(player.playerID.steamID, "Mute_ChatBlocked".Translate());
-                            }
+                            UnturnedChat.Say(session.Value.UPlayer, $"[Command Spy] {player.playerID.characterName} -> /{text.Trim(' ')}", Color.grey);
                         }
                     }
                 }
-            }
-        }
-
-        public bool PlayerMuteExpired(PlayerData Data)
-        {
-            if (Data.MuteIsTemp)
-            {
-                return DateTime.Compare(Data.MuteExpires, DateTime.Now) <= 0;
-            }
-            else
-            {
-                return false;
             }
         }
 
