@@ -35,10 +35,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libs\Assembly-CSharp-firstpass.dll</HintPath>
-    </Reference>
     <Reference Include="Rocket.API, Version=4.9.3.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\Rocket.API.dll</HintPath>
@@ -50,6 +46,12 @@
     <Reference Include="Rocket.Unturned, Version=4.9.3.3, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\Rocket.Unturned.dll</HintPath>
+    </Reference>
+    <Reference Include="SDG.NetTransport">
+      <HintPath>Libs\SDG.NetTransport.dll</HintPath>
+    </Reference>
+    <Reference Include="Steamworks.NET">
+      <HintPath>Libs\Steamworks.NET.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -82,6 +84,7 @@
     <Compile Include="Commands\AFlyCommand.cs" />
     <Compile Include="Commands\AFlySpeedPermitCommand.cs" />
     <Compile Include="Commands\CheckBedOwner.cs" />
+    <Compile Include="Commands\CheckOwnerCommand.cs" />
     <Compile Include="Commands\CommandSpyCommand.cs" />
     <Compile Include="Commands\DisableVehicleAccess.cs" />
     <Compile Include="Commands\AFlySpeedCommands.cs" />
@@ -97,7 +100,6 @@
     <Compile Include="Commands\JumpHeightCommand.cs" />
     <Compile Include="Commands\MapJumpCommand.cs" />
     <Compile Include="Commands\MarkerCommand.cs" />
-    <Compile Include="Commands\MuteCommand.cs" />
     <Compile Include="Commands\NoClipCommand.cs" />
     <Compile Include="Commands\NoDrainCommand.cs" />
     <Compile Include="Commands\PointToolCommand.cs" />

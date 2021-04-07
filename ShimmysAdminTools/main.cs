@@ -208,7 +208,10 @@ namespace ShimmysAdminTools
             { "NoDrain_Enabled", "No Drain Enabled." },
             { "NoDrain_Disabled", "No Drain Disabled." },
             { "NoDrain_OverKill_Disabled", "Overkill Disabled." },
-            { "NoDrain_OverKill_Enabled", "Overkill Disabled." }
+            { "NoDrain_OverKill_Enabled", "Overkill Disabled." },
+
+            { "CheckOwner_Fail_NotFound", "Nothing Found." },
+            { "CheckOwner_Pass_NotFound", "Owner: {0} ({1})." }
         };
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)
