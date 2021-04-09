@@ -117,6 +117,8 @@
     <Compile Include="Commands\WipePlayerBuildingsCommand.cs" />
     <Compile Include="Components\Extensions.cs" />
     <Compile Include="Components\Helpers.cs" />
+    <Compile Include="Components\INIFile.cs" />
+    <Compile Include="Components\UpdaterCore.cs" />
     <Compile Include="main.cs" />
     <Compile Include="Behaviors\FlightSession.cs" />
     <Compile Include="Behaviors\MapJumpingSession.cs" />
@@ -142,6 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Libs\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="GlobalConfig.ini" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
