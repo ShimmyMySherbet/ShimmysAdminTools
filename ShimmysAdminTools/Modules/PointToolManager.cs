@@ -221,7 +221,7 @@ namespace ShimmysAdminTools.Modules
                 var f = Raycast.TryGetEntity<InteractableBed>();
                 if (f.owner.m_SteamID != 0)
                 {
-                    UnturnedChat.Say(Player, "PointTool_Utility_Bed_ShowOwner".Translate(f.owner));
+                    UnturnedChat.Say(Player, "PointTool_Utility_Bed_ShowOwner".Translate($"{main.Instance.GetPlayerName(f.owner.m_SteamID, "Unknown Player")} ({f.owner})"));
                 }
                 else
                 {
