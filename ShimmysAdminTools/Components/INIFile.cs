@@ -13,14 +13,11 @@ namespace ShimmysAdminTools.Components
         private string LoadFile = "";
         public bool HasUnsavedChanges { get; protected set; }
 
-        public INIFile(string file = "")
+        public INIFile(string content = null)
         {
-            if (!string.IsNullOrEmpty(file))
+            if (!string.IsNullOrEmpty(content))
             {
-                var ioinf = new FileInfo(file);
-                file = ioinf.FullName;
-                LoadFile = file;
-                foreach (string line in File.ReadAllLines(file))
+                foreach (string line in content.Split('\n'))
                 {
                     if (!line.StartsWith("#") & !string.IsNullOrEmpty(line) & line.Contains("="))
                     {
@@ -110,7 +107,7 @@ namespace ShimmysAdminTools.Components
 
         public T Val<T>(string Key) => (T)this[Key, typeof(T)];
 
-        public object this[string Key]
+        public string this[string Key]
         {
             get
             {

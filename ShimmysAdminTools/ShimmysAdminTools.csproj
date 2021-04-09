@@ -104,6 +104,7 @@
     <Compile Include="Commands\PointToolCommand.cs" />
     <Compile Include="Commands\RepeatCommand.cs" />
     <Compile Include="Commands\SalvageTimeCommand.cs" />
+    <Compile Include="Commands\SATCommand.cs" />
     <Compile Include="Commands\SetAttachmentCommand.cs" />
     <Compile Include="Commands\SetFiremodeCommand.cs" />
     <Compile Include="Commands\SetGravityCommand.cs" />
