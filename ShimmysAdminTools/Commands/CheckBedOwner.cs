@@ -40,7 +40,7 @@ namespace ShimmysAdminTools.Commands
                         UnturnedChat.Say(caller, "CheckBedOwner_NotClaimed".Translate());
                     } else
                     {
-                        UnturnedChat.Say(caller, "CheckBedOwner_ShowOwner".Translate(Bed.owner.m_SteamID));
+                        UnturnedChat.Say(caller, "CheckBedOwner_ShowOwner".Translate($"{main.Instance.GetPlayerName(Bed.owner.m_SteamID, "UnknownPlayer")} ({Bed.owner.m_SteamID})"));
 
                     }
                 }

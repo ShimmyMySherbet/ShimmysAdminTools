@@ -13,43 +13,36 @@ namespace ShimmysAdminTools.Behaviors
         public static FieldInfo Virus = typeof(PlayerLife).GetField("_virus", BindingFlags.NonPublic | BindingFlags.Instance);
         public static FieldInfo Stamina = typeof(PlayerLife).GetField("_stamina", BindingFlags.NonPublic | BindingFlags.Instance);
 
-
         public static void SendHealth(PlayerLife player, byte Amount)
         {
             Heath.SetValue(player, Amount);
-            player.channel.send("tellHealth", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, Amount);
+            player.serverModifyHealth(Amount);
         }
 
         public static void SendWater(PlayerLife player, byte Amount)
         {
             Water.SetValue(player, Amount);
-            player.channel.send("tellWater", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, Amount);
+            player.serverModifyWater(Amount);
         }
-
 
         public static void SendFood(PlayerLife player, byte Amount)
         {
             Food.SetValue(player, Amount);
-            player.channel.send("tellFood", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, Amount);
+            player.serverModifyFood(Amount);
         }
 
-     
         public static void SendVirus(PlayerLife player, byte Amount)
         {
             Virus.SetValue(player, Amount);
-            player.channel.send("tellVirus", ESteamCall.OWNER, ESteamPacket.UPDATE_RELIABLE_BUFFER, Amount);
-
+            player.serverModifyVirus(Amount);
         }
-
-  
-
 
         public UnturnedPlayer Player;
 
         public bool IsReady = false;
 
         public bool awake = false;
-        public bool IsGodMode = false;
+
         public void Awake()
         {
             awake = true;
@@ -61,7 +54,6 @@ namespace ShimmysAdminTools.Behaviors
             }
         }
 
-  
         public void OnDestroy()
         {
         }
@@ -70,7 +62,6 @@ namespace ShimmysAdminTools.Behaviors
         {
             if (awake && IsReady)
             {
-
                 if (Player.Bleeding)
                 {
                     Player.Bleeding = false;
@@ -80,37 +71,9 @@ namespace ShimmysAdminTools.Behaviors
                     Player.Broken = false;
                 }
 
-                
-                if (IsGodMode)
+                if (Player.Stamina < 90)
                 {
-                    if (Player.Thirst < 240)
-                    {
-                        SendWater(Player.Player.life, 250);
-                    }
-                    if (Player.Health < 240)
-                    {
-                        SendHealth(Player.Player.life, 250);
-                    }
-
-                    if (Player.Hunger < 240)
-                    {
-                        SendFood(Player.Player.life, 250);
-                    }
-
-                    if (Player.Player.life.virus < 240)
-                    {
-                        SendVirus(Player.Player.life, 250);
-                    }
-                    if (Player.Stamina <= 95)
-                    {
-                        Player.Player.life.serverModifyStamina(100);
-                    }
-                } else
-                {
-                    if (Player.Stamina < 90)
-                    {
-                        Player.Player.life.serverModifyStamina(100);
-                    }
+                    Player.Player.life.serverModifyStamina(100);
                 }
             }
         }

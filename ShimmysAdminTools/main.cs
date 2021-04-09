@@ -8,6 +8,7 @@ using Rocket.API;
 using Rocket.API.Collections;
 using Rocket.Core;
 using Rocket.Core.Plugins;
+using Rocket.Core.Steam;
 using Rocket.Unturned;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Events;
@@ -28,6 +29,8 @@ namespace ShimmysAdminTools
         public float ServerSpeedMult = 1;
         public float ServerJumpMult = 1;
         public float ServerGravityMult = 1;
+
+        public Dictionary<ulong, string> NamesCache = new Dictionary<ulong, string>();
 
         public override void LoadPlugin()
         {
@@ -58,6 +61,10 @@ namespace ShimmysAdminTools
 
         private void Events_OnPlayerConnected(UnturnedPlayer player)
         {
+            lock (NamesCache)
+            {
+                NamesCache[player.CSteamID.m_SteamID] = player.DisplayName;
+            }
             new Thread(async () =>
             {
                 await Task.Delay(1500);
@@ -278,6 +285,50 @@ namespace ShimmysAdminTools
                 if (Session.Value.NoClipSessionActive) Session.Value.NoClip.Stop();
             }
             base.UnloadPlugin(state);
+        }
+
+        public string GetPlayerName(ulong player, string def)
+        {
+            if (TryGetPlayerName(player, out var m))
+            {
+                return m;
+            }
+            return def;
+        }
+
+        public bool TryGetPlayerName(ulong playerID, out string name)
+        {
+            lock (NamesCache)
+            {
+                if (NamesCache.ContainsKey(playerID))
+                {
+                    name = NamesCache[playerID];
+                    return true;
+                }
+
+                int strl = playerID.ToString().Length;
+
+                if (strl > 19 || strl < 16)
+                {
+                    name = null;
+                    return false;
+                }
+
+                try
+                {
+                    Profile pr = new Profile(playerID);
+
+                    NamesCache[playerID] = pr.SteamID;
+
+                    name = pr.SteamID;
+                    return true;
+                }
+                catch (Exception)
+                {
+                }
+            }
+            name = null;
+            return false;
         }
     }
 }

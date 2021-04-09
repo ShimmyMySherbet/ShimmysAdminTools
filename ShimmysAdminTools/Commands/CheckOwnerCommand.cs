@@ -29,7 +29,9 @@ namespace ShimmysAdminTools.Commands
             if (raycast.RaycastHit)
             {
                 ulong ID = 0;
-                string name = "Unknown";
+                string name;
+
+
 
                 if (raycast.Barricade != null)
                 {
@@ -43,6 +45,9 @@ namespace ShimmysAdminTools.Commands
                 {
                     ID = raycast.Vehicle.lockedOwner.m_SteamID;
                 }
+
+                name = main.Instance.GetPlayerName(ID, "Unknown Player");
+
 
                 UnturnedChat.Say(caller, "CheckOwner_Pass_NotFound".Translate(name, ID));
             }

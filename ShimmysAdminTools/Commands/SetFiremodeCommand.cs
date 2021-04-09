@@ -45,7 +45,7 @@ namespace ShimmysAdminTools.Commands
                 {
                     Player.Player.equipment.state[11] = (byte)result;
                     Player.Player.equipment.sendUpdateState();
-                    EffectManager.sendEffect(8, Player.CSteamID, Player.Position);
+                    Player.TriggerEffect(8);
                     UnturnedChat.Say(caller, "Firemode_Changed".Translate(Enum.GetName(typeof(EFiremode), result)));
                 }
                 else

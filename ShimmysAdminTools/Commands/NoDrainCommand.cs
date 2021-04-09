@@ -41,31 +41,6 @@ namespace ShimmysAdminTools.Commands
                     UnturnedChat.Say(caller, "NoDrain_Enabled".Translate());
                 }
             }
-            else if (bool.TryParse(command[0], out bool OverKill))
-            {
-                if (player.Player.gameObject.GetComponent<NoDrainBehaviour>() != null)
-                {
-                    if (player.Player.gameObject.GetComponent<NoDrainBehaviour>().IsGodMode != OverKill)
-                    {
-                        player.Player.gameObject.GetComponent<NoDrainBehaviour>().IsGodMode = OverKill;
-                    }
-
-                    if (OverKill)
-                    {
-                        UnturnedChat.Say(caller, "NoDrain_OverKill_Enabled".Translate());
-                    }
-                    else
-                    {
-                        UnturnedChat.Say(caller, "NoDrain_OverKill_Disabled".Translate());
-                    }
-                }
-                else
-                {
-                    player.Player.gameObject.AddComponent<NoDrainBehaviour>();
-                    player.Player.gameObject.GetComponent<NoDrainBehaviour>().IsGodMode = OverKill;
-                    UnturnedChat.Say(caller, "NoDrain_Enabled".Translate());
-                }
-            }
             else
             {
                 UnturnedChat.Say(caller, Syntax);

@@ -90,7 +90,7 @@ namespace ShimmysAdminTools.Behaviors
 
             foreach (Vector3 RenderPos in DisplayPositions)
             {
-                EffectManager.sendEffect(Effect, UPlayer.CSteamID, RenderPos);
+                EffectManager.sendEffectReliable(Effect, UPlayer.Player.channel.owner.transportConnection, RenderPos);
             }
         }
 

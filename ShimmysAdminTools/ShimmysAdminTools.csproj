@@ -96,7 +96,6 @@
     <Compile Include="Commands\ForceTPCommand.cs" />
     <Compile Include="Commands\GotoBedCommand.cs" />
     <Compile Include="Commands\GotoMarker.cs" />
-    <Compile Include="Commands\HideBuldablesCommand.cs" />
     <Compile Include="Commands\JumpHeightCommand.cs" />
     <Compile Include="Commands\MapJumpCommand.cs" />
     <Compile Include="Commands\MarkerCommand.cs" />

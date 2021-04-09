@@ -169,11 +169,53 @@ namespace ShimmysAdminTools.Modules
                 Raycast.TryGetEntity<InteractableCharge>().detonate(Player.CSteamID);
             }
 
+            if (Raycast.ParentHasComponent<InteractableFire>())
+            {
+                var f = Raycast.TryGetEntity<InteractableFire>();
+                BarricadeManager.ServerSetFireLit(f, !f.isLit);
+            }
+
+
+            if (Raycast.ParentHasComponent<InteractableGenerator>())
+            {
+                var f = Raycast.TryGetEntity<InteractableGenerator>();
+                BarricadeManager.ServerSetGeneratorPowered(f, !f.isPowered);
+            }
+
+            if (Raycast.ParentHasComponent<InteractableOven>())
+            {
+                var f = Raycast.TryGetEntity<InteractableOven>();
+                BarricadeManager.ServerSetOvenLit(f, !f.isLit);
+            }
+
+
+            if (Raycast.ParentHasComponent<InteractableOxygenator>())
+            {
+                var f = Raycast.TryGetEntity<InteractableOxygenator>();
+                BarricadeManager.ServerSetOxygenatorPowered(f, !f.isPowered);
+            }
+
+
+
+            if (Raycast.ParentHasComponent<InteractableSafezone>())
+            {
+                var f = Raycast.TryGetEntity<InteractableSafezone>();
+                BarricadeManager.ServerSetSafezonePowered(f, !f.isPowered);
+            }
+
+
+            if (Raycast.ParentHasComponent<InteractableSpot>())
+            {
+                var f = Raycast.TryGetEntity<InteractableSpot>();
+                BarricadeManager.ServerSetSpotPowered(f, !f.isPowered);
+            }
+
             if (Raycast.ParentHasComponent<InteractableVehicle>())
             {
                 var f = Raycast.TryGetEntity<InteractableVehicle>();
-                f.tellHorn();
+                VehicleManager.ServerForcePassengerIntoVehicle(Player.Player, f);
             }
+
             if (Raycast.ParentHasComponent<InteractableBed>())
             {
                 var f = Raycast.TryGetEntity<InteractableBed>();
@@ -332,30 +374,8 @@ namespace ShimmysAdminTools.Modules
 
         public static void SendOpenDoor(ushort plant, byte x, byte y, ushort index, InteractableDoor interactableDoor, BarricadeRegion barricadeRegion)
         {
-            if (plant == 65535)
-            {
-                BarricadeManager.instance.channel.send("tellToggleDoor", ESteamCall.ALL, x, y, BarricadeManager.BARRICADE_REGIONS, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
-                {
-                    x,
-                    y,
-                    plant,
-                    index,
-                    !interactableDoor.isOpen
-                });
-            }
-            else
-            {
-                BarricadeManager.instance.channel.send("tellToggleDoor", ESteamCall.ALL, ESteamPacket.UPDATE_RELIABLE_BUFFER, new object[]
-                {
-                    x,
-                    y,
-                    plant,
-                    index,
-                    !interactableDoor.isOpen
-                });
-            }
-            barricadeRegion.barricades[(int)index].barricade.state[16] = (byte)(interactableDoor.isOpen ? 1 : 0);
-            //var d = (interactableDoor.isOpen ? (int)1 : (int)0);
+           
+            BarricadeManager.ServerSetDoorOpen(interactableDoor, !interactableDoor.isOpen);
         }
 
         // WIP
