@@ -241,6 +241,8 @@ namespace ShimmysAdminTools
             { "CheckOwner_Fail_NotFound", "Nothing Found." },
             { "CheckOwner_Pass_Found", "Owner: {0} ({1})." },
             { "CheckOwner_Pass_Found_Bed", "Owner: {0} ({1}). Bed claimed by {2} ({3})" },
+            { "SeeInv_Fail_NoPlayer", "Failed to find a player with that name" },
+            { "SeeInv_Fail_BadPage", "No such page." },
         };
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)
