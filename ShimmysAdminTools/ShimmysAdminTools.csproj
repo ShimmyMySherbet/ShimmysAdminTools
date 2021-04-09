@@ -83,7 +83,6 @@
     <Compile Include="Behaviors\UnlimitedAmmoBehaviour.cs" />
     <Compile Include="Commands\AFlyCommand.cs" />
     <Compile Include="Commands\AFlySpeedPermitCommand.cs" />
-    <Compile Include="Commands\CheckBedOwner.cs" />
     <Compile Include="Commands\CheckOwnerCommand.cs" />
     <Compile Include="Commands\CommandSpyCommand.cs" />
     <Compile Include="Commands\DisableVehicleAccess.cs" />

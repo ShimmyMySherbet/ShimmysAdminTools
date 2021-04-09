@@ -5,6 +5,7 @@ using Rocket.Unturned.Player;
 using SDG.Unturned;
 using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Modules;
+using Steamworks;
 
 namespace ShimmysAdminTools.Commands
 {
@@ -31,8 +32,6 @@ namespace ShimmysAdminTools.Commands
                 ulong ID = 0;
                 string name;
 
-
-
                 if (raycast.Barricade != null)
                 {
                     ID = raycast.Barricade.owner;
@@ -48,10 +47,20 @@ namespace ShimmysAdminTools.Commands
 
                 name = main.Instance.GetPlayerName(ID, "Unknown Player");
 
+                InteractableBed b = raycast.TryGetEntity<InteractableBed>();
 
-                UnturnedChat.Say(caller, "CheckOwner_Pass_NotFound".Translate(name, ID));
+                if (b != null && b.owner != CSteamID.Nil)
+                {
+                    ulong bedID = b.owner.m_SteamID;
+                    string bedName = main.Instance.GetPlayerName(bedID, "Unknown Player");
+                    UnturnedChat.Say(caller, "CheckOwner_Pass_Found_Bed".Translate(name, ID, bedName, bedID));
+                }
+                else
+                {
+                    UnturnedChat.Say(caller, "CheckOwner_Pass_Found".Translate(name, ID));
+                }
+                return;
             }
-
             UnturnedChat.Say(caller, "CheckOwner_Fail_NotFound".Translate());
         }
     }

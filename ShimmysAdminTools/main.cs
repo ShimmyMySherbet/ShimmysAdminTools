@@ -239,7 +239,8 @@ namespace ShimmysAdminTools
             { "NoDrain_OverKill_Enabled", "Overkill Disabled." },
 
             { "CheckOwner_Fail_NotFound", "Nothing Found." },
-            { "CheckOwner_Pass_NotFound", "Owner: {0} ({1})." }
+            { "CheckOwner_Pass_Found", "Owner: {0} ({1})." },
+            { "CheckOwner_Pass_Found_Bed", "Owner: {0} ({1}). Bed claimed by {2} ({3})" },
         };
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)
