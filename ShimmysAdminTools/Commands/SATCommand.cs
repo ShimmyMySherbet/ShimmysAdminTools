@@ -81,6 +81,9 @@ namespace ShimmysAdminTools.Commands
                         UnturnedChat.Say(caller, "You do not have permission to use this command.");
                     }
                     break;
+                default:
+                    UnturnedChat.Say(caller, Syntax);
+                    break;
             }
         }
     }

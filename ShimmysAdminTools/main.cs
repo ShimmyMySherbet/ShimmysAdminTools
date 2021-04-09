@@ -15,10 +15,11 @@ using Rocket.Unturned.Events;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
 using ShimmysAdminTools.Behaviors;
+using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
 using UnityEngine;
-
+using Logger = Rocket.Core.Logging.Logger;
 namespace ShimmysAdminTools
 {
     public partial class main : RocketPlugin<PluginConfig>
@@ -34,6 +35,7 @@ namespace ShimmysAdminTools
 
         public override void LoadPlugin()
         {
+            Logger.Log($"Loading ShimmysAdminTools v{UpdaterCore.CurrentVersion} by ShimmyMySherbet");
             base.LoadPlugin();
             Instance = this;
             Config = Configuration.Instance;
@@ -51,12 +53,31 @@ namespace ShimmysAdminTools
 
             Level.onLevelLoaded += OnLevelloaded;
 
+
+            Logger.Log("Checking for updates...");
+            UpdaterCore.Init();
+
+            if (UpdaterCore.IsOutDated)
+            {
+                Logger.LogWarning("ShimmysAdminTools is out of date!");
+                Logger.Log($"Latest Version: v{UpdaterCore.LatestVersion}");
+                if (UpdaterCore.TryGetUpdateMessage(out string msg))
+                {
+                    Logger.Log($"Update Notes:");
+                    Logger.Log(msg);
+                }
+                Logger.Log("Download the latest update at https://github.com/ShimmyMySherbet/ShimmysAdminTools");
+
+
+            }
+
             gameObject.AddComponent<RepeatCommandQueue>();
 
             if (!Config.DelayStartEXECUtility)
             {
                 ExecManager.Activate();
             }
+            Logger.Log("ShimmysAdminTools loaded.");
         }
 
         private void Events_OnPlayerConnected(UnturnedPlayer player)
