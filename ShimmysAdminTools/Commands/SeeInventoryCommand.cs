@@ -2,6 +2,7 @@
 using Rocket.API;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
+using ShimmysAdminTools.Behaviors;
 using ShimmysAdminTools.Components;
 
 namespace ShimmysAdminTools.Commands
@@ -38,12 +39,19 @@ namespace ShimmysAdminTools.Commands
 
             byte slot = 3;
 
+            if (command.Length >= 2)
+            {
+                string slotHandle = command[1];
+                if (!byte.TryParse(slotHandle, out slot))
+                {
+                    UnturnedChat.Say(caller, "SeeInv_Fail_BadPage".Translate());
+                    return;
+                }
+            }
             if (player.Inventory.items.Length > slot)
             {
-                var items = player.Inventory.items[slot];
-
-                ucaller.Player.inventory.updateItems(7, items);
-                ucaller.Player.inventory.sendStorage();
+                SeeInventoryBehaviour b = ucaller.Player.gameObject.AddComponent<SeeInventoryBehaviour>();
+                b.SendOpenInventory(player.Player, slot);
             }
             else
             {

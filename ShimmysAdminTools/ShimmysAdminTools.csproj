@@ -79,6 +79,7 @@
     <Compile Include="Behaviors\NoDrainBehaviour.cs" />
     <Compile Include="Behaviors\PointToolInputListener.cs" />
     <Compile Include="Behaviors\RepeatCommandQueue.cs" />
+    <Compile Include="Behaviors\SeeInventoryBehaviour.cs" />
     <Compile Include="Behaviors\StructureESPBehaviour.cs" />
     <Compile Include="Behaviors\UnlimitedAmmoBehaviour.cs" />
     <Compile Include="Commands\AFlyCommand.cs" />
