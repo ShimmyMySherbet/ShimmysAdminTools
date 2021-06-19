@@ -3,6 +3,8 @@ using Rocket.Unturned.Player;
 using ShimmysAdminTools.Modules;
 using ShimmysAdminTools.Behaviors;
 using UnityEngine;
+using Rocket.API.Extensions;
+using ShimmysAdminTools.Components;
 
 namespace ShimmysAdminTools.Models
 {
@@ -40,9 +42,9 @@ namespace ShimmysAdminTools.Models
             {
                 MapJumpingSession = new GameObject("MapJumpingSession");
                 UnityEngine.Object.DontDestroyOnLoad(MapJumpingSession);
-                MapJumpingSession.AddComponent<MapJumpingSession>();
+                var c =MapJumpingSession.AddComponent<MapJumpingSession>();
                 UnturnedPlayer pl = UnturnedPlayer.FromCSteamID(new Steamworks.CSteamID(Player));
-                GameObjectExtension.getOrAddComponent<MapJumpingSession>(MapJumpingSession).SetPlayer(pl);
+                c.SetPlayer(pl);
             }
         }
 
@@ -50,7 +52,7 @@ namespace ShimmysAdminTools.Models
         {
             if (!FlySessionActive)
             {
-                FlightSession NewFly = UPlayer.Player.transform.GetOrAddComponent<FlightSession>();
+                FlightSession NewFly = UPlayer.Player.gameObject.AddComponent<FlightSession>();
                 NewFly.SetReady(UPlayer);
                 FlySession = NewFly;
             }
@@ -62,7 +64,7 @@ namespace ShimmysAdminTools.Models
             if (FlySessionActive)
             {
                 FlySession.Stop();
-                UPlayer.Player.transform.DestroyComponentIfExists<FlightSession>();
+                UPlayer.Player.gameObject.DestroyComponentIfExists<FlightSession>();
                 FlySession = null;
             }
         }

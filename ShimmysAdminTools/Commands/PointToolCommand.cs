@@ -34,12 +34,12 @@ namespace ShimmysAdminTools.Commands
                 if (Session.PointToolEnabled)
                 {
                     UnturnedChat.Say(caller, "PointTool_EnabledActive".Translate(Session.PointTool));
-                    Player.Player.transform.GetOrAddComponent<PointToolInputListener>();
+                    Player.Player.gameObject.AddComponent<PointToolInputListener>();
                 }
                 else
                 {
                     UnturnedChat.Say(caller, "PointTool_Disabled".Translate());
-                    Player.Player.transform.DestroyComponentIfExists<PointToolInputListener>();
+                    Player.Player.gameObject.DestroyComponentIfExists<PointToolInputListener>();
 
                 }
             }
@@ -91,7 +91,7 @@ namespace ShimmysAdminTools.Commands
                         {
                             Session.PointToolEnabled = true;
                             UnturnedChat.Say(caller, Send + "PointTool_Extension_Enabled".Translate());
-                            Player.Player.transform.GetOrAddComponent<PointToolInputListener>();
+                            Player.Player.gameObject.AddComponent<PointToolInputListener>();
 
                         }
                     }

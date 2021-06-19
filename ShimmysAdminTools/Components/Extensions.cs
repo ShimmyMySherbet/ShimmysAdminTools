@@ -1,14 +1,11 @@
 ﻿using Rocket.API;
-using Rocket.Core;
+using Rocket.API.Extensions;
 using Rocket.Unturned.Player;
 using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine.Rendering;
+using UnityEngine;
 
 namespace ShimmysAdminTools.Components
 {
@@ -17,7 +14,7 @@ namespace ShimmysAdminTools.Components
         public static IEnumerable<R> CastEnumeration<T, R>(this IEnumerable<T> Inp, Func<T, R> Castingmethod)
         {
             List<R> Res = new List<R>();
-            foreach(T InpE in Inp)
+            foreach (T InpE in Inp)
             {
                 Res.Add(Castingmethod(InpE));
             }
@@ -28,6 +25,7 @@ namespace ShimmysAdminTools.Components
         {
             return ((UnturnedPlayer)Player).GetSession();
         }
+
         public static PlayerSession GetSession(this UnturnedPlayer Player)
         {
             return PlayerSessionStore.GetPlayerData(Player);
@@ -37,9 +35,35 @@ namespace ShimmysAdminTools.Components
         {
             return (UnturnedPlayer)caller;
         }
+
         public static string Translate(this string Translation, params object[] Args)
         {
             return AdminToolsPlugin.Instance.Translate(Translation, Args);
         }
+
+        public static T getOrAddComponent<T>(this GameObject go) where T : UnityEngine.Component
+        {
+            var obj = go.GetComponent<T>();
+
+            if (obj != null)
+            {
+                return obj;
+            }
+
+            obj = go.AddComponent<T>();
+
+            return obj;
+        }
+
+        public static void DestroyComponentIfExists<T>(this GameObject go) where T : UnityEngine.Component
+        {
+            var obj = go.GetComponent<T>();
+            if (obj != null)
+            {
+                GameObject.Destroy(obj);
+            }
+        }
+
+
     }
 }
