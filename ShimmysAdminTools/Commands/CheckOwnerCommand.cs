@@ -45,14 +45,14 @@ namespace ShimmysAdminTools.Commands
                     ID = raycast.Vehicle.lockedOwner.m_SteamID;
                 }
 
-                name = main.Instance.GetPlayerName(ID, "Unknown Player");
+                name = AdminToolsPlugin.Instance.GetPlayerName(ID, "Unknown Player");
 
                 InteractableBed b = raycast.TryGetEntity<InteractableBed>();
 
                 if (b != null && b.owner != CSteamID.Nil)
                 {
                     ulong bedID = b.owner.m_SteamID;
-                    string bedName = main.Instance.GetPlayerName(bedID, "Unknown Player");
+                    string bedName = AdminToolsPlugin.Instance.GetPlayerName(bedID, "Unknown Player");
                     UnturnedChat.Say(caller, "CheckOwner_Pass_Found_Bed".Translate(name, ID, bedName, bedID));
                 }
                 else

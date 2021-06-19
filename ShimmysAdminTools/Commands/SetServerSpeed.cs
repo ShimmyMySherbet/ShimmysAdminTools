@@ -26,8 +26,8 @@ namespace ShimmysAdminTools.Commands
             {
                 if (float.TryParse(command[0], out float Val))
                 {
-                    main.Instance.ServerSpeedMult = Val;
-                    main.Instance.ForEachNonFlyingPlayer(x => x.movement.sendPluginSpeedMultiplier(Val));
+                    AdminToolsPlugin.Instance.ServerSpeedMult = Val;
+                    AdminToolsPlugin.Instance.ForEachNonFlyingPlayer(x => x.movement.sendPluginSpeedMultiplier(Val));
                     UnturnedChat.Say(caller, "SetSpeed_Global_Pass_Changed".Translate(Val));
                 }
                 else

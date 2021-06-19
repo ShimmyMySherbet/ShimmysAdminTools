@@ -26,8 +26,8 @@ namespace ShimmysAdminTools.Commands
             {
                 if (float.TryParse(command[0], out float Val))
                 {
-                    main.Instance.ServerGravityMult = Val;
-                    main.Instance.ForEachNonFlyingPlayer(x => x.movement.sendPluginGravityMultiplier(Val));
+                    AdminToolsPlugin.Instance.ServerGravityMult = Val;
+                    AdminToolsPlugin.Instance.ForEachNonFlyingPlayer(x => x.movement.sendPluginGravityMultiplier(Val));
                     UnturnedChat.Say(caller, "SetGravity_Global_Pass_Changed".Translate(Val));
                 }
                 else

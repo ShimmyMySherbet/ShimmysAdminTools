@@ -114,10 +114,10 @@ namespace ShimmysAdminTools.Commands
             {
                 return true;
             }
-            if (Mode == PointToolMode.Destroy) return Player.HasPermission("ShimmysAdminTools.PointTool.Destroy") && main.Config.PointToolSettings.DestroyToolEnabled;
-            if (Mode == PointToolMode.Jump) return Player.HasPermission("ShimmysAdminTools.PointTool.Jump") && main.Config.PointToolSettings.JumpToolEnabled;
-            if (Mode == PointToolMode.Utility) return Player.HasPermission("ShimmysAdminTools.PointTool.Utility") && main.Config.PointToolSettings.UtilityToolEnabled;
-            if (Mode == PointToolMode.Kill) return Player.HasPermission("ShimmysAdminTools.PointTool.Kill") && main.Config.PointToolSettings.KillToolEnabled;
+            if (Mode == PointToolMode.Destroy) return Player.HasPermission("ShimmysAdminTools.PointTool.Destroy") && AdminToolsPlugin.Config.PointToolSettings.DestroyToolEnabled;
+            if (Mode == PointToolMode.Jump) return Player.HasPermission("ShimmysAdminTools.PointTool.Jump") && AdminToolsPlugin.Config.PointToolSettings.JumpToolEnabled;
+            if (Mode == PointToolMode.Utility) return Player.HasPermission("ShimmysAdminTools.PointTool.Utility") && AdminToolsPlugin.Config.PointToolSettings.UtilityToolEnabled;
+            if (Mode == PointToolMode.Kill) return Player.HasPermission("ShimmysAdminTools.PointTool.Kill") && AdminToolsPlugin.Config.PointToolSettings.KillToolEnabled;
             if (Mode == PointToolMode.None) return true;
             return false;
         }

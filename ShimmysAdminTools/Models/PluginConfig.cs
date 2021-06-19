@@ -1,4 +1,5 @@
 ﻿using Rocket.API;
+using ShimmysAdminTools.Behaviors;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace ShimmysAdminTools.Models
         public bool DisableAbusableCommands;
         public bool DelayStartEXECUtility = false;
         public PointToolSettings PointToolSettings;
+        public bool EnableExperimentalCommands = false;
 
         [XmlArrayItem(elementName: "ID")]
         public List<ushort> BlacklistedAttachments;

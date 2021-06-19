@@ -121,7 +121,7 @@
     <Compile Include="Components\Helpers.cs" />
     <Compile Include="Components\INIFile.cs" />
     <Compile Include="Components\UpdaterCore.cs" />
-    <Compile Include="main.cs" />
+    <Compile Include="AdminToolsPlugin.cs" />
     <Compile Include="Behaviors\FlightSession.cs" />
     <Compile Include="Behaviors\MapJumpingSession.cs" />
     <Compile Include="Models\EXECPassthroughPermissionsManager.cs" />

@@ -22,9 +22,9 @@ using UnityEngine;
 using Logger = Rocket.Core.Logging.Logger;
 namespace ShimmysAdminTools
 {
-    public partial class main : RocketPlugin<PluginConfig>
+    public partial class AdminToolsPlugin : RocketPlugin<PluginConfig>
     {
-        public static main Instance;
+        public static AdminToolsPlugin Instance;
         public static PluginConfig Config;
 
         public float ServerSpeedMult = 1;

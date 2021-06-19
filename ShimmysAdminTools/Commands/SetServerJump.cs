@@ -25,8 +25,8 @@ namespace ShimmysAdminTools.Commands
             {
                 if (float.TryParse(command[0], out float Val))
                 {
-                    main.Instance.ServerJumpMult = Val;
-                    main.Instance.ForEachNonFlyingPlayer(x => x.movement.sendPluginJumpMultiplier(Val));
+                    AdminToolsPlugin.Instance.ServerJumpMult = Val;
+                    AdminToolsPlugin.Instance.ForEachNonFlyingPlayer(x => x.movement.sendPluginJumpMultiplier(Val));
                     UnturnedChat.Say(caller, "SetJump_Global_Pass_Changed".Translate(Val));
                 }
                 else

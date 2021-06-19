@@ -48,7 +48,7 @@ namespace ShimmysAdminTools.Components
 
         public static float GetPlayerMaxFlySpeed(UnturnedPlayer Player)
         {
-            if (Player.IsAdmin || Player.HasPermission("shimmysadmintools.flight.maxspeed.bypass")) return Limit(99999, main.Config.MaxGlobalFlySpeed);
+            if (Player.IsAdmin || Player.HasPermission("shimmysadmintools.flight.maxspeed.bypass")) return Limit(99999, AdminToolsPlugin.Config.MaxGlobalFlySpeed);
             float MaxSpeed = 1;
             string permbase = "shimmysadmintools.flight.maxspeed.";
             foreach (var Perm in Player.GetPermissions())
@@ -63,7 +63,7 @@ namespace ShimmysAdminTools.Components
                     }
                 }
             }
-            return Limit(MaxSpeed, main.Config.MaxGlobalFlySpeed);
+            return Limit(MaxSpeed, AdminToolsPlugin.Config.MaxGlobalFlySpeed);
         }
 
         public static bool PlayerCanFlyAtSpeed(UnturnedPlayer Player, float Speed)
@@ -76,7 +76,7 @@ namespace ShimmysAdminTools.Components
 
         public static float GetPlayerMaxVFlySpeed(UnturnedPlayer Player)
         {
-            if (Player.IsAdmin || Player.HasPermission("shimmysadmintools.flight.maxvspeed.bypass")) return Limit(99999, main.Config.MaxGlobalFlySpeed);
+            if (Player.IsAdmin || Player.HasPermission("shimmysadmintools.flight.maxvspeed.bypass")) return Limit(99999, AdminToolsPlugin.Config.MaxGlobalFlySpeed);
             float MaxSpeed = 1;
             string permbase = "shimmysadmintools.flight.maxvspeed.";
             foreach (var Perm in Player.GetPermissions())
@@ -91,7 +91,7 @@ namespace ShimmysAdminTools.Components
                     }
                 }
             }
-            return Limit(MaxSpeed, main.Config.MaxGlobalFlySpeed);
+            return Limit(MaxSpeed, AdminToolsPlugin.Config.MaxGlobalFlySpeed);
         }
 
         private static float Limit(float inp, float max)

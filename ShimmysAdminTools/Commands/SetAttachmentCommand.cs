@@ -26,7 +26,7 @@ namespace ShimmysAdminTools.Commands
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
-            if (main.Config.DisableAbusableCommands)
+            if (AdminToolsPlugin.Config.DisableAbusableCommands)
             {
                 UnturnedChat.Say(caller, "Fail_Command_Disabled".Translate());
                 return;
@@ -63,7 +63,7 @@ namespace ShimmysAdminTools.Commands
 
                 if (Item != null)
                 {
-                    if (main.Config.BlacklistedAttachments.Contains(Item.id))
+                    if (AdminToolsPlugin.Config.BlacklistedAttachments.Contains(Item.id))
                     {
                         UnturnedChat.Say(caller, "SetAttachment_Fail_Blacklist".Translate());
                         return;

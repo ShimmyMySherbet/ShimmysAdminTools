@@ -39,7 +39,7 @@ namespace ShimmysAdminTools.Components
         }
         public static string Translate(this string Translation, params object[] Args)
         {
-            return main.Instance.Translate(Translation, Args);
+            return AdminToolsPlugin.Instance.Translate(Translation, Args);
         }
     }
 }
