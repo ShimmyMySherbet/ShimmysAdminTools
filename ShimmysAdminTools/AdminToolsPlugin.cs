@@ -243,6 +243,8 @@ namespace ShimmysAdminTools
             { "CheckOwner_Pass_Found_Bed", "Owner: {0} ({1}). Bed claimed by {2} ({3})" },
             { "SeeInv_Fail_NoPlayer", "Failed to find a player with that name" },
             { "SeeInv_Fail_BadPage", "No such page." },
+            { "SeeInv_Experimental", "This command is experimental, and can cause instability issues." },
+            { "Experimental_Disabled", "This command is experimentl, and has been disabled in the config." },
         };
 
         private void UnturnedPlayerEvents_OnPlayerUpdateGesture(UnturnedPlayer player, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture gesture)

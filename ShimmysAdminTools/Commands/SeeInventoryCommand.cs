@@ -23,6 +23,14 @@ namespace ShimmysAdminTools.Commands
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
+            if (!AdminToolsPlugin.Config.EnableExperimentalCommands)
+            {
+                UnturnedChat.Say(caller, "Experimental_Disabled".Translate());
+                return;
+            }
+
+            UnturnedChat.Say(caller, "SeeInv_Experimental".Translate());
+
             if (command.Length < 1)
             {
                 UnturnedChat.Say(caller, Syntax);
