@@ -27,6 +27,12 @@ namespace ShimmysAdminTools.Commands
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
+            if (AdminToolsPlugin.Instance.ExecCommandRedirect != null)
+            {
+                AdminToolsPlugin.Instance.ExecCommandRedirect.Execute(caller, command);
+                return;
+            }
+
             if (command.Length >= 2)
             {
                 string player = command[0];

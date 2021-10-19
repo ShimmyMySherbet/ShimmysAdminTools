@@ -16,6 +16,7 @@ namespace ShimmysAdminTools.Models
         public bool DelayStartEXECUtility = false;
         public PointToolSettings PointToolSettings;
         public bool EnableExperimentalCommands = false;
+        public bool ExecEnabled = true;
 
         [XmlArrayItem(elementName: "ID")]
         public List<ushort> BlacklistedAttachments;

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using Rocket.API;
+﻿using Rocket.API;
 using Rocket.API.Collections;
 using Rocket.Core;
 using Rocket.Core.Plugins;
@@ -18,8 +12,16 @@ using ShimmysAdminTools.Behaviors;
 using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
 using ShimmysAdminTools.Modules;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
 using UnityEngine;
 using Logger = Rocket.Core.Logging.Logger;
+
 namespace ShimmysAdminTools
 {
     public partial class AdminToolsPlugin : RocketPlugin<PluginConfig>
@@ -32,6 +34,11 @@ namespace ShimmysAdminTools
         public float ServerGravityMult = 1;
 
         public Dictionary<ulong, string> NamesCache = new Dictionary<ulong, string>();
+
+        public bool ExecPluginPresent => File.Exists(Path.Combine(Rocket.Core.Environment.PluginsDirectory, "ExecPlugin.dll"));
+
+        public IRocketCommand ExecCommandRedirect { get; private set; } = null;
+        public IRocketCommand ExecAllCommandRedirect { get; private set; } = null;
 
         public override void LoadPlugin()
         {
@@ -53,7 +60,6 @@ namespace ShimmysAdminTools
 
             Level.onLevelLoaded += OnLevelloaded;
 
-
             Logger.Log("Checking for updates...");
             UpdaterCore.Init();
 
@@ -67,16 +73,25 @@ namespace ShimmysAdminTools
                     Logger.Log(msg);
                 }
                 Logger.Log("Download the latest update at https://github.com/ShimmyMySherbet/ShimmysAdminTools");
-
-
             }
 
             gameObject.AddComponent<RepeatCommandQueue>();
 
-            if (!Config.DelayStartEXECUtility)
+            if (Config.ExecEnabled)
             {
-                ExecManager.Activate();
+                if (ExecPluginPresent)
+                {
+                    Logger.Log("Detected ExecPlugin. Skipping load of exec module.");
+                }
+                else if (!Config.DelayStartEXECUtility)
+                {
+                    ExecManager.Activate();
+                }
             }
+
+
+
+
             Logger.Log("ShimmysAdminTools loaded.");
         }
 
@@ -112,9 +127,36 @@ namespace ShimmysAdminTools
 
         private void OnLevelloaded(int level)
         {
-            if (State == PluginState.Loaded && Config.DelayStartEXECUtility && level >= 2)
+            if (ExecPluginPresent)
             {
-                ExecManager.Activate();
+                var asm = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name.Equals("ExecPlugin", StringComparison.InvariantCultureIgnoreCase));
+                if (asm != null)
+                {
+                    var execCommand = asm.GetExportedTypes().FirstOrDefault(x => x.IsAssignableFrom(typeof(IRocketCommand)) && x.Name.Equals("ExecCommand", StringComparison.InvariantCultureIgnoreCase));
+                    var execAllCommand = asm.GetExportedTypes().FirstOrDefault(x => x.IsAssignableFrom(typeof(IRocketCommand)) && x.Name.Equals("ExecAllCommand ", StringComparison.InvariantCultureIgnoreCase));
+
+                    if (execCommand != null)
+                    {
+                        ExecCommandRedirect = (IRocketCommand)Activator.CreateInstance(execCommand);
+                    }
+                    if (execAllCommand != null)
+                    {
+                        ExecAllCommandRedirect = (IRocketCommand)Activator.CreateInstance(execAllCommand);
+                    }
+                }
+            }
+
+
+            if (Config.ExecEnabled && Config.DelayStartEXECUtility)
+            {
+                if (ExecPluginPresent)
+                {
+                    Logger.Log("Detected ExecPlugin. Skipping load of exec module.");
+                }
+                else if (State == PluginState.Loaded && level >= 2)
+                {
+                    ExecManager.Activate();
+                }
             }
         }
 
