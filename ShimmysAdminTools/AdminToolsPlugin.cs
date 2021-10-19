@@ -89,9 +89,6 @@ namespace ShimmysAdminTools
                 }
             }
 
-
-
-
             Logger.Log("ShimmysAdminTools loaded.");
         }
 
@@ -101,51 +98,67 @@ namespace ShimmysAdminTools
             {
                 NamesCache[player.CSteamID.m_SteamID] = player.DisplayName;
             }
-            new Thread(async () =>
-            {
-                await Task.Delay(1500);
 
-                Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>
-                {
-                    if (ServerJumpMult != 1)
-                    {
-                        player.Player.movement.sendPluginJumpMultiplier(ServerJumpMult);
-                    }
+            ThreadPool.QueueUserWorkItem(async (_) =>
+             {
+                 await Task.Delay(1500);
 
-                    if (ServerGravityMult != 1)
-                    {
-                        player.Player.movement.sendPluginGravityMultiplier(ServerGravityMult);
-                    }
+                 Rocket.Core.Utils.TaskDispatcher.QueueOnMainThread(() =>
+                 {
+                     if (ServerJumpMult != 1)
+                     {
+                         player.Player.movement.sendPluginJumpMultiplier(ServerJumpMult);
+                     }
 
-                    if (ServerSpeedMult != 1)
-                    {
-                        player.Player.movement.sendPluginSpeedMultiplier(ServerSpeedMult);
-                    }
-                });
-            }).Start();
+                     if (ServerGravityMult != 1)
+                     {
+                         player.Player.movement.sendPluginGravityMultiplier(ServerGravityMult);
+                     }
+
+                     if (ServerSpeedMult != 1)
+                     {
+                         player.Player.movement.sendPluginSpeedMultiplier(ServerSpeedMult);
+                     }
+                 });
+             });
         }
 
         private void OnLevelloaded(int level)
         {
             if (ExecPluginPresent)
             {
+                Logger.Log("Adding command redirects for ExecPlugin...");
                 var asm = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name.Equals("ExecPlugin", StringComparison.InvariantCultureIgnoreCase));
                 if (asm != null)
                 {
-                    var execCommand = asm.GetExportedTypes().FirstOrDefault(x => x.IsAssignableFrom(typeof(IRocketCommand)) && x.Name.Equals("ExecCommand", StringComparison.InvariantCultureIgnoreCase));
-                    var execAllCommand = asm.GetExportedTypes().FirstOrDefault(x => x.IsAssignableFrom(typeof(IRocketCommand)) && x.Name.Equals("ExecAllCommand ", StringComparison.InvariantCultureIgnoreCase));
+                    var execCommand = asm.GetType("ShimmyMySherbet.ExecPlugin.Commands.ExecCommand");
+                    var execAllCommand = asm.GetType("ShimmyMySherbet.ExecPlugin.Commands.ExecAllCommand");
 
                     if (execCommand != null)
                     {
                         ExecCommandRedirect = (IRocketCommand)Activator.CreateInstance(execCommand);
+                        Logger.Log("Added redirection for /exec from ShimmysAdminTools to ExecPlugin");
                     }
+                    else
+                    {
+                        Logger.Log("Failed to add redirection for /exec");
+                    }
+
                     if (execAllCommand != null)
                     {
                         ExecAllCommandRedirect = (IRocketCommand)Activator.CreateInstance(execAllCommand);
+                        Logger.Log("Added redirection for /execall from ShimmysAdminTools to ExecPlugin");
+                    }
+                    else
+                    {
+                        Logger.Log("Failed to add redirection for /execall");
                     }
                 }
+                else
+                {
+                    Logger.Log("Failed to locate ExecPlugin");
+                }
             }
-
 
             if (Config.ExecEnabled && Config.DelayStartEXECUtility)
             {
