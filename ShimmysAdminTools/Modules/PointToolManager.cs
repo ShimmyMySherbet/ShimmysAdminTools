@@ -41,11 +41,9 @@ namespace ShimmysAdminTools.Modules
         {
             var isUsingBinoculars = Player.Player.equipment.isSelected && Player.Player.equipment.asset.id == 333;
 
-
-
             if (Session.PointTool == PointToolMode.Destroy)
             {
-                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE | RayMasks.RESOURCE | RayMasks.ENVIRONMENT, isUsingBinoculars ? 10000 : 100);
+                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE | RayMasks.RESOURCE, isUsingBinoculars ? 10000 : 100);
                 if (Raycast.RaycastHit)
                 {
                     RunDestroyTool(Player, Raycast);
