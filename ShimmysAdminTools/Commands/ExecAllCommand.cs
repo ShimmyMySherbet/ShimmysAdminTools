@@ -35,6 +35,12 @@ namespace ShimmysAdminTools.Commands
                 return;
             }
 
+            if (!AdminToolsPlugin.Config.ExecEnabled)
+            {
+                UnturnedChat.Say("The exec module is disabled. Get the new exec plugin from github.com/ShimmyMySherbet/ExecPlugin");
+                return;
+            }
+
             if (command.Length >= 1)
             {
                 string Command = string.Join(" ", command);
