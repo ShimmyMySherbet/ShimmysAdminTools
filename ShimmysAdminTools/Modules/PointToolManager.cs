@@ -1,6 +1,9 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
+using System.Management.Instrumentation;
 using System.Reflection;
 using Rocket.API;
+using Rocket.Core.Logging;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Events;
 using Rocket.Unturned.Player;
@@ -38,7 +41,7 @@ namespace ShimmysAdminTools.Modules
         {
             if (Session.PointTool == PointToolMode.Destroy)
             {
-                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE);
+                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE | RayMasks.RESOURCE | RayMasks.ENVIRONMENT);
                 if (Raycast.RaycastHit)
                 {
                     RunDestroyTool(Player, Raycast);
@@ -57,7 +60,7 @@ namespace ShimmysAdminTools.Modules
                 RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE);
                 if (Raycast.RaycastHit)
                 {
-                    RunRepairTool(Player, Raycast);
+                    RunRepairTool(Player, Raycast, gesture == UnturnedPlayerEvents.PlayerGesture.PunchLeft);
                 }
             }
             else if (Session.PointTool == PointToolMode.Kill)
@@ -108,20 +111,19 @@ namespace ShimmysAdminTools.Modules
                 AdminToolsPlugin.Instance.TryGetPlayerName(bOwner, out var playerName);
                 if (playerName == null)
                     playerName = "Unknown Player";
-
-                if (bGroup != 0 && bGroup < 1000)
+                if (bGroup != 0)
                 {
                     var inGameGroup = GroupManager.getGroupInfo(new CSteamID(bGroup));
 
                     if (inGameGroup != null)
                     {
-                        UnturnedChat.Say(player, "PointTool_CheckOwner_Barricade_Group".Translate(playerName, bOwner, inGameGroup.name));
+                        UnturnedChat.Say(player, "PointTool_CheckOwner_Barricade_Group".Translate(playerName, bOwner, inGameGroup.name, raycast.Barricade.barricade.asset.id));
 
                         return;
                     }
                 }
 
-                UnturnedChat.Say(player, "PointTool_CheckOwner_Barricade".Translate(playerName, bOwner));
+                UnturnedChat.Say(player, "PointTool_CheckOwner_Barricade".Translate(playerName, bOwner, raycast.Barricade.barricade.asset.id));
                 return;
             }
             else if (raycast.Structure != null)
@@ -133,18 +135,18 @@ namespace ShimmysAdminTools.Modules
                 if (playerName == null)
                     playerName = "Unknown Player";
 
-                if (sGroup != 0 && sGroup < 1000)
+                if (sGroup != 0)
                 {
                     var inGameGroup = GroupManager.getGroupInfo(new CSteamID(sGroup));
 
                     if (inGameGroup != null)
                     {
-                        UnturnedChat.Say(player, "PointTool_CheckOwner_Structure_Group".Translate(playerName, sOwner, inGameGroup.name));
+                        UnturnedChat.Say(player, "PointTool_CheckOwner_Structure_Group".Translate(playerName, sOwner, inGameGroup.name, raycast.Structure.structure.asset.id));
                         return;
                     }
                 }
 
-                UnturnedChat.Say(player, "PointTool_CheckOwner_Structure".Translate(playerName, sOwner));
+                UnturnedChat.Say(player, "PointTool_CheckOwner_Structure".Translate(playerName, sOwner, raycast.Structure.structure.asset.id));
                 return;
             }
             else if (raycast.Vehicle != null)
@@ -161,18 +163,18 @@ namespace ShimmysAdminTools.Modules
                 if (playerName == null)
                     playerName = "Unknown Player";
 
-                if (vGroup.m_SteamID != 0 && vGroup.m_SteamID < 1000)
+                if (vGroup.m_SteamID != 0)
                 {
                     var inGameGroup = GroupManager.getGroupInfo(vGroup);
 
                     if (inGameGroup != null)
                     {
-                        UnturnedChat.Say(player, "PointTool_CheckOwner_Vehicle_Group".Translate(playerName, vOwner, inGameGroup.name));
+                        UnturnedChat.Say(player, "PointTool_CheckOwner_Vehicle_Group".Translate(playerName, vOwner, inGameGroup.name, raycast.Vehicle.asset.id));
                         return;
                     }
                 }
 
-                UnturnedChat.Say(player, "PointTool_CheckOwner_Vehicle".Translate(playerName, vOwner));
+                UnturnedChat.Say(player, "PointTool_CheckOwner_Vehicle".Translate(playerName, vOwner, raycast.Vehicle.asset.id));
                 return;
             }
         }
@@ -239,6 +241,10 @@ namespace ShimmysAdminTools.Modules
                 {
                     UnturnedChat.Say(Player, "PointTool_Destroy_Denied".Translate());
                 }
+            }
+            if (Raycast.Raycast.transform.CompareTag("Resource"))
+            {
+                ResourceManager.damage(Raycast.Raycast.transform, Vector3.up * 10, 10000, 10, 1, out var kill, out var isnt);
             }
         }
 
@@ -463,28 +469,36 @@ namespace ShimmysAdminTools.Modules
         private static readonly MethodInfo m_SendBarricadeHealth = typeof(BarricadeManager).GetMethod("sendHealthChanged", BindingFlags.NonPublic | BindingFlags.Static);
         private static readonly MethodInfo m_SendStructureHealth = typeof(StructureManager).GetMethod("sendHealthChanged", BindingFlags.NonPublic | BindingFlags.Static);
 
-        public static void RunRepairTool(UnturnedPlayer _, RaycastResult Raycast)
+        public static void RunRepairTool(UnturnedPlayer _, RaycastResult Raycast, bool repairAllTires = false)
         {
             if (Raycast.Vehicle != null)
             {
-                if (Raycast.Vehicle.isDead)
-                {
-                    f_VehicleHealth.SetValue(Raycast.Vehicle, (ushort)1);
-                    Raycast.Vehicle.isExploded = false;
-                }
-
                 Raycast.Vehicle.askRepair(9999);
+
+                if (Raycast.Vehicle.tires != null)
+                {
+                    for (int i = 0; i < Raycast.Vehicle.tires.Length; i++)
+                    {
+                        var tire = Raycast.Vehicle.tires[i];
+                        if (!tire.isAlive && (repairAllTires || Vector3.Distance(tire?.wheel?.transform?.position ?? Vector3.zero, Raycast.Raycast.point) <= 1.5f || Raycast.Raycast.transform == tire.wheel?.transform))
+                        {
+                            tire.askRepair();
+                        }
+                    }
+                }
             }
 
             if (Raycast.Barricade != null)
             {
                 Raycast.Barricade.barricade.askRepair(9999);
-                m_SendBarricadeHealth.Invoke(null, new object[] { Raycast.BarricadeX, Raycast.BarricadeY, Raycast.BarricadePlant, Raycast.BarricadeIndex, Raycast.BarricadeRegion });
+                var drop = BarricadeManager.regions[Raycast.BarricadeX, Raycast.BarricadeY].drops[Raycast.BarricadeIndex];
+                m_SendBarricadeHealth.Invoke(null, new object[] { Raycast.BarricadeX, Raycast.BarricadeY, Raycast.BarricadePlant, drop });
             }
             if (Raycast.Structure != null)
             {
                 Raycast.Structure.structure.askRepair(9999);
-                m_SendStructureHealth.Invoke(null, new object[] { Raycast.StructureX, Raycast.StructureY, Raycast.StructureIndex, Raycast.StructureRegion });
+                var drop = StructureManager.regions[Raycast.StructureX, Raycast.StructureY].drops[Raycast.StructureIndex];
+                m_SendStructureHealth.Invoke(null, new object[] { Raycast.StructureX, Raycast.StructureY, drop });
             }
         }
     }
