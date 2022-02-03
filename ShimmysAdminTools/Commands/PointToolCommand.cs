@@ -102,7 +102,7 @@ namespace ShimmysAdminTools.Commands
                     }
                     else
                     {
-                        UnturnedChat.Say(caller, "Tools: Destroy, Utility, Jump, Kill, CheckOwner");
+                        UnturnedChat.Say(caller, "Tools: Destroy, Utility, Jump, Kill, CheckOwner, Repair");
                     }
                 }
                 else
@@ -124,6 +124,7 @@ namespace ShimmysAdminTools.Commands
             if (Mode == PointToolMode.Utility) return Player.HasPermission("ShimmysAdminTools.PointTool.Utility") && AdminToolsPlugin.Config.PointToolSettings.UtilityToolEnabled;
             if (Mode == PointToolMode.Kill) return Player.HasPermission("ShimmysAdminTools.PointTool.Kill") && AdminToolsPlugin.Config.PointToolSettings.KillToolEnabled;
             if (Mode == PointToolMode.CheckOwner) return Player.HasPermission("ShimmysAdminTools.PointTool.CheckOwner") && AdminToolsPlugin.Config.PointToolSettings.KillToolEnabled;
+            if (Mode == PointToolMode.Repair) return Player.HasPermission("ShimmysAdminTools.PointTool.Repair") && AdminToolsPlugin.Config.PointToolSettings.KillToolEnabled;
             if (Mode == PointToolMode.None) return true;
             return false;
         }

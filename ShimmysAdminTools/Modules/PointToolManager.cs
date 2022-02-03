@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Reflection;
 using Rocket.API;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Events;
@@ -458,22 +459,32 @@ namespace ShimmysAdminTools.Modules
             BarricadeManager.ServerSetDoorOpen(interactableDoor, !interactableDoor.isOpen);
         }
 
-        // WIP
+        private static readonly FieldInfo f_VehicleHealth = typeof(VehicleManager).GetField("health", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static readonly MethodInfo m_SendBarricadeHealth = typeof(BarricadeManager).GetMethod("sendHealthChanged", BindingFlags.NonPublic | BindingFlags.Static);
+        private static readonly MethodInfo m_SendStructureHealth = typeof(StructureManager).GetMethod("sendHealthChanged", BindingFlags.NonPublic | BindingFlags.Static);
+
         public static void RunRepairTool(UnturnedPlayer _, RaycastResult Raycast)
         {
             if (Raycast.Vehicle != null)
             {
-                VehicleManager.repair(Raycast.Vehicle, 9999, 2);
+                if (Raycast.Vehicle.isDead)
+                {
+                    f_VehicleHealth.SetValue(Raycast.Vehicle, (ushort)1);
+                    Raycast.Vehicle.isExploded = false;
+                }
+
+                Raycast.Vehicle.askRepair(9999);
             }
 
             if (Raycast.Barricade != null)
             {
                 Raycast.Barricade.barricade.askRepair(9999);
-                BarricadeManager.repair(Raycast.BarricadeRootTransform, 9999, 2);
+                m_SendBarricadeHealth.Invoke(null, new object[] { Raycast.BarricadeX, Raycast.BarricadeY, Raycast.BarricadePlant, Raycast.BarricadeIndex, Raycast.BarricadeRegion });
             }
             if (Raycast.Structure != null)
             {
                 Raycast.Structure.structure.askRepair(9999);
+                m_SendStructureHealth.Invoke(null, new object[] { Raycast.StructureX, Raycast.StructureY, Raycast.StructureIndex, Raycast.StructureRegion });
             }
         }
     }
