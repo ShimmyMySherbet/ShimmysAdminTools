@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
@@ -13,7 +14,6 @@ namespace ShimmysAdminTools.Components
         /// <summary>
         /// GitHub url to global config file.
         /// This provides the latest version, to check for updates.
-        /// In the future it could potentially provide module enables/disables to fix/disable stuff that breaks in updates.
         /// Since the file is on GitHub, there is no way for me to see people/servers accessing it, and changes to it are publicly visible.
         /// </summary>
         public const string GlobalConfigURL = "https://raw.githubusercontent.com/ShimmyMySherbet/ShimmysAdminTools/master/ShimmysAdminTools/GlobalConfig.ini";
@@ -27,9 +27,14 @@ namespace ShimmysAdminTools.Components
         {
             try
             {
-                using (WebClient client = new WebClient())
+                var req = WebRequest.CreateHttp(GlobalConfigURL);
+                req.Method = "GET";
+                req.Timeout = 2500; // 2.5 sec timeout as to not hold up the server if there is no internet
+                using (var resp = req.GetResponse())
+                    using(var network = resp.GetResponseStream())
+                using (var reader = new StreamReader(network))
                 {
-                    string ini  = client.DownloadString(GlobalConfigURL);
+                    var ini = reader.ReadToEnd();
                     GlobalConfig = new INIFile(ini);
                 }
                 HasConfig = true;

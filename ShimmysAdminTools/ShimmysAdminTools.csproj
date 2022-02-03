@@ -47,6 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\Rocket.Unturned.dll</HintPath>
     </Reference>
+    <Reference Include="SDG.NetPak.Runtime">
+      <HintPath>D:\Servers\DevServers\Rocket_Untruned\Unturned_Data\Managed\SDG.NetPak.Runtime.dll</HintPath>
+    </Reference>
     <Reference Include="SDG.NetTransport, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Libs\SDG.NetTransport.dll</HintPath>
@@ -86,8 +89,11 @@
     <Compile Include="Behaviors\UnlimitedAmmoBehaviour.cs" />
     <Compile Include="Commands\AFlyCommand.cs" />
     <Compile Include="Commands\AFlySpeedPermitCommand.cs" />
+    <Compile Include="Commands\AscendCommand.cs" />
     <Compile Include="Commands\CheckOwnerCommand.cs" />
+    <Compile Include="Commands\ClearInventoryCommand.cs" />
     <Compile Include="Commands\CommandSpyCommand.cs" />
+    <Compile Include="Commands\DescendCommand.cs" />
     <Compile Include="Commands\DisableVehicleAccess.cs" />
     <Compile Include="Commands\AFlySpeedCommands.cs" />
     <Compile Include="Commands\ExecAllCommand.cs" />
@@ -132,6 +138,7 @@
     <Compile Include="Models\PluginConfig.cs" />
     <Compile Include="Models\PointToolMode.cs" />
     <Compile Include="Models\RaycastResult.cs" />
+    <Compile Include="Models\ReflectionExtensions.cs" />
     <Compile Include="Models\StructureCluster.cs" />
     <Compile Include="Models\UnturnedKey.cs" />
     <Compile Include="Modules\execManager.cs" />
