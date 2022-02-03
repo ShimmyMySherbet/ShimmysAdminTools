@@ -13,6 +13,7 @@ namespace ShimmysAdminTools.Models
         Kill = 2,
         Repair = 3,
         Utility = 4,
-        Jump = 5
+        Jump = 5,
+        CheckOwner = 6
     }
 }

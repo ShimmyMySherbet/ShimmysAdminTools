@@ -38,7 +38,13 @@ namespace ShimmysAdminTools.Components
 
         public static string Translate(this string Translation, params object[] Args)
         {
-            return AdminToolsPlugin.Instance.Translate(Translation, Args);
+            if (AdminToolsPlugin.Instance.Translations.Instance[Translation] != null)
+            {
+                return AdminToolsPlugin.Instance.Translate(Translation, placeholder: Args);
+            } else // Handle new translation key not in existing translations file
+            {
+                return AdminToolsPlugin.Instance.DefaultTranslations.Translate(Translation, placeholder: Args);
+            }
         }
 
         public static T getOrAddComponent<T>(this GameObject go) where T : UnityEngine.Component

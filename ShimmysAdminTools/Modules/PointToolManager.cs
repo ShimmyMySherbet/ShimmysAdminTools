@@ -6,6 +6,7 @@ using Rocket.Unturned.Player;
 using SDG.Unturned;
 using ShimmysAdminTools.Components;
 using ShimmysAdminTools.Models;
+using Steamworks;
 using UnityEngine;
 
 namespace ShimmysAdminTools.Modules
@@ -87,6 +88,91 @@ namespace ShimmysAdminTools.Modules
                 {
                     RunJumpTool(Player, Raycast, gesture);
                 }
+            }
+            else if (Session.PointTool == PointToolMode.CheckOwner)
+            {
+                var raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.VEHICLE | RayMasks.STRUCTURE | RayMasks.BARRICADE);
+
+                RunCheckownerTool(Player, raycast);
+            }
+        }
+
+        public static void RunCheckownerTool(UnturnedPlayer player, RaycastResult raycast)
+        {
+            if (raycast.Barricade != null)
+            {
+                var bOwner = raycast.Barricade.owner;
+                var bGroup = raycast.Barricade.group;
+
+                AdminToolsPlugin.Instance.TryGetPlayerName(bOwner, out var playerName);
+                if (playerName == null)
+                    playerName = "Unknown Player";
+
+                if (bGroup != 0 && bGroup < 1000)
+                {
+                    var inGameGroup = GroupManager.getGroupInfo(new CSteamID(bGroup));
+
+                    if (inGameGroup != null)
+                    {
+                        UnturnedChat.Say(player, "PointTool_CheckOwner_Barricade_Group".Translate(playerName, bOwner, inGameGroup.name));
+
+                        return;
+                    }
+                }
+
+                UnturnedChat.Say(player, "PointTool_CheckOwner_Barricade".Translate(playerName, bOwner));
+                return;
+            }
+            else if (raycast.Structure != null)
+            {
+                var sOwner = raycast.Structure.owner;
+                var sGroup = raycast.Structure.group;
+
+                AdminToolsPlugin.Instance.TryGetPlayerName(sOwner, out var playerName);
+                if (playerName == null)
+                    playerName = "Unknown Player";
+
+                if (sGroup != 0 && sGroup < 1000)
+                {
+                    var inGameGroup = GroupManager.getGroupInfo(new CSteamID(sGroup));
+
+                    if (inGameGroup != null)
+                    {
+                        UnturnedChat.Say(player, "PointTool_CheckOwner_Structure_Group".Translate(playerName, sOwner, inGameGroup.name));
+                        return;
+                    }
+                }
+
+                UnturnedChat.Say(player, "PointTool_CheckOwner_Structure".Translate(playerName, sOwner));
+                return;
+            }
+            else if (raycast.Vehicle != null)
+            {
+                if (!raycast.Vehicle.isLocked)
+                {
+                    return;
+                }
+
+                var vOwner = raycast.Vehicle.lockedOwner.m_SteamID;
+                var vGroup = raycast.Vehicle.lockedGroup;
+
+                AdminToolsPlugin.Instance.TryGetPlayerName(vOwner, out var playerName);
+                if (playerName == null)
+                    playerName = "Unknown Player";
+
+                if (vGroup.m_SteamID != 0 && vGroup.m_SteamID < 1000)
+                {
+                    var inGameGroup = GroupManager.getGroupInfo(vGroup);
+
+                    if (inGameGroup != null)
+                    {
+                        UnturnedChat.Say(player, "PointTool_CheckOwner_Vehicle_Group".Translate(playerName, vOwner, inGameGroup.name));
+                        return;
+                    }
+                }
+
+                UnturnedChat.Say(player, "PointTool_CheckOwner_Vehicle".Translate(playerName, vOwner));
+                return;
             }
         }
 
@@ -175,7 +261,6 @@ namespace ShimmysAdminTools.Modules
                 BarricadeManager.ServerSetFireLit(f, !f.isLit);
             }
 
-
             if (Raycast.ParentHasComponent<InteractableGenerator>())
             {
                 var f = Raycast.TryGetEntity<InteractableGenerator>();
@@ -188,21 +273,17 @@ namespace ShimmysAdminTools.Modules
                 BarricadeManager.ServerSetOvenLit(f, !f.isLit);
             }
 
-
             if (Raycast.ParentHasComponent<InteractableOxygenator>())
             {
                 var f = Raycast.TryGetEntity<InteractableOxygenator>();
                 BarricadeManager.ServerSetOxygenatorPowered(f, !f.isPowered);
             }
 
-
-
             if (Raycast.ParentHasComponent<InteractableSafezone>())
             {
                 var f = Raycast.TryGetEntity<InteractableSafezone>();
                 BarricadeManager.ServerSetSafezonePowered(f, !f.isPowered);
             }
-
 
             if (Raycast.ParentHasComponent<InteractableSpot>())
             {
@@ -374,7 +455,6 @@ namespace ShimmysAdminTools.Modules
 
         public static void SendOpenDoor(ushort plant, byte x, byte y, ushort index, InteractableDoor interactableDoor, BarricadeRegion barricadeRegion)
         {
-           
             BarricadeManager.ServerSetDoorOpen(interactableDoor, !interactableDoor.isOpen);
         }
 

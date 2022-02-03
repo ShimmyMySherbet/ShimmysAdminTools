@@ -78,6 +78,11 @@ namespace ShimmysAdminTools.Commands
                     Session.PointTool = PointToolMode.Jump;
                     SendMsg = true;
                     Send = "PointTool_Selected_Jump".Translate();
+                } else if (arg == "ck" || arg == "c" || arg=="checkowner")
+                {
+                    Session.PointTool = PointToolMode.CheckOwner;
+                    SendMsg = true;
+                    Send = "PointTool_Selected_CheckOwner".Translate();
                 }
                 if (PlayerCanUseMode(Player, Session.PointTool))
                 {
@@ -97,7 +102,7 @@ namespace ShimmysAdminTools.Commands
                     }
                     else
                     {
-                        UnturnedChat.Say(caller, "Tools: Destroy, Utility, Jump, Kill");
+                        UnturnedChat.Say(caller, "Tools: Destroy, Utility, Jump, Kill, CheckOwner");
                     }
                 }
                 else
@@ -118,6 +123,7 @@ namespace ShimmysAdminTools.Commands
             if (Mode == PointToolMode.Jump) return Player.HasPermission("ShimmysAdminTools.PointTool.Jump") && AdminToolsPlugin.Config.PointToolSettings.JumpToolEnabled;
             if (Mode == PointToolMode.Utility) return Player.HasPermission("ShimmysAdminTools.PointTool.Utility") && AdminToolsPlugin.Config.PointToolSettings.UtilityToolEnabled;
             if (Mode == PointToolMode.Kill) return Player.HasPermission("ShimmysAdminTools.PointTool.Kill") && AdminToolsPlugin.Config.PointToolSettings.KillToolEnabled;
+            if (Mode == PointToolMode.CheckOwner) return Player.HasPermission("ShimmysAdminTools.PointTool.CheckOwner") && AdminToolsPlugin.Config.PointToolSettings.KillToolEnabled;
             if (Mode == PointToolMode.None) return true;
             return false;
         }
