@@ -264,3 +264,6 @@ An example of command spy in action:
 
 # Downloads
 You can download this plugin from the <a href="https://github.com/ShimmyMySherbet/ShimmysAdminTools/releases/">Releases</a> page.
+
+# Donate
+I maintain and develop this product for free and for everyone to use. If your feeling generous and want to support my open source work, you can donate/sponsor the project on my Ko-Fi <a href="https://ko-fi.com/shimmymysherbet">Here</a>. Even $3 goes a long way.
