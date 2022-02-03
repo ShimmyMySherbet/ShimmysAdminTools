@@ -119,6 +119,22 @@ https://www.youtube.com/watch?v=2yo6BurDUA4
         <td>WipePlayerBuildings [Player/PlayerID] [Structure/Barricade ID]</td>
         <td>Wipes all instances of the target structures/barricades placed by the target player.</td>
     </tr>
+    <tr>
+        <td>Ascend [Distance]</td>
+        <td>Teleports you up the specified distance.</td>
+    </tr>
+    <tr>
+        <td>Descend [Distance]</td>
+        <td>Teleports you down the specified distance.</td>
+    </tr>
+    <tr>
+        <td>PlaceObject [Barricade/Structure Name/ID]</td>
+        <td>Creates and places the specified barricade/structure where your standing.</td>
+    </tr>
+    <tr>
+        <td>ClearInventory</td>
+        <td>Clears all items in your inventory</td>
+    </tr>
 </table>
 
 ## PointTools
@@ -158,6 +174,14 @@ PointTools is a small toolkit includes tools that are triggered by punching/gest
                 <li>Opens storage (from any distance, even if you don't own them)</li>
             </ul>
         Tools are still to be added.
+    </tr>
+    <tr>
+        <td>Repair</td>
+        <td>Repairs Barricades, Structures, Vehicles, and Vehicle Tires.</td>
+    </tr>
+    <tr>
+        <td>CheckOwner</td>
+        <td>Shows you the owner of Structures, barricades, and Locked Vehicles. Along with the player's group.</td>
     </tr>
 </table>
 
@@ -214,6 +238,14 @@ There are still more 'PointTools' to be added. This is not the final version.
     <tr>
         <td>ShimmysAdminTools.PointTool.Kill</td>
         <td>Provides access to the Kill tool</td>
+    </tr>
+    <tr>
+        <td>ShimmysAdminTools.PointTool.CheckOwner</td>
+        <td>Provides access to the CheckOwner tool</td>
+    </tr>
+    <tr>
+        <td>ShimmysAdminTools.PointTool.Repair</td>
+        <td>Provides access to the Repair tool</td>
     </tr>
     <tr>
         <td>ShimmysAdminTools.PointTool.DestroyOtherPlayersStuff</td>
