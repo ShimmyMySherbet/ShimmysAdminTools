@@ -39,9 +39,13 @@ namespace ShimmysAdminTools.Modules
 
         public static void RunPointTool(UnturnedPlayer Player, PlayerSession Session, UnturnedPlayerEvents.PlayerGesture gesture)
         {
+            var isUsingBinoculars = Player.Player.equipment.isSelected && Player.Player.equipment.asset.id == 333;
+
+
+
             if (Session.PointTool == PointToolMode.Destroy)
             {
-                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE | RayMasks.RESOURCE | RayMasks.ENVIRONMENT);
+                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE | RayMasks.RESOURCE | RayMasks.ENVIRONMENT, isUsingBinoculars ? 10000 : 100);
                 if (Raycast.RaycastHit)
                 {
                     RunDestroyTool(Player, Raycast);
@@ -49,7 +53,7 @@ namespace ShimmysAdminTools.Modules
             }
             else if (Session.PointTool == PointToolMode.Utility)
             {
-                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE);
+                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE, isUsingBinoculars ? 10000 : 100);
                 if (Raycast.RaycastHit)
                 {
                     RunUtilityTool(Player, Raycast);
@@ -57,7 +61,7 @@ namespace ShimmysAdminTools.Modules
             }
             else if (Session.PointTool == PointToolMode.Repair)
             {
-                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE);
+                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE, isUsingBinoculars ? 10000 : 100);
                 if (Raycast.RaycastHit)
                 {
                     RunRepairTool(Player, Raycast, gesture == UnturnedPlayerEvents.PlayerGesture.PunchLeft);
@@ -65,8 +69,8 @@ namespace ShimmysAdminTools.Modules
             }
             else if (Session.PointTool == PointToolMode.Kill)
             {
-                RaycastResult CloseEnemyCheck = RaycastUtility.RayCastPlayer(Player, RayMasks.AGENT | RayMasks.ENEMY, 7);
-                RaycastResult ClosePlayerCheck = RaycastUtility.RayCastPlayer(Player, RayMasks.PLAYER, 10);
+                RaycastResult CloseEnemyCheck = RaycastUtility.RayCastPlayer(Player, RayMasks.AGENT | RayMasks.ENEMY, isUsingBinoculars ? 500 : 7);
+                RaycastResult ClosePlayerCheck = RaycastUtility.RayCastPlayer(Player, RayMasks.PLAYER, isUsingBinoculars ? 700 : 10);
                 if (ClosePlayerCheck.RaycastHit && ClosePlayerCheck.ParentHasComponent<Player>() && ClosePlayerCheck.TryGetEntity<Player>().channel.owner.playerID.steamID.m_SteamID != Player.CSteamID.m_SteamID)
                 {
                     RunKillTool(Player, ClosePlayerCheck);
@@ -95,7 +99,7 @@ namespace ShimmysAdminTools.Modules
             }
             else if (Session.PointTool == PointToolMode.CheckOwner)
             {
-                var raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.VEHICLE | RayMasks.STRUCTURE | RayMasks.BARRICADE);
+                var raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.VEHICLE | RayMasks.STRUCTURE | RayMasks.BARRICADE, isUsingBinoculars ? 10000 : 100);
 
                 RunCheckownerTool(Player, raycast);
             }

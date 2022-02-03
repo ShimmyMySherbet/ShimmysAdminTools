@@ -33,6 +33,8 @@ namespace ShimmysAdminTools.Behaviors
                 UPlayer = UnturnedPlayer.FromPlayer(Player);
                 Ready = true;
             }
+
+
         }
 
         public void Stop()
@@ -44,11 +46,17 @@ namespace ShimmysAdminTools.Behaviors
         {
             Stop();
         }
-
+        private int m_Delay = 0;
         public void FixedUpdate()
         {
             if (awake && Ready)
             {
+                m_Delay++;
+                if (m_Delay < 3)
+                    return;
+                m_Delay = 0;
+
+
                 PlayerInput PInput = Player.input;
                 bool LPunchState = PInput.keys[(byte)UnturnedKey.LPunch];
                 bool RPunchState = PInput.keys[(byte)UnturnedKey.RPunch];
@@ -57,7 +65,7 @@ namespace ShimmysAdminTools.Behaviors
                     if (LPunchState)
                     {
                         // send fire
-                        if (!Player.equipment.isSelected)
+                        if (!Player.equipment.isSelected || Player.equipment.asset.id == 333) // allow the use of binoculars
                             PointToolManager.ManageGestureUpdate(UPlayer, Rocket.Unturned.Events.UnturnedPlayerEvents.PlayerGesture.PunchLeft);
                     }
                     LPunchDown = LPunchState;
