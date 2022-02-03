@@ -67,17 +67,9 @@ https://www.youtube.com/watch?v=2yo6BurDUA4
         <td>MapJump</td>
         <td>Toggles Map/Marker jumping (teleport on new marker).</td>
     </tr>
-    <tr>
-        <td>Mute [Player]</td>
-        <td>Mutes a player from speaking in chat.</td>
-    </tr>
-    <tr>
-        <td>Mute [Player] [Duration]</td>
-        <td>Temp Mutes a player from speaking in chat.</td>
-    </tr>
-        <tr>
-        <td>Unmute [Player]</td>
-        <td>Unmutes a player.</td>
+     <tr>
+        <td>SalvageTime [Sec]</td>
+        <td>Changes the amount of time required for you to salvage an object</td>
     </tr>
      <tr>
         <td>CommandSpy</td>
