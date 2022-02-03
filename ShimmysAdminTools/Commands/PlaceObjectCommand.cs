@@ -104,9 +104,6 @@ namespace ShimmysAdminTools.Commands
                     Array.Copy(BitConverter.GetBytes(upl.CSteamID.m_SteamID), 0, baseState, 0, 8);
                     Array.Copy(BitConverter.GetBytes(upl.Player.quests.groupID.m_SteamID), 0, baseState, 8, 8);
                     b.state = baseState;
-                } else if (store is InteractableStorage stf)
-                {
-                    Rocket.Core.Logging.Logger.Log($"O: {stf.owner}, G: {stf.group}");
                 }
 
                 BarricadeManager.updateReplicatedState(transform, b.state, b.state.Length);
