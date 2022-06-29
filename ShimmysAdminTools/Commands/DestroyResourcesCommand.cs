@@ -14,7 +14,7 @@ namespace ShimmysAdminTools.Commands
         public AllowedCaller AllowedCaller => AllowedCaller.Player;
         public string Name => "DestroyResources";
         public string Help => "Destroys all resources in the area";
-        public string Syntax => "DestroyResources [radius] [explode]";
+        public string Syntax => "DestroyResources [radius] [explode] [drop items]";
         public List<string> Aliases => new List<string>();
         public List<string> Permissions => new List<string>() { "ShimmysAdminTools.DestroyResources" };
 
@@ -35,10 +35,17 @@ namespace ShimmysAdminTools.Commands
             }
 
             var explode = false;
+            var dropItems = false;
 
             if (command.Length >= 2 && !bool.TryParse(command[1], out explode))
             {
                 UnturnedChat.Say(caller, "Invalid value for explode. Values True/False");
+                return;
+            }
+
+            if (command.Length >= 3 && !bool.TryParse(command[2], out dropItems))
+            {
+                UnturnedChat.Say(caller, "Invalid value for drop items. Values True/False");
                 return;
             }
 
@@ -69,10 +76,10 @@ namespace ShimmysAdminTools.Commands
                     queue.Enqueue(tree.spawn);
             }
 
-            uPlayer.Player.StartCoroutine(DestroyResources(queue, explode, 15));
+            uPlayer.Player.StartCoroutine(DestroyResources(queue, explode, dropItems, 15));
         }
 
-        private IEnumerator DestroyResources(Queue<ResourceSpawnpoint> trees, bool explode, int treesPerUpdate)
+        private IEnumerator DestroyResources(Queue<ResourceSpawnpoint> trees, bool explode, bool drop, int treesPerUpdate)
         {
             while (true)
             {
@@ -84,7 +91,7 @@ namespace ShimmysAdminTools.Commands
                     }
 
                     var tree = trees.Dequeue();
-                    ResourceManager.damage(tree.model, Vector3.up * 100f, 1000f, 10f, 1f, out _, out _);
+                    ResourceManager.damage(tree.model, Vector3.up * 100f, 1000f, 10f, drop ? 1f : 0f, out _, out _);
                     if (explode)
                     {
                         EffectManager.sendEffect(20, 200, tree.point);
