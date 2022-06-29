@@ -325,6 +325,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\EffectTrailer.cs" />
+    <Compile Include="Behaviors\FireworkBehaviour.cs" />
+    <Compile Include="Commands\AlertZombiesCommand.cs" />
+    <Compile Include="Commands\BoomCommand.cs" />
     <Compile Include="Behaviors\FiremodeUnlocker.cs" />
     <Compile Include="Behaviors\NoDrainBehaviour.cs" />
     <Compile Include="Behaviors\PointToolInputListener.cs" />
@@ -339,17 +343,22 @@
     <Compile Include="Commands\ClearInventoryCommand.cs" />
     <Compile Include="Commands\CommandSpyCommand.cs" />
     <Compile Include="Commands\DescendCommand.cs" />
+    <Compile Include="Commands\ReviveResourcesCommand.cs" />
+    <Compile Include="Commands\DestroyResourcesCommand.cs" />
     <Compile Include="Commands\DisableVehicleAccess.cs" />
     <Compile Include="Commands\AFlySpeedCommands.cs" />
     <Compile Include="Commands\ExecAllCommand.cs" />
     <Compile Include="Commands\ExecCommand.cs" />
     <Compile Include="Commands\FindBaseCommand.cs" />
+    <Compile Include="Commands\FireworkCommand.cs" />
     <Compile Include="Commands\ForceDemountCommand.cs" />
     <Compile Include="Commands\ForceSaveCommand.cs" />
     <Compile Include="Commands\ForceTPCommand.cs" />
     <Compile Include="Commands\GotoBedCommand.cs" />
     <Compile Include="Commands\GotoMarker.cs" />
     <Compile Include="Commands\JumpHeightCommand.cs" />
+    <Compile Include="Commands\KickAllCommand.cs" />
+    <Compile Include="Commands\LaunchBushesCommand.cs" />
     <Compile Include="Commands\MapJumpCommand.cs" />
     <Compile Include="Commands\MarkerCommand.cs" />
     <Compile Include="Commands\NoClipCommand.cs" />
@@ -367,6 +376,7 @@
     <Compile Include="Commands\SetServerJump.cs" />
     <Compile Include="Commands\SetServerSpeed.cs" />
     <Compile Include="Commands\SetSpeedCommand.cs" />
+    <Compile Include="Commands\SimFireCommand.cs" />
     <Compile Include="Commands\StructureESPCommand.cs" />
     <Compile Include="Commands\UnlimitedAmmoCommand.cs" />
     <Compile Include="Commands\UnlockFireModesCommand.cs" />
@@ -392,13 +402,12 @@
     <Compile Include="Modules\PlayerDataStore.cs" />
     <Compile Include="Modules\PlayerSelector.cs" />
     <Compile Include="Modules\PlayerSessionStore.cs" />
+    <Compile Include="Modules\PlayerUtil.cs" />
     <Compile Include="Modules\PointToolManager.cs" />
     <Compile Include="Modules\RaycastUtility.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Libs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="GlobalConfig.ini" />
     <None Include="packages.config" />

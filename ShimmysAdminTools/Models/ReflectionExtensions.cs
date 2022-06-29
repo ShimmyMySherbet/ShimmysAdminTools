@@ -10,24 +10,12 @@ namespace ShimmysAdminTools.Models
 
         public static T DynGet<T>(this Type t, string name)
         {
-            Console.WriteLine("get field");
             var field = t.GetField(name, All);
             if (field == null)
             {
-                Console.WriteLine("fail");
                 throw new Exception($"Failed to get field {name}");
             }
-            Console.WriteLine("got field");
             var val = field.GetValue(null);
-            if (val == null)
-            {
-                Console.WriteLine("vnul");
-            } else
-            {
-                var gens = val.GetType().GetGenericArguments();
-                Console.WriteLine($"RealType: {val.GetType().Name.Split('`')[0]}{(gens.Length > 0 ? $"<{string.Join(", ", gens.Select(x => x.Name))}>" : "")}");
-            }
-
             return (T)val;
         }
 
