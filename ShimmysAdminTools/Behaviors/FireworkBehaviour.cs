@@ -1,4 +1,7 @@
-﻿using SDG.Unturned;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using SDG.Unturned;
 using UnityEngine;
 
 namespace ShimmysAdminTools.Behaviors
@@ -17,6 +20,9 @@ namespace ShimmysAdminTools.Behaviors
         public ushort ExplosionEffectID { get; set; } = 20;
         public ushort ExplosionDamage { get; set; } = 200;
         public ushort ExplosionRadius { get; set; } = 30;
+        public ushort ExplosionEffect { get; set; } = 20;
+        public ushort ExplosionEffectCount { get; set; } = 20;
+        public List<ushort> ExplosionEffects { get; } = new List<ushort>() { 124, 125, 130, 131, 312, 133, 134, 135, 139 };
 
         public EffectTrailer Trailer { get; private set; }
 
@@ -63,6 +69,7 @@ namespace ShimmysAdminTools.Behaviors
                 if (FlightTime >= Fuse)
                 {
                     EffectManager.sendEffect(ExplosionEffectID, EffectManager.INSANE, transform.position);
+                    StartCoroutine(DoExplosionEffects());
                     DamageTool.explode(transform.position, ExplosionRadius, EDeathCause.GRENADE, Player.channel.owner.playerID.steamID,
                         ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage,
                         ExplosionDamage, out _);
@@ -79,6 +86,38 @@ namespace ShimmysAdminTools.Behaviors
             Trailer.enabled = false;
             Destroy(Trailer);
             Destroy(this);
+        }
+
+        private IEnumerator DoExplosionEffects(float timeToComplete = 0.4f)
+        {
+            if (ExplosionEffects.Count == 0)
+            {
+                yield break;
+            }
+
+            var effectDelay = ExplosionEffectCount / timeToComplete;
+
+            var effects = new List<(Vector3 pos, ushort effect)>();
+
+            for (int i = 0; i < ExplosionEffectCount; i++)
+            {
+                var randomEffect = ExplosionEffects[Random.Range(0, ExplosionEffects.Count)];
+
+                var position = transform.position + (Random.insideUnitSphere * ExplosionRadius);
+
+                effects.Add((position, randomEffect));
+            }
+
+            // Order effects inside to out of the sphere to simulate an outward explosion
+            var ordered = effects.OrderBy(x => (transform.position - x.pos).sqrMagnitude);
+
+            // Send effects over many frames to allow the expansion to be seen
+            for (int i = 0; i < effects.Count; i++)
+            {
+                var effect = effects[i];
+                EffectManager.sendEffect(effect.effect, EffectManager.INSANE, effect.pos);
+                yield return new WaitForSeconds(effectDelay);
+            }
         }
     }
 }
