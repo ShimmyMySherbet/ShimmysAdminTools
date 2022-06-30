@@ -19,10 +19,10 @@ namespace ShimmysAdminTools.Behaviors
 
         public ushort ExplosionEffectID { get; set; } = 20;
         public ushort ExplosionDamage { get; set; } = 200;
-        public ushort ExplosionRadius { get; set; } = 30;
+        public ushort ExplosionRadius { get; set; } = 10;
         public ushort ExplosionEffect { get; set; } = 20;
-        public ushort ExplosionEffectCount { get; set; } = 20;
-        public List<ushort> ExplosionEffects { get; } = new List<ushort>() { 124, 125, 130, 131, 312, 133, 134, 135, 139 };
+        public ushort ExplosionEffectCount { get; set; } = 70;
+        public List<ushort> ExplosionEffects { get; } = new List<ushort>() { 124, 130, 312, 134, 139 };
 
         public EffectTrailer Trailer { get; private set; }
 
@@ -59,6 +59,8 @@ namespace ShimmysAdminTools.Behaviors
             if (IsLaunched)
             {
                 Stop();
+                Destroy(Trailer);
+                Destroy(this);
             }
         }
 
@@ -69,6 +71,7 @@ namespace ShimmysAdminTools.Behaviors
                 if (FlightTime >= Fuse)
                 {
                     EffectManager.sendEffect(ExplosionEffectID, EffectManager.INSANE, transform.position);
+                    EffectManager.sendEffect(123, EffectManager.INSANE, transform.position);
                     StartCoroutine(DoExplosionEffects());
                     DamageTool.explode(transform.position, ExplosionRadius, EDeathCause.GRENADE, Player.channel.owner.playerID.steamID,
                         ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage,
@@ -84,18 +87,28 @@ namespace ShimmysAdminTools.Behaviors
             Player.movement.sendPluginGravityMultiplier(m_PrevGravity);
             IsLaunched = false;
             Trailer.enabled = false;
-            Destroy(Trailer);
-            Destroy(this);
         }
 
-        private IEnumerator DoExplosionEffects(float timeToComplete = 0.4f)
+        private IEnumerator DoExplosionEffects(float timeToComplete = 0.2f, bool destroyPost = true)
         {
             if (ExplosionEffects.Count == 0)
             {
+                System.Console.WriteLine("No Effects to run");
                 yield break;
             }
 
-            var effectDelay = ExplosionEffectCount / timeToComplete;
+            var effectDelay = timeToComplete / ExplosionEffectCount;
+            var frameTime = 1f / 50f;
+            var effectsPerFrame = 1;
+            var initialDelay = effectDelay;
+
+            // If the delay is too short, it will be rounded to the next frame.
+            // So run more effects per frame and increase the effect delay instead.
+            while (effectDelay < frameTime)
+            {
+                effectDelay += initialDelay;
+                effectsPerFrame += 1;
+            }
 
             var effects = new List<(Vector3 pos, ushort effect)>();
 
@@ -106,18 +119,35 @@ namespace ShimmysAdminTools.Behaviors
                 var position = transform.position + (Random.insideUnitSphere * ExplosionRadius);
 
                 effects.Add((position, randomEffect));
+                System.Console.WriteLine($"Scheduled effect at {position}: {randomEffect}");
             }
 
             // Order effects inside to out of the sphere to simulate an outward explosion
             var ordered = effects.OrderBy(x => (transform.position - x.pos).sqrMagnitude);
 
-            // Send effects over many frames to allow the expansion to be seen
-            for (int i = 0; i < effects.Count; i++)
+            var queue = new Queue<(Vector3 pos, ushort effect)>();
+            foreach (var order in ordered)
             {
-                var effect = effects[i];
-                EffectManager.sendEffect(effect.effect, EffectManager.INSANE, effect.pos);
+                queue.Enqueue(order);
+            }
+
+            while(queue.Count > 0)
+            {
+                for (int i = 0; i < effectsPerFrame; i++)
+                {
+                    if (effects.Count == 0)
+                        break;
+                    var effect = queue.Dequeue();
+                    EffectManager.sendEffect(effect.effect, EffectManager.INSANE, effect.pos);
+                }
                 yield return new WaitForSeconds(effectDelay);
             }
+            if (destroyPost)
+            {
+                Destroy(Trailer);
+                Destroy(this);
+            }
+            System.Console.WriteLine("done");
         }
     }
 }

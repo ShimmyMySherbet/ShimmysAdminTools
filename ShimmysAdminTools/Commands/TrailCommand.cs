@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Rocket.API;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
@@ -23,8 +24,7 @@ namespace ShimmysAdminTools.Commands
         {
             { "None", 0 },
             { "Fire", 139 },
-            { "Water", 141 },
-            { "WaterSheet", 142 },
+            { "Water", 140 },
             { "WaterSheet", 140 },
             { "WaterFoam", 141 },
             { "WaterSpray", 142 },
@@ -46,7 +46,7 @@ namespace ShimmysAdminTools.Commands
             {
                 if (!TrailNames.TryGetValue(trailHandle, out trailID))
                 {
-                    UnturnedChat.Say(caller, $"Invalid Trail.\nOptions: {string.Join(", ", TrailNames)}");
+                    UnturnedChat.Say(caller, $"Invalid Trail.\nOptions: {string.Join(", ", TrailNames.Keys)}");
                     return;
                 }
             }
