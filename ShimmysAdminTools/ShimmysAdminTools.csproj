@@ -378,6 +378,7 @@
     <Compile Include="Commands\SetSpeedCommand.cs" />
     <Compile Include="Commands\SimFireCommand.cs" />
     <Compile Include="Commands\StructureESPCommand.cs" />
+    <Compile Include="Commands\TrailCommand.cs" />
     <Compile Include="Commands\UnlimitedAmmoCommand.cs" />
     <Compile Include="Commands\UnlockFireModesCommand.cs" />
     <Compile Include="Commands\WipePlayerBuildingsCommand.cs" />

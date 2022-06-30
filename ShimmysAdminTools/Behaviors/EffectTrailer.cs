@@ -7,7 +7,7 @@ namespace ShimmysAdminTools.Behaviors
     {
         public ushort EffectID { get; set; }
 
-        public float Rate { get; set; } = 1f;
+        public float Rate { get; set; } = 0.05f;
 
         public float Radius { get; set; } = EffectManager.LARGE;
 
