@@ -50,6 +50,7 @@ namespace ShimmysAdminTools.Behaviors
             Trailer.Rate = TrailRate;
             Trailer.enabled = true;
 
+            // Set launched
             Launched = Time.realtimeSinceStartup;
             IsLaunched = true;
         }
@@ -73,7 +74,7 @@ namespace ShimmysAdminTools.Behaviors
                     EffectManager.sendEffect(ExplosionEffectID, EffectManager.INSANE, transform.position);
                     EffectManager.sendEffect(123, EffectManager.INSANE, transform.position);
                     StartCoroutine(DoExplosionEffects());
-                    DamageTool.explode(transform.position, ExplosionRadius, EDeathCause.GRENADE, Player.channel.owner.playerID.steamID,
+                    DamageTool.explode(transform.position, ExplosionRadius, EDeathCause.MISSILE, Player.channel.owner.playerID.steamID,
                         ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage,
                         ExplosionDamage, out _);
                     AlertTool.alert(transform.position, 200f);
@@ -93,7 +94,6 @@ namespace ShimmysAdminTools.Behaviors
         {
             if (ExplosionEffects.Count == 0)
             {
-                System.Console.WriteLine("No Effects to run");
                 yield break;
             }
 
@@ -119,7 +119,6 @@ namespace ShimmysAdminTools.Behaviors
                 var position = transform.position + (Random.insideUnitSphere * ExplosionRadius);
 
                 effects.Add((position, randomEffect));
-                System.Console.WriteLine($"Scheduled effect at {position}: {randomEffect}");
             }
 
             // Order effects inside to out of the sphere to simulate an outward explosion
@@ -142,12 +141,13 @@ namespace ShimmysAdminTools.Behaviors
                 }
                 yield return new WaitForSeconds(effectDelay);
             }
+
+            // If set, destroy the object once the coroutine is finished
             if (destroyPost)
             {
                 Destroy(Trailer);
                 Destroy(this);
             }
-            System.Console.WriteLine("done");
         }
     }
 }
