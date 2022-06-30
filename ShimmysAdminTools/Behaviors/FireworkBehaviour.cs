@@ -52,8 +52,7 @@ namespace ShimmysAdminTools.Behaviors
         {
             if (IsLaunched)
             {
-                IsLaunched = false;
-                Player.movement.sendPluginGravityMultiplier(m_PrevGravity);
+                Stop();
             }
         }
 
@@ -68,13 +67,18 @@ namespace ShimmysAdminTools.Behaviors
                         ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage, ExplosionDamage,
                         ExplosionDamage, out _);
                     AlertTool.alert(transform.position, 200f);
-                    Player.movement.sendPluginGravityMultiplier(m_PrevGravity);
-                    IsLaunched = false;
-                    Trailer.enabled = false;
-                    Destroy(Trailer);
-                    Destroy(this);
+                    Stop();
                 }
             }
+        }
+
+        private void Stop()
+        {
+            Player.movement.sendPluginGravityMultiplier(m_PrevGravity);
+            IsLaunched = false;
+            Trailer.enabled = false;
+            Destroy(Trailer);
+            Destroy(this);
         }
     }
 }
