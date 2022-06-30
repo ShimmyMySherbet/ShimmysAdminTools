@@ -11,7 +11,7 @@ namespace ShimmysAdminTools.Behaviors
         public Player Player { get; private set; }
         public float FlightTime => Time.realtimeSinceStartup - Launched;
         public bool IsLaunched { get; private set; }
-        public float Fuse { get; set; } = 1f;
+        public float Fuse { get; set; } = 2f;
         private float Launched { get; set; } = 0f;
 
         public ushort TrailEffectID { get; set; } = 139;
@@ -39,7 +39,7 @@ namespace ShimmysAdminTools.Behaviors
         {
             // Invert the player's gravity so they fly upward
             m_PrevGravity = Player.movement.pluginGravityMultiplier;
-            Player.movement.sendPluginGravityMultiplier(-1.5f);
+            Player.movement.sendPluginGravityMultiplier(-2f);
 
             // Get the player up off the ground, so gravity kicks in
             var resetPosition = transform.position;

@@ -55,7 +55,7 @@ namespace ShimmysAdminTools.Commands
 
             if (command.Length > 1)
             {
-                target = PlayerUtil.GetPlayer(command[0]);
+                target = PlayerUtil.GetPlayer(command[1]);
             }
             else if (caller is UnturnedPlayer pl)
             {
