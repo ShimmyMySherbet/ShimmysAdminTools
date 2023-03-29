@@ -51,7 +51,7 @@ namespace ShimmysAdminTools.Modules
             }
             else if (Session.PointTool == PointToolMode.Utility)
             {
-                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE, isUsingBinoculars ? 10000 : 100);
+                RaycastResult Raycast = RaycastUtility.RayCastPlayer(Player, RayMasks.BARRICADE | RayMasks.STRUCTURE | RayMasks.VEHICLE | RayMasks.BARRICADE_INTERACT, isUsingBinoculars ? 10000 : 100);
                 if (Raycast.RaycastHit)
                 {
                     RunUtilityTool(Player, Raycast);
@@ -262,48 +262,49 @@ namespace ShimmysAdminTools.Modules
             if (Raycast.ParentHasComponent<InteractableCharge>())
             {
                 Raycast.TryGetEntity<InteractableCharge>().detonate(Player.CSteamID);
+                return;
             }
 
             if (Raycast.ParentHasComponent<InteractableFire>())
             {
                 var f = Raycast.TryGetEntity<InteractableFire>();
                 BarricadeManager.ServerSetFireLit(f, !f.isLit);
+                return;
             }
 
             if (Raycast.ParentHasComponent<InteractableGenerator>())
             {
                 var f = Raycast.TryGetEntity<InteractableGenerator>();
                 BarricadeManager.ServerSetGeneratorPowered(f, !f.isPowered);
+                return;
             }
 
             if (Raycast.ParentHasComponent<InteractableOven>())
             {
                 var f = Raycast.TryGetEntity<InteractableOven>();
                 BarricadeManager.ServerSetOvenLit(f, !f.isLit);
+                return;
             }
 
             if (Raycast.ParentHasComponent<InteractableOxygenator>())
             {
                 var f = Raycast.TryGetEntity<InteractableOxygenator>();
                 BarricadeManager.ServerSetOxygenatorPowered(f, !f.isPowered);
+                return;
             }
 
             if (Raycast.ParentHasComponent<InteractableSafezone>())
             {
                 var f = Raycast.TryGetEntity<InteractableSafezone>();
                 BarricadeManager.ServerSetSafezonePowered(f, !f.isPowered);
+                return;
             }
 
             if (Raycast.ParentHasComponent<InteractableSpot>())
             {
                 var f = Raycast.TryGetEntity<InteractableSpot>();
                 BarricadeManager.ServerSetSpotPowered(f, !f.isPowered);
-            }
-
-            if (Raycast.ParentHasComponent<InteractableVehicle>())
-            {
-                var f = Raycast.TryGetEntity<InteractableVehicle>();
-                VehicleManager.ServerForcePassengerIntoVehicle(Player.Player, f);
+                return;
             }
 
             if (Raycast.ParentHasComponent<InteractableBed>())
@@ -317,21 +318,38 @@ namespace ShimmysAdminTools.Modules
                 {
                     UnturnedChat.Say(Player, "PointTool_Utility_Bed_NotClaimed".Translate()); ;
                 }
+                return;
             }
             if (Raycast.ParentHasComponent<InteractableDoor>())
             {
                 var f = Raycast.TryGetEntity<InteractableDoor>();
                 SendOpenDoor(Raycast.BarricadePlant, Raycast.BarricadeX, Raycast.BarricadeY, Raycast.BarricadeIndex, f, Raycast.BarricadeRegion);
+                return;
             }
-            if (Raycast.ParentHasComponent<InteractableStorage>())
-            {
-                InteractableStorage Storage = Raycast.TryGetEntity<InteractableStorage>();
-                Player.Player.inventory.updateItems(7, Storage.items);
-                Player.Player.inventory.sendStorage();
-            }
-        }
+			if (Raycast.ParentHasComponent<InteractableStorage>())
+			{
+				InteractableStorage Storage = Raycast.TryGetEntity<InteractableStorage>();
+				Player.Player.inventory.updateItems(7, Storage.items);
+				Player.Player.inventory.sendStorage();
+				return;
+			}
 
-        public static void RunJumpTool(UnturnedPlayer Player, RaycastResult Raycast, UnturnedPlayerEvents.PlayerGesture gesture)
+			if (Raycast.HasComponent<InteractableStorage>())
+			{
+				InteractableStorage Storage = Raycast.GetComponent<InteractableStorage>();
+				Player.Player.inventory.updateItems(7, Storage.items);
+				Player.Player.inventory.sendStorage();
+				return;
+			}
+
+			if (Raycast.ParentHasComponent<InteractableVehicle>())
+			{
+				var f = Raycast.TryGetEntity<InteractableVehicle>();
+				VehicleManager.ServerForcePassengerIntoVehicle(Player.Player, f);
+			}
+		}
+
+		public static void RunJumpTool(UnturnedPlayer Player, RaycastResult Raycast, UnturnedPlayerEvents.PlayerGesture gesture)
         {
             if (gesture == UnturnedPlayerEvents.PlayerGesture.PunchRight)
             {

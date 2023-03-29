@@ -10,6 +10,12 @@ using UnityEngine;
 
 namespace ShimmysAdminTools.Commands
 {
+    /* Experimental command that messes with turret state.
+     * Can set a vehicle's turret to any item. E.g., a HMG tank, or a Jet that fires a missile (bad idea since it instantly hits the jet)
+     * Can cause some fuckery. E.g., if a grenade is used, it never dissapears and continues to explode every frame.
+     * 
+     * Usage: 
+     */
     public class TTCommand : IRocketCommand
     {
         public AllowedCaller AllowedCaller => AllowedCaller.Player;
@@ -28,18 +34,11 @@ namespace ShimmysAdminTools.Commands
 
 			var pl = caller as UnturnedPlayer;
             var player = pl.Player;
-            var vehicle = pl.CurrentVehicle;
             var eq = player.equipment;
-
-            if (pl.IsInVehicle)
-            {
-                vehicle.findPlayerSeat(pl.Player, out var seatIndex);
-
-                var seat = vehicle.passengers[seatIndex];
-            }
 
             if (command.Length == 0)
             {
+                UnturnedChat.Say(caller, "TTR [savestate | deploy | deploymanual]");
                 return;
             }
             switch (command[0].ToLower())
@@ -50,11 +49,35 @@ namespace ShimmysAdminTools.Commands
                     break;
 
                 case "deploy":
+                    if (m_state == null || m_item == 0)
+                    {
+                        UnturnedChat.Say(caller, "No item selected! Equip and item and use savestate");
+                        return;
+                    }
+
+                    if (!pl.IsInVehicle)
+                    {
+                        UnturnedChat.Say(caller, "you are not in a vehicle!");
+                        return;
+                    }
+
                     eq.turretEquipServer(m_item, m_state);
                     break;
 
-                case "deployman":
-                    bool simServer = true;
+                case "deploymanual":
+					if (m_state == null || m_item == 0)
+					{
+						UnturnedChat.Say(caller, "No item selected! Equip and item and use savestate");
+						return;
+					}
+
+					if (!pl.IsInVehicle)
+					{
+						UnturnedChat.Say(caller, "you are not in a vehicle!");
+						return;
+					}
+
+					bool simServer = true;
                     bool serverPop = true;
 
                     if (command.Length >= 2)

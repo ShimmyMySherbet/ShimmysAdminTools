@@ -86,9 +86,19 @@ namespace ShimmysAdminTools.Models
             return Raycast.transform.GetComponentsInParent<T>();
         }
 
-        public bool ParentHasComponent<T>()
+		public bool ParentHasComponent<T>()
+		{
+			return TryGetEntity<T>() != null;
+		}
+
+		public bool HasComponent<T>()
+		{
+			return Raycast.transform.GetComponent<T>() != null;
+		}
+
+        public T GetComponent<T>()
         {
-            return TryGetEntity<T>() != null;
-        }
-    }
+			return Raycast.transform.GetComponent<T>();
+		}
+	}
 }

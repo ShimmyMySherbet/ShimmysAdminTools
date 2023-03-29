@@ -412,6 +412,7 @@
     <Compile Include="Behaviors\FlightSession.cs" />
     <Compile Include="Behaviors\MapJumpingSession.cs" />
     <Compile Include="Models\EXECPassthroughPermissionsManager.cs" />
+    <Compile Include="Models\FieldAccessor.cs" />
     <Compile Include="Models\PlayerData.cs" />
     <Compile Include="Models\PlayerSession.cs" />
     <Compile Include="Models\PluginConfig.cs" />

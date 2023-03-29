@@ -16,8 +16,10 @@ namespace ShimmysAdminTools.Behaviors
 
         public bool LPunchDown = false;
         public bool RPunchDown = false;
+        public FieldAccessor<PlayerInput, object> LeftPunch { get; private set; }
+        public FieldAccessor<PlayerInput, object> RightPunch { get; private set; }
 
-        public void SetPlayer(Player Player)
+		public void SetPlayer(Player Player)
         {
             this.Player = Player;
             UPlayer = UnturnedPlayer.FromPlayer(Player);
@@ -26,18 +28,20 @@ namespace ShimmysAdminTools.Behaviors
 
         public void Awake()
         {
-            awake = true;
             if (GetComponentInParent<Player>() != null)
             {
                 Player = GetComponentInParent<Player>();
                 UPlayer = UnturnedPlayer.FromPlayer(Player);
                 Ready = true;
-            }
 
+				LeftPunch = new FieldAccessor<PlayerInput, object>("pendingPrimaryAttackInput", Player.input);
+				RightPunch = new FieldAccessor<PlayerInput, object>("pendingSecondaryAttackInput", Player.input);
+			}
 
-        }
+			awake = true;
+		}
 
-        public void Stop()
+		public void Stop()
         {
             awake = false;
         }
@@ -46,6 +50,7 @@ namespace ShimmysAdminTools.Behaviors
         {
             Stop();
         }
+
         private int m_Delay = 0;
         public void FixedUpdate()
         {
@@ -56,10 +61,9 @@ namespace ShimmysAdminTools.Behaviors
                     return;
                 m_Delay = 0;
 
+                var LPunchState = (int)LeftPunch.Value > 0;
+                var RPunchState = (int)RightPunch.Value > 0;
 
-                PlayerInput PInput = Player.input;
-                bool LPunchState = PInput.keys[(byte)UnturnedKey.LPunch];
-                bool RPunchState = PInput.keys[(byte)UnturnedKey.RPunch];
                 if (LPunchState != LPunchDown)
                 {
                     if (LPunchState)
@@ -72,7 +76,7 @@ namespace ShimmysAdminTools.Behaviors
                 }
                 if (RPunchState != RPunchDown)
                 {
-                    if (RPunchState)
+					if (RPunchState)
                     {
                         // send fire
                         if (!Player.equipment.isSelected)

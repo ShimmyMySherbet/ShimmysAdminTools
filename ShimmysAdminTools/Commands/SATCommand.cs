@@ -11,13 +11,13 @@ namespace ShimmysAdminTools.Commands
     {
         public AllowedCaller AllowedCaller => AllowedCaller.Both;
 
-        public string Name => "SAT";
+        public string Name => "ShimmysAdminTools";
 
         public string Help => "Displays the version of ShimmysAdminTools";
 
         public string Syntax => "SAT [Update/Version/Info]";
 
-        public List<string> Aliases => new List<string>();
+        public List<string> Aliases => new List<string>() { "SAT" };
 
         public List<string> Permissions => new List<string>();
 
