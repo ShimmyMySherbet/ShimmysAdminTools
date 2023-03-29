@@ -26,18 +26,19 @@ namespace ShimmysAdminTools.Models
         /// <summary>
         /// Defaults to comma
         /// </summary>
-        CodeHotkey1 = 9,
+        HoldBreath = 9,
+        CodeHotkey1 = 10,
         /// <summary>
         /// Defaults to period
         /// </summary>
-        CodeHotkey2 = 10,
+        CodeHotkey2 = 11,
         /// <summary>
         /// Defaults to forward slash
         /// </summary>
-        CodeHotkey3 = 11,
+        CodeHotkey3 = 12,
         /// <summary>
         /// Defaults to semicolon
         /// </summary>
-        CodeHotkey4 = 12,
+        CodeHotkey4 = 13,
     }
 }

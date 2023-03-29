@@ -43,7 +43,7 @@ namespace ShimmysAdminTools.Commands
 
         private void ClearItems(PlayerInventory playerInv)
         {
-            for (byte page = 0; page < PlayerInventory.PAGES; page++)
+            for (byte page = 0; page < 6; page++)
             {
                 if (page == PlayerInventory.AREA)
                     continue;
