@@ -61,7 +61,14 @@ namespace ShimmysAdminTools.Commands
                     if (Ast.Length != 0) Item = Ast[0];
                 }
 
-                if (Item != null)
+
+                if (AdminToolsPlugin.Config.BlacklistedWeapons.Contains(Player.Player.equipment.itemID))
+                {
+					UnturnedChat.Say(caller, "SetAttachment_Fail_Blacklist".Translate());
+                    return;
+				}
+
+				if (Item != null)
                 {
                     if (AdminToolsPlugin.Config.BlacklistedAttachments.Contains(Item.id))
                     {

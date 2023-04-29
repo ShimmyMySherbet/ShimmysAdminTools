@@ -18,9 +18,12 @@ namespace ShimmysAdminTools.Models
         public bool EnableExperimentalCommands = false;
         public bool ExecEnabled = false;
 
-        [XmlArrayItem(elementName: "ID")]
-        public List<ushort> BlacklistedAttachments;
-        public void LoadDefaults()
+		[XmlArrayItem(elementName: "ID")]
+		public List<ushort> BlacklistedAttachments;
+
+		[XmlArrayItem(elementName: "ID")]
+		public List<ushort> BlacklistedWeapons;
+		public void LoadDefaults()
         {
             DelayStartEXECUtility = false;
             MaxGlobalFlySpeed = 500;
@@ -43,6 +46,10 @@ namespace ShimmysAdminTools.Models
                 1444,
                 1394,
                 1300
+            };
+            BlacklistedWeapons = new List<ushort>()
+            {
+                0
             };
 
         }
