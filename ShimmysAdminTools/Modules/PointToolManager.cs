@@ -53,7 +53,7 @@ namespace ShimmysAdminTools.Modules
 		/// </summary>
 		public static void LogInteraction(string tool, UnturnedPlayer actor, Vector3 point, string targetType, object targetHandle, bool denied = false)
 		{
-			Logger.Log($"[PointTool:{tool}] [{(denied ? "Denied" : "Granted")}] [{actor.DisplayName}:{actor.CSteamID.m_SteamID}] {{{point.x}, {point.y}, {point.z}}} Target: {targetType} {targetHandle}");
+			Logger.Log($"[PointTool:{tool}] [{(denied ? "Denied" : "Granted")}] [{actor?.DisplayName}:{actor?.CSteamID.m_SteamID}] {{{point.x}, {point.y}, {point.z}}} Target: {targetType} {targetHandle}");
 			OnPointToolInteraction?.Invoke(tool, actor, point, targetType, targetHandle?.ToString(), denied);
 		}
 

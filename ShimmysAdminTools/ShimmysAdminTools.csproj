@@ -402,8 +402,10 @@
     <Compile Include="Commands\TrailCommand.cs" />
     <Compile Include="Commands\TTCommand.cs" />
     <Compile Include="Commands\UnlimitedAmmoCommand.cs" />
+    <Compile Include="Commands\UnlockCommand.cs" />
     <Compile Include="Commands\UnlockFireModesCommand.cs" />
     <Compile Include="Commands\WipePlayerBuildingsCommand.cs" />
+    <Compile Include="Commands\WreckCommand.cs" />
     <Compile Include="Components\Extensions.cs" />
     <Compile Include="Components\Helpers.cs" />
     <Compile Include="Components\INIFile.cs" />

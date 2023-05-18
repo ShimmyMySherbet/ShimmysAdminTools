@@ -21,7 +21,7 @@ namespace ShimmysAdminTools.Models
 		[XmlArrayItem(elementName: "ID")]
 		public List<ushort> BlacklistedAttachments;
 
-		[XmlArrayItem(elementName: "ID")]
+		[XmlArrayItem(elementName: "WeaponID")]
 		public List<ushort> BlacklistedWeapons;
 		public void LoadDefaults()
         {
