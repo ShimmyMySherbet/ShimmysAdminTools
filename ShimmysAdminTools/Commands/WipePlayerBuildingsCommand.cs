@@ -1,9 +1,15 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using Rocket.API;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
 using SDG.Unturned;
+using ShimmysAdminTools.Modules;
+using Steamworks;
+using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 namespace ShimmysAdminTools.Commands
 {
@@ -23,57 +29,145 @@ namespace ShimmysAdminTools.Commands
 
         public void Execute(IRocketPlayer caller, string[] command)
         {
-            if (command.Length >= 1)
+            if (command.Length == 0)
             {
-                ulong PlayerID;
-                if (ulong.TryParse(command[0], out ulong ResID))
-                {
-                    PlayerID = ResID;
-                }
-                else
-                {
-                    UnturnedPlayer uPlayer = UnturnedPlayer.FromName(command[0]);
-                    if (uPlayer == null)
-                    {
-                        UnturnedChat.Say(caller, "Failed to find player");
-                        return;
-                    }
-                    else
-                    {
-                        PlayerID = uPlayer.CSteamID.m_SteamID;
-                    }
-                }
-                ushort BID = 0;
-                if (command.Length >= 2 && ushort.TryParse(command[1], out ushort ResBID))
-                {
-                    BID = ResBID;
-                }
+                UnturnedChat.Say(caller, Syntax);
+            }
 
-                List<KeyValuePair<BarricadeRegion, BarricadeData>> WipeList = new List<KeyValuePair<BarricadeRegion, BarricadeData>>();
-                foreach (BarricadeRegion BRegion in BarricadeManager.regions)
+            if (!PlayerSelector.GetPlayerID(command[0], out var PlayerID))
+            {
+                UnturnedChat.Say(caller, "Failed to find player");
+                return;
+            }
+
+
+            ushort BID = 0;
+            if (command.Length >= 2 && ushort.TryParse(command[1], out ushort ResBID))
+            {
+                BID = ResBID;
+            }
+
+            var wipeList = new List<IWipeable>();
+
+
+            for (byte x = 0; x < BarricadeManager.regions.GetLength(0); x++)
+            {
+                for (byte y = 0; y < BarricadeManager.regions.GetLength(1); y++)
                 {
-                    foreach (BarricadeData B in BRegion.barricades)
+                    var region = BarricadeManager.regions[x, y];
+
+                    for (int i = 0; i < region.barricades.Count; i++)
                     {
-                        if (B.owner == PlayerID && ((BID == 0) || (B.barricade.id == BID)))
+                        var barricade = region.barricades[i];
+                        if (barricade.owner == PlayerID && (BID == 0 || barricade.barricade.asset.id == BID))
                         {
-                            WipeList.Add(new KeyValuePair<BarricadeRegion, BarricadeData>(BRegion, B));
+                            var drop = region.drops[i];
+
+                            wipeList.Add(new WipeBarricade(drop, x, y));
                         }
                     }
                 }
-                UnturnedChat.Say(caller, $"Found {WipeList.Count} buildables; wiping...");
-                foreach (var ent in WipeList)
+            }
+
+
+            for (byte x = 0; x < StructureManager.regions.GetLength(0); x++)
+            {
+                for (byte y = 0; y < StructureManager.regions.GetLength(1); y++)
                 {
-                    if (Regions.tryGetCoordinate(ent.Value.point, out byte x, out byte y))
+                    var region = StructureManager.regions[x, y];
+
+                    for(int i = 0; i < region.structures.Count; i++)
                     {
-                        ushort plant = ushort.MaxValue;
-                        ushort index = (ushort)ent.Key.barricades.IndexOf(ent.Value);
-                        BarricadeManager.destroyBarricade(ent.Key, x, y, plant, index);
+                        var structure = region.structures[i];
+                        if (structure.owner == PlayerID && (BID == 0 || structure.structure.asset.id == BID))
+                        {
+                            var drop = region.drops[i];
+
+                            wipeList.Add(new WipeStructure(drop, x, y));
+                        }
                     }
                 }
-                UnturnedChat.Say(caller, $"Destroyed {WipeList.Count} Buildables.");
-            } else
+            }
+
+            UnturnedChat.Say(caller, $"Found {wipeList.Count} buildables; wiping...");
+            AdminToolsPlugin.Instance.StartCoroutine(RunWipe(wipeList, 30, () =>
             {
-                UnturnedChat.Say(caller, Syntax);
+                UnturnedChat.Say(caller, $"Finished wiping {wipeList.Count} buildables");
+            }));
+        }
+
+
+        private IEnumerator RunWipe(IEnumerable<IWipeable> wipeables, int perTick, System.Action callback)
+        {
+            using(var wipes = wipeables.GetEnumerator())
+            {
+                for(int i = 0; i < perTick; i++)
+                {
+                    if (!wipes.MoveNext())
+                    {
+                        yield break;
+                    }
+
+                    try
+                    {
+                        wipes.Current.Delete();
+                    }
+                    catch (Exception ex)
+                    {
+                        Rocket.Core.Logging.Logger.LogError($"Error running wipe: {ex.Message}");
+                    }
+                }
+                yield return new WaitForFixedUpdate();
+            }
+            callback();
+        }
+
+
+
+        private interface IWipeable
+        {
+            void Delete();
+        }
+
+
+        private class WipeBarricade : IWipeable
+        {
+            public BarricadeDrop Drop { get; }
+
+            public byte X { get; }
+            public byte Y { get; }
+
+            public WipeBarricade(BarricadeDrop drop, byte x, byte y)
+            {
+                Drop = drop;
+                X = x;
+                Y = y;
+            }
+
+            public void Delete()
+            {
+                BarricadeManager.destroyBarricade(Drop, X, Y, ushort.MaxValue);
+            }
+        }
+
+
+        private class WipeStructure : IWipeable
+        {
+            public StructureDrop Drop { get; }
+
+            public byte X { get; }
+            public byte Y { get; }
+
+            public WipeStructure(StructureDrop drop, byte x, byte y)
+            {
+                Drop = drop;
+                X = x;
+                Y = y;
+            }
+
+            public void Delete()
+            {
+                StructureManager.destroyStructure(Drop, X, Y, Vector3.zero);
             }
         }
     }
