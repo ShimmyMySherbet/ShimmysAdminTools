@@ -266,8 +266,8 @@ namespace ShimmysAdminTools.Modules
 
 					LogInteraction("Destroy", actor, raycast.Raycast.point, "Barricade", $"{raycast.Barricade.barricade.asset.name} ({raycast.Barricade.barricade.asset.id})", denied: false);
 
-					BarricadeManager.destroyBarricade(raycast.BarricadeRegion, raycast.BarricadeX, raycast.BarricadeY, raycast.BarricadePlant, raycast.BarricadeIndex);
-				}
+					BarricadeManager.damage(raycast.BarricadeRootTransform.transform, raycast.Structure.structure.health, 1, false, actor.CSteamID);
+                }
 				else
 				{
 					//Logger.Log($"[PointTool:Destroy] [Denied] ({actor.DisplayName}:{actor.CSteamID.m_SteamID}) on barricade {raycast.Barricade.barricade.asset.name} ({raycast.Barricade.barricade.asset.id})");
@@ -284,7 +284,7 @@ namespace ShimmysAdminTools.Modules
 				{
 					//Logger.Log($"[PointTool:Destroy] ({actor.DisplayName}:{actor.CSteamID.m_SteamID}) on structure {raycast.Structure.structure.asset.name} ({raycast.Barricade.barricade.asset.id})");
 					LogInteraction("Destroy", actor, raycast.Raycast.point, "Structure", $"{raycast.Structure.structure.asset.name} ({raycast.Structure.structure.asset.id})", denied: false);
-					StructureManager.destroyStructure(raycast.StructureRegion, raycast.StructureX, raycast.StructureY, raycast.StructureIndex, new Vector3(0, 0, 0));
+					StructureManager.damage(raycast.StructureRootTransform.transform, new Vector3(0, 0, 0), raycast.Structure.structure.health, 1, false, actor.CSteamID);
 				}
 				else
 				{
