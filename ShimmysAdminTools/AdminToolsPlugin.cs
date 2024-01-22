@@ -39,7 +39,6 @@ namespace ShimmysAdminTools
 
         public IRocketCommand ExecCommandRedirect { get; private set; } = null;
         public IRocketCommand ExecAllCommandRedirect { get; private set; } = null;
-
         public override void LoadPlugin()
         {
             Logger.Log($"Loading ShimmysAdminTools v{UpdaterCore.CurrentVersion} by ShimmyMySherbet");
