@@ -266,7 +266,7 @@ namespace ShimmysAdminTools.Modules
 
 					LogInteraction("Destroy", actor, raycast.Raycast.point, "Barricade", $"{raycast.Barricade.barricade.asset.name} ({raycast.Barricade.barricade.asset.id})", denied: false);
 
-					BarricadeManager.damage(raycast.BarricadeRootTransform.transform, raycast.Structure.structure.health, 1, false, actor.CSteamID);
+					BarricadeManager.damage(raycast.BarricadeRootTransform.transform, raycast.Barricade.barricade.health, 1, false, actor.CSteamID);
                 }
 				else
 				{
